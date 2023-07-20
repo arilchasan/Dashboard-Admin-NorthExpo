@@ -62,3 +62,9 @@ Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])-
 // Route::post('/peta/{id}',[PetaController::class,'update']);
 // Route::delete('/peta/{id}',[PetaController::class,'destroy']);
 
+Route::prefix('/wishlist')->group(function () {
+    Route::get('/all', [WishlistController::class, 'all']);
+    Route::post('/add/{destinasi}', [WishlistController::class, 'addToWishlist']);
+    Route::post('/remove/{destinasi}', [WishlistController::class, 'removeFromWishlist']);
+});
+

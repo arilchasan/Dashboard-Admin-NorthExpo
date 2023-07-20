@@ -14,6 +14,7 @@ class Kuliner extends Model
 
     protected $table = 'kuliner';
     protected $fillable = [
+        'nama_warung',
         'nama_kuliner',
         'deskripsi',
         'harga',
