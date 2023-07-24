@@ -14,12 +14,16 @@ class Kuliner extends Model
 
     protected $table = 'kuliner';
     protected $fillable = [
+        'nama_warung',
         'nama_kuliner',
+        'alamat',
+        'operasional',
         'deskripsi',
         'harga',
         'foto',
         'foto2',
         'foto3',
+        'customer_service',
     ];
     protected $hidden = [
         'created_at',

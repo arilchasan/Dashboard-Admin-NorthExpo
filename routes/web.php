@@ -17,6 +17,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Resources\KomentarResource;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,12 +75,22 @@ Route::prefix('dashboard')->group(function () {
 
         
     });
+    //api/payment
     Route::prefix('/order')->group(function(){
         Route::get('/all', [PaymentController::class, 'all']);
         Route::get('/payment/{id}', [PaymentController::class, 'index']);
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
+    //wishlist
+    Route::prefix('/wishlist')->group(function () {
+        Route::get('/all', [WishlistController::class, 'all']);
+        Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.add');
+        Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.remove');
     });
     //prefix peta
     // Route::prefix('/peta')->group(function () {

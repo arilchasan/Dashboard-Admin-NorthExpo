@@ -23,6 +23,8 @@
                 </li>
                 <li class="submenu">
                     <li><a href='/dashboard/order/list'><i class="las la-archive"></i> <span> Data Transaksi</span></a></li>    
+               <li class="submenu">
+                <li><a href='/dashboard/wishlist/all'><i class="la la-heart"></i> <span> Wishlist</span></a></li>
                 </li>
 
                 

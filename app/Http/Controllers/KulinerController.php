@@ -53,12 +53,16 @@ class KulinerController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'nama_warung' => 'required',
             'nama_kuliner' => 'required',
+            'alamat' => 'required',
+            'operasional' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'foto2' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'foto3' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'customer_service'=> 'required',
         ]);
         if ($validator->fails()) {
             if ($request->wantsJson()) {
@@ -85,12 +89,14 @@ class KulinerController extends Controller
             $image3->move(public_path('/kuliner'), $image_name3);
 
             $kuliner = Kuliner::create([
+                'nama_warung' => $request->nama_warung,
                 'nama_kuliner' => $request->nama_kuliner,
                 'deskripsi' => $request->deskripsi,
                 'harga' => $request->harga,
                 'foto' => $image_name,
                 'foto2' => $image_name2,
                 'foto3' => $image_name3,
+                'customer_service' => $request->customer_service,
             ]);
             if ($kuliner) {
                 if ($request->wantsJson()) {
@@ -138,12 +144,14 @@ class KulinerController extends Controller
     public function update(int $id, Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'nama_warung' => 'required',
             'nama_kuliner' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'foto2' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'foto3' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'customer_service'=> 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -188,12 +196,14 @@ class KulinerController extends Controller
                 $image3->move(public_path('/kuliner'), $image_name3);
             }
             $kuliner->update([
+                'nama_warung' => $request->nama_warung,
                 'nama_kuliner' => $request->nama_kuliner,
                 'deskripsi' => $request->deskripsi,
                 'harga' => $request->harga,
                 'foto' => $image_name,
                 'foto2' => $image_name2,
                 'foto3' => $image_name3,
+                'customer_service' => $request->customer_service,
             ]);
 
             if ($kuliner) {

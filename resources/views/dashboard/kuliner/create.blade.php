@@ -12,6 +12,10 @@
                     <input type="text" class="form-control" id="nama_kuliner" name="nama_kuliner" value="{{ old('nama_kuliner') }}" placeholder="Masukkan Nama Kuliner">
                 </div>
                 <div class="col-md-6">
+                    <label for="nama">Nama Kuliner</label>
+                    <input type="text" class="form-control" id="nama_kuliner" name="nama_kuliner" value="{{ old('nama_kuliner') }}" placeholder="Masukkan Nama Kuliner">
+                </div>
+                <div class="col-md-6">
                     <label for="latitude">Deskripsi</label>
                     <input type="text" class="form-control" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" placeholder="Deskripsi Makanan">
                 </div>
