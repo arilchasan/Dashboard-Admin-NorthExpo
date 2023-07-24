@@ -67,7 +67,15 @@
                 </div>
                 <div class="col-md-6">
                     <label for="pelayanan">Jam Pelayanan</label>
-                    <input type="text" class="form-control" id="operasional" name="pelayanan" value="{{ old('pelayanan') }}" placeholder="Masukkan Jam Pelayanan Tiket">
+                    <input type="text" class="form-control" id="pelayanan" name="pelayanan" value="{{ old('pelayanan') }}" placeholder="Masukkan Jam Pelayanan Tiket">
+                </div>
+                <div class="col-md-6">
+                    <label for="harga">Harga</label>
+                    <input type="text" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" placeholder="Masukkan Nominal Harga (10000)">
+                </div>
+                <div class="col-md-6">
+                    <label for="kuota">Kuota Pelanggan </label>
+                    <input type="text" class="form-control" id="kuota" name="kuota" value="{{ old('kuota') }}" placeholder="Masukkan Kuota (100)">
                 </div>
                 <div class="col-md-12">
                     <label for="alamat">Lokasi Wisata</label>

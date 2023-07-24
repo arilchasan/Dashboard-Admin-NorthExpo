@@ -19,6 +19,10 @@
                     <input type="text" class="form-control" id="" name="" value="{{$destinasi->wilayah->nama}}" readonly>
                 </div>
                 <div class="col-md-6">
+                    <label for="">Status</label>
+                    <input type="text" class="form-control" id="" name="" value="{{$destinasi->status}}" readonly>
+                </div>
+                <div class="col-md-6">
                     <label for="">Latitude</label>
                     <input type="text" class="form-control" id="" name="" value="{{$destinasi->latitude}}" readonly>
                 </div>
@@ -37,7 +41,15 @@
                 <div class="col-md-12">
                     <label for="">Lokasi</label>
                     <input type="text" class="form-control" id="" name="" value="{{$destinasi->alamat}}" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label for="">Harga Tiket</label>
+                    <input type="text" class="form-control" id="" name="" value="Rp. {{$destinasi->harga}}" readonly>
                 </div>               
+                <div class="col-md-6">
+                    <label for="">Kuota Pelanggan</label>
+                    <input type="text" class="form-control" id="" name="" value="{{$destinasi->kuota}}" readonly>
+                </div>                 
                 <div class="col-md-6">
                     <label for="">Maps</label>
                     <textarea  style="height:200px" type="textarea" class="form-control" id="" name="" value="{{$destinasi->maps}}" readonly>{{$destinasi->maps}} </textarea>

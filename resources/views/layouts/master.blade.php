@@ -48,13 +48,13 @@
                 </a>
             </div>
 
-            {{-- <a id="toggle_btn" href="javascript:void(0);">
+            <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
-            </a> --}}
+            </a>
             {{-- <div class="menu" style="padding: 2vh">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">=
@@ -88,7 +88,6 @@
        <!-- /Page Wrapper -->
     </div>
     
-    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="{{ URL::to('assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/popper.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
