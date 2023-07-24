@@ -23,7 +23,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                <h3 class="text-center" style="margin-top: 30px;font-weight:bold">Daftar Destinasi Wisata</h3>
+                <h3 class="text-center" style="margin-top: 30px;font-weight:bold">Daftar wisata favorit </h3>
 
 
                 <table class="table table-danger table-striped text-left ">

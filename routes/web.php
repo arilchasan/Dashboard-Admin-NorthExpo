@@ -73,8 +73,12 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::prefix('/wishlist')->group(function () {
         Route::get('/all', [WishlistController::class, 'all']);
-        Route::post('/add/{destinasi}', [WishlistController::class, 'addToWishlist']);
-        Route::post('/remove/{destinasi}', [WishlistController::class, 'removeFromWishlist']);
+        Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.add');
+        Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.remove');
     });
     //prefix peta
     // Route::prefix('/peta')->group(function () {

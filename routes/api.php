@@ -9,6 +9,8 @@ use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WishlistController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +64,13 @@ Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])-
 // Route::post('/peta/{id}',[PetaController::class,'update']);
 // Route::delete('/peta/{id}',[PetaController::class,'destroy']);
 
+
 Route::prefix('/wishlist')->group(function () {
     Route::get('/all', [WishlistController::class, 'all']);
-    Route::post('/add/{destinasi}', [WishlistController::class, 'addToWishlist']);
-    Route::post('/remove/{destinasi}', [WishlistController::class, 'removeFromWishlist']);
+    Route::post('/add', [WishlistController::class, 'addToWishlist'])
+        ->middleware('auth') // Use 'auth' middleware to protect the route
+        ->name('wishlist.add');
+    Route::post('/remove', [WishlistController::class, 'removeFromWishlist'])
+        ->middleware('auth') // Use 'auth' middleware to protect the route
+        ->name('wishlist.remove');
 });
-
