@@ -17,17 +17,20 @@ class WishlistController extends Controller
     // Check if the user is authenticated
     if (!Auth::check()) {
         return redirect()->route('login')->with('error', 'You need to be logged in to view the wishlist.');
+    } else {
+        $user = Auth::user();
+        $userWishlist = $user->wishlist->pluck('destinasi_id')->toArray();
+
+        $destinasi = Destinasi::with('kategori')->get()->map(function ($destinasi) use ($userWishlist) {
+            $destinasi->isInWishlist = in_array($destinasi->id, $userWishlist);
+            return $destinasi;
+        });
+
+        return view('dashboard.wishlist.wishlist', [
+            'wishlist' => Wishlist::all() 
+        ]);
     }
 
-    $user = Auth::user();
-    $userWishlist = $user->wishlist->pluck('destinasi_id')->toArray();
-
-    $destinasi = Destinasi::with('kategori')->get()->map(function ($destinasi) use ($userWishlist) {
-        $destinasi->isInWishlist = in_array($destinasi->id, $userWishlist);
-        return $destinasi;
-    });
-
-    return view('/dashboard/wishlist/wishlist', ['destinasi' => $destinasi]);
 }
         
     

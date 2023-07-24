@@ -40,6 +40,8 @@ Route::get('/', function () {
     return view('dashboard.dashboard');
 })->name('/');
 
+// Route::get('/wrong_token', [AuthController::class, 'wrong_token'])->name('wrong_token');
+
 // ----------------------------- main dashboard ------------------------------//
 Route::controller(HomeController::class)->group(function () {
     
@@ -71,14 +73,13 @@ Route::prefix('dashboard')->group(function () {
 
         
     });
-    Route::prefix('/wishlist')->group(function () {
-        Route::get('/all', [WishlistController::class, 'all']);
-        Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
-            ->middleware('auth') // Use 'auth' middleware to protect the route
-            ->name('wishlist.add');
-        Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])
-            ->middleware('auth') // Use 'auth' middleware to protect the route
-            ->name('wishlist.remove');
+    
+    Route::middleware(['auth'])->group(function () {
+        Route::prefix('/wishlist')->group(function () {
+            Route::get('/all', [WishlistController::class, 'all']);
+            Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+            Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+        });
     });
     //prefix peta
     // Route::prefix('/peta')->group(function () {

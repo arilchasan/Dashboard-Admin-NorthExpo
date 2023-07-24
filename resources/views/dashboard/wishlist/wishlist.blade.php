@@ -58,14 +58,19 @@
 
                         @if ($wishlist->isEmpty())
                             <tr class="text-center">
-                                <td colspan="11">Data Kosong</td>
+                                <td colspan="11">Data Kosong, mohon login terlebih dahulu</td>
                             </tr>
-                            
                         @endif
                         <tr class="text-center" >
                             @foreach ($wishlist as $data)
                                 <th>{{ $data->id }}</li>
-                                    <th>{{$data->destinasi->nama}}</th>
+                                    <th>{{$data->destinasi_id}}</th>
+                                    <th>
+                                        <a href="/dashboard/wishlist/delete/{{ $data->id }}" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</a>
+                                    </th>
+
+
                         </tr>
                         @endforeach
                     </tbody>

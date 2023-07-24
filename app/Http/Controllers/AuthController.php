@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -67,13 +68,17 @@ class AuthController extends Controller
 
         $token = $user->createToken('authToken')->plainTextToken;
 
-        $response = [
-            'message' => 'Berhasil Login!',
-            'user' => $user,
-            'token' => $token
-        ];
-        // return redirect()->to('/')->with('success', 'Berhasil Login!');
-        return response()->json($response, 200);
+        // $response = [
+        //     'message' => 'Berhasil Login!',
+        //     'user' => $user,
+        //     'token' => $token
+        // ];
+        // // return redirect()->to('/')->with('success', 'Berhasil Login!');
+        // return response()->json($response, 200);
+
+        return view('dashboard.wishlist.wishlist', [
+            'wishlist' => Wishlist::all()]);
+        
     }
 
     public function logout(Request $request){
@@ -83,5 +88,11 @@ class AuthController extends Controller
             'message' => 'Berhasil Logout !'
         ], 200);
     }
+
+    // public function wrong_token(){
+    //     return response()->json([
+    //         'message' => 'Token Salah !'
+    //     ], 401);
+    // }
    
 }
