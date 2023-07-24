@@ -13,6 +13,8 @@ use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WishlistController;
+
 use App\Http\Resources\KomentarResource;
 
 /*
@@ -68,6 +70,15 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/update/{id}', [KulinerController::class, 'update']);
 
         
+    });
+    Route::prefix('/wishlist')->group(function () {
+        Route::get('/all', [WishlistController::class, 'all']);
+        Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.add');
+        Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])
+            ->middleware('auth') // Use 'auth' middleware to protect the route
+            ->name('wishlist.remove');
     });
     //prefix peta
     // Route::prefix('/peta')->group(function () {

@@ -23,4 +23,12 @@ class Kategori extends Model
     {
         return $this->hasMany(Destinasi::class, 'kategori_id');
     }
+    public function kuliner()
+    {
+        return $this->hasMany(Kuliner::class, 'kategori_id');
+    }
+    public function wishlist()
+    {
+        return $this->belongsToMany(Wishlist::class);
+    }
 }
