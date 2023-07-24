@@ -67,8 +67,16 @@
                     <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat',$destinasi->alamat) }}" >
                 </div>
                 <div class="col-md-6">
+                    <label class="harga" for="harga">Harga Tiket</label>
+                    <input type="text" class="form-control" id="harga" name="harga" value="{{ old('harga',$destinasi->harga) }}" >
+                </div>
+                <div class="col-md-6">
+                    <label class="kuota" for="kuota">Kuota</label>
+                    <input type="text" class="form-control" id="kuota" name="kuota" value="{{ old('kuota',$destinasi->kuota) }}" >
+                </div>
+                <div class="col-md-6">
                     <label class="label" for="foto">Foto Wisata</label>
-                    <input type="file" class="form-control" id="foto" name="foto" required>
+                    <input type="file" class="form-control" id="foto" name="foto" required value="{{ old('foto',$destinasi->foto) }}">
                     <br>
                     @if($destinasi->foto)
                         <img src="{{ asset('foto/'.$destinasi->foto) }}" alt="" width="500">

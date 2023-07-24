@@ -15,11 +15,14 @@
                 </li>
                 <li class="submenu">
                     <li><a href='/dashboard/kuliner/all'><i class="la la-cutlery"></i> <span> Kuliner</span></a></li>
-                {{-- <li class="submenu">
-                    <li><a href='/dashboard/peta/all'><i class="la la-map"></i> <span> Peta</span></a></li>    
-                </li> --}}
+                    <li class="submenu">
+                        <li><a href='/dashboard/userlogin/all'><i class="la la-user"></i> <span> User Login</span></a></li>    
+                    </li>
                 <li class="submenu">
-                    <li><a href='/dashboard/userlogin/all'><i class="la la-user"></i> <span> User Login</span></a></li>    
+                    <li><a href='/dashboard/order/all'> <i class="las la-money-bill-wave"></i><span> Payment</span></a></li>    
+                </li>
+                <li class="submenu">
+                    <li><a href='/dashboard/order/list'><i class="las la-archive"></i> <span> Data Transaksi</span></a></li>    
                 </li>
 
                 

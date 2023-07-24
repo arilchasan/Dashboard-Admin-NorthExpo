@@ -1,7 +1,9 @@
 <?php
 
+use App\Mail\Notifikasi;
 use App\Models\Destinasi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\AuthController;
@@ -9,11 +11,12 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\KulinerController;
-use App\Http\Controllers\DestinasiController;
-use App\Http\Controllers\KomentarController;
-use App\Http\Controllers\VerificationController;
 use App\Http\Resources\KomentarResource;
+use App\Http\Controllers\KulinerController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +72,13 @@ Route::prefix('dashboard')->group(function () {
 
         
     });
+    Route::prefix('/order')->group(function(){
+        Route::get('/all', [PaymentController::class, 'all']);
+        Route::get('/payment/{id}', [PaymentController::class, 'index']);
+        Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
+        Route::get('/list', [PaymentController::class, 'list']);
+        Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
+    });
     //prefix peta
     // Route::prefix('/peta')->group(function () {
     //     Route::get('/all', [PetaController::class, 'index']);
@@ -88,6 +98,9 @@ Route::prefix('dashboard')->group(function () {
 });
 
 
+Route::get('/a',function(){
+    return view('dashboard.mail.notifikasi');
+});
 
 Auth::routes(['verify' => true]);
 Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');

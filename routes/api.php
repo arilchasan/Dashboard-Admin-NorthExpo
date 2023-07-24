@@ -6,8 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KulinerController;
-use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KomentarController;
+use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\VerificationController;
 
 /*
@@ -56,6 +57,18 @@ Route::post('/destinasi/komentar/{id}',[KomentarController::class,'store'])->mid
 Route::get('/destinasi/komentar/{id}', [DestinasiController::class, 'komentar']);
 Route::get('/destinasi/komentar/', [DestinasiController::class, 'showComment']);
 Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])->middleware('auth:sanctum');
+
+//payments
+Route::prefix('/order')->group(function(){
+    Route::get('/all', [PaymentController::class, 'all']);
+    Route::get('/payment/{id}', [PaymentController::class, 'index']);
+    Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('/list', [PaymentController::class, 'list']);
+    Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
+});
+
+Route::post('/callback', [PaymentController::class, 'callback'])->name('callback');
+
 
 // Route::get('/peta',[PetaController::class,'get']);
 // Route::post('/peta',[PetaController::class,'store']);
