@@ -56,21 +56,27 @@
                     <br>
                     <tbody>
 
-                        @if ($wishlist->isEmpty())
+                        @if ($dataMapped->isEmpty())
                             <tr class="text-center">
                                 <td colspan="11">Data Kosong, mohon login terlebih dahulu</td>
                             </tr>
                         @endif
                         <tr class="text-center" >
-                            @foreach ($wishlist as $data)
-                                <th>{{ $data->id }}</li>
-                                    <th>{{$data->destinasi_id}}</th>
+                            @foreach ($dataMapped as $data)
+                                    <th>{{ $data->id }}</li>
+                                    <th>{{$data->nama}}</th>
                                     <th>
-                                        <a href="/dashboard/wishlist/delete/{{ $data->id }}" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</a>
-                                    </th>
+                                        {{-- <a href="/dashboard/wishlist/delete/{{ $data->id }}" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</a> --}}
+                                            <form action="/dashboard/wishlist/delete/{{ $data->id }}" method="POST">
+                                                @method('delete')
+                                                @csrf
+                                                <button class="btn btn-outline-danger"
+                                                    onclick="return confirm('Yakin Mau Hapus ?')"><i
+                                                        class="fa fa-reguler fa-trash"></i></button>
+                                            </form>
 
-
+                            </th>
                         </tr>
                         @endforeach
                     </tbody>

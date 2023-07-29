@@ -74,11 +74,12 @@ Route::prefix('dashboard')->group(function () {
         
     });
     
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['web'])->group(function () {
         Route::prefix('/wishlist')->group(function () {
             Route::get('/all', [WishlistController::class, 'all']);
             Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
             Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+            
         });
     });
     //prefix peta
@@ -110,5 +111,6 @@ Auth::routes();
 Route::get('/verify-view', [HomeController::class, 'verifyview'])->name('verifyview');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/login/add', [AuthController::class, 'login'])->name('loginadd');
-
+//login web
+Route::post('/login-web', [AuthController::class, 'loginWeb'])->name('loginWeb');
 

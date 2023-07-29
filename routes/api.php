@@ -66,11 +66,11 @@ Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])-
 
 
 Route::prefix('/wishlist')->group(function () {
-    Route::get('/all', [WishlistController::class, 'all']);
-    Route::post('/add', [WishlistController::class, 'addToWishlist'])
-        ->middleware('auth') // Use 'auth' middleware to protect the route
+    Route::get('/all', [WishlistController::class, 'all'])->middleware('auth');
+    Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
+        ->middleware('auth:sanctum') // Use 'auth' middleware to protect the route
         ->name('wishlist.add');
     Route::post('/remove', [WishlistController::class, 'removeFromWishlist'])
-        ->middleware('auth') // Use 'auth' middleware to protect the route
+        ->middleware('auth:sanctum') // Use 'auth' middleware to protect the route
         ->name('wishlist.remove');
 });

@@ -36,6 +36,7 @@ class Wishlist extends Model
     }
 
     protected $guarded = ['id'];
+    
 
     protected $table = 'wishlist';
 }
