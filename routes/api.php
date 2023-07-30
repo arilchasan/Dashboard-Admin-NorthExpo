@@ -64,12 +64,12 @@ Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])-
 Route::prefix('/order')->group(function(){
     Route::get('/all', [PaymentController::class, 'all']);
     Route::get('/payment/{id}', [PaymentController::class, 'index']);
-    Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout')->middleware('auth:sanctum');
     Route::get('/list', [PaymentController::class, 'list']);
     Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
 });
 
-Route::post('/callback', [PaymentController::class, 'callback'])->name('callback');
+Route::post('/callback', [PaymentController::class, 'callback'])->name('callback'); 
 
 
 // Route::get('/peta',[PetaController::class,'get']);

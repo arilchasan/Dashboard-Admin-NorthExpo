@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "bacon/bacon-qr-code": "*",
         "brian2694/laravel-toastr": "^5.57",
         "endroid/qr-code": "^4.8",
         "fruitcake/laravel-cors": "^3.0",

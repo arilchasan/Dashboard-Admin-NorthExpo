@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use SebastianBergmann\ResourceOperations\generate;
+
 
 
 class PaymentController extends Controller
@@ -48,13 +50,20 @@ class PaymentController extends Controller
 
     public function checkout(Request $request , $id)
     {
-    
-      $destinasi = Destinasi::find($id);    
-      $request->request->add(['total' => $request->qty * $destinasi->harga , 'status' => 'pending', ]);
-      $order_id = rand();
+        $user = $request->user();
+        $destinasi = Destinasi::findOrFail($id);    
+        $order_id = rand();
+        $request->request->add([
+            'total' => $request->qty * $destinasi->harga , 
+            'status' => 'pending', 
+            'destinasi_id' => $destinasi->id , 
+            'user_id' => $user->id,
+            'order_id' => $order_id
+        ]);
+        
 
       // Add the order_id to the request data
-      $request->request->add(['order_id' => $order_id]);
+    //   $request->request->add(['order_id' => $order_id]);
 
 
       \Midtrans\Config::$serverKey = config('midtrans.server_key');
@@ -80,8 +89,9 @@ class PaymentController extends Controller
           // Prepare the JSON response data
     $responseData = [
         'token' => $snapToken,
-        'destinasi' => $destinasi,
         'payment' => $payment,
+        'destinasi' => $destinasi,
+        'user' => $user
     ];
 
         // Return the JSON response
@@ -140,9 +150,13 @@ class PaymentController extends Controller
                     . "No Telepon: " . $payment->no_telp . "\n"
                     . "Jumlah Orang: " . $payment->qty . "\n"
                     . "Total Harga: Rp." . $payment->total . "\n"
-                    . "Status: " . $payment->status . "\n";
-
-            Mail::to('northexpo.develop@gmail.com')->send(new Notifikasi($payment , $qrCode));
+                    . "Status: " . $payment->status . "\n"
+                    . "Tanggal: " . $payment->tanggal . "\n";
+            
+            // Generate the QR code
+            $qrCode = QrCode::generate($qrCode);
+            
+            Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
             
             return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
         }

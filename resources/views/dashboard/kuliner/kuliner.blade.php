@@ -80,9 +80,13 @@
                     </div>
                     <br>
                     <tbody>
-                        @if ($kuliner->count() > 0)
-                            @foreach ($kuliner as $data)
-                                <tr>
+                            @if ($kuliner->isEmpty())
+                                        <tr class="text-center">
+                                            <td colspan="11">Data Kosong</td>
+                                        </tr>
+                                    @endif
+                                    <tr>
+                                    @foreach ($kuliner as $data)
                                     <td>{{ $data->id }}</td>
                                     <td>{{ $data->nama_kuliner }}</td>
                                     <td>{{ $data->deskripsi }}</td>
@@ -107,7 +111,7 @@
                                 </tr>
                             @endforeach
                             
-                        @endif
+                        
                     </tbody>
                     
                       
