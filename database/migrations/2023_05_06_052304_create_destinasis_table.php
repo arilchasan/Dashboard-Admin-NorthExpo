@@ -29,7 +29,9 @@ return new class extends Migration
             $table->decimal('longitude', 11, 8);
             $table->text('maps');
             $table->string('pelayanan');
-            $table->string('operasional');            
+            $table->string('operasional');
+            $table->integer('harga');
+            $table->integer('kuota');            
             $table->timestamps();
         });
     }

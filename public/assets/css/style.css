@@ -10699,7 +10699,11 @@ body[data-layout-mode=dark] .alertify .ajs-footer .ajs-buttons .ajs-button.ajs-o
     }
 
     #toggle_btn {
-        display: none
+        color: #999;
+        float: left;
+        font-size: 26px;
+        line-height: 60px;
+        padding: 0 10px
     }
 
     .page-wrapper {

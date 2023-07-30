@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Wilayah;
 use App\Models\Kategori;
 use App\Models\Komentar;
@@ -40,7 +41,7 @@ class DestinasiController extends Controller
     }
     public function all()
     {
-        return view('/dashboard/destinasi/destinasi', ['destinasi' => Destinasi::all()]);
+        return view('/dashboard/destinasi/destinasi', ['destinasi' => Destinasi::all() ]);
     }
     public function create()
     {
@@ -64,7 +65,9 @@ class DestinasiController extends Controller
             'operasional' => 'required',
             'status' => 'required',
             'wilayah_id' => 'required',
-            'pelayanan' => 'required'
+            'pelayanan' => 'required',
+            'harga' => 'required',
+            'kuota' => 'required'
 
         ]);
         if ($validator->fails()) {
@@ -110,7 +113,9 @@ class DestinasiController extends Controller
                 'operasional' => $request->operasional,
                 'status' => $request->status,
                 'wilayah_id' => $request->wilayah_id,
-                'pelayanan' => $request->pelayanan
+                'pelayanan' => $request->pelayanan,
+                'harga' => $request->harga,
+                'kuota' => $request->kuota,
 
             ]);
             if ($destinasi) {
@@ -159,7 +164,7 @@ class DestinasiController extends Controller
 
     public function detail($id)
     {
-        return view('dashboard.destinasi.detail', ['destinasi' => Destinasi::find($id)], ['kategori' => Kategori::all()]);
+        return view('dashboard.destinasi.detail', ['destinasi' => Destinasi::find($id),'kategori' => Kategori::all() ]);
     }
 
     public function edit($id)
@@ -184,7 +189,9 @@ class DestinasiController extends Controller
             'operasional' => 'required',
             'status' => 'required',
             'wilayah_id' => 'required',
-            'pelayanan' => 'required'
+            'pelayanan' => 'required',
+            'harga' => 'required',
+            'kuota' => 'required'
 
         ]);
 
@@ -254,7 +261,9 @@ class DestinasiController extends Controller
                 'operasional' => $request->operasional,
                 'status' => $request->status,
                 'wilayah_id' => $request->wilayah_id,
-                'pelayanan' => $request->pelayanan
+                'pelayanan' => $request->pelayanan,
+                'harga' => $request->harga,
+                'kuota' => $request->kuota,
             ]);
 
             if ($destinasi) {
