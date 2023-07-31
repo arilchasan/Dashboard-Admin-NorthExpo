@@ -78,7 +78,7 @@ Route::prefix('dashboard')->group(function () {
         Route::prefix('/wishlist')->group(function () {
             Route::get('/all', [WishlistController::class, 'all']);
             Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
-            Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+            Route::delete('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
             
         });
     });

@@ -68,7 +68,7 @@
                                     <th>
                                         {{-- <a href="/dashboard/wishlist/delete/{{ $data->id }}" class="btn btn-danger btn-sm"
                                             onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')">Hapus</a> --}}
-                                            <form action="/dashboard/wishlist/delete/{{ $data->id }}" method="POST">
+                                            <form action="/dashboard/wishlist/remove/{{ $data->id }}" method="POST">
                                                 @method('delete')
                                                 @csrf
                                                 <button class="btn btn-outline-danger"
