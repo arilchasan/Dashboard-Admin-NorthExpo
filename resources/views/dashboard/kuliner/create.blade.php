@@ -8,12 +8,16 @@
                 <form action="/dashboard/kuliner/add" method="post" enctype="multipart/form-data" class="row g-3">
                 @csrf
                 <div class="col-md-6">
-                    <label for="nama">Nama Kuliner</label>
+                    <label for="nama">Nama Warung</label>
                     <input type="text" class="form-control" id="nama_kuliner" name="nama_kuliner" value="{{ old('nama_kuliner') }}" placeholder="Masukkan Nama Kuliner">
                 </div>
                 <div class="col-md-6">
-                    <label for="nama">Nama Kuliner</label>
-                    <input type="text" class="form-control" id="nama_kuliner" name="nama_kuliner" value="{{ old('nama_kuliner') }}" placeholder="Masukkan Nama Kuliner">
+                    <label for="nama">Alamat</label>
+                    <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Nama Kuliner">
+                </div>
+                <div class="col-md-6">
+                    <label for="nama">Operasional</label>
+                    <input type="text" class="form-control" id="operasional" name="operasisonal" value="{{ old('operasional') }}" placeholder="Masukkan Nama Kuliner">
                 </div>
                 <div class="col-md-6">
                     <label for="latitude">Deskripsi</label>
@@ -35,6 +39,11 @@
                     <label for="foto3">Foto 3</label>
                     <input type="file" class="form-control" id="foto3" name="foto3" value="{{ old('foto3') }}" placeholder="Masukkan Foto ">
                 </div>
+                <div class="col-md-6">
+                    <label for="longitude">Customer Service</label>
+                    <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" placeholder="Harga Makanan">
+                </div>
+                
                 <br>
                 <div class="col-md-12 mt-2">
                     <button type="submit" class="btn btn-primary">Submit</button>

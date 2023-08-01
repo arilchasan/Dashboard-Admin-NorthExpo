@@ -28,7 +28,7 @@
                             @endif
                         </div>
                     </form>
-                    <a class="btn btn-outline-primary" href="/dashboard/destinasi/all">Kembali</a>
+                    <a class="btn btn-outline-primary" href="/dashboard/kuliner/all">Kembali</a>
             </div>
         </div>
     </div>

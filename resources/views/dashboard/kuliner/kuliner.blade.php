@@ -46,6 +46,15 @@
                             <h5>ID</h5>
                         </th>
                         <th>
+                            <h5>Nama Warung</h5>
+                        </th>
+                        <th>
+                            <h5>Alamat</h5>
+                        </th>
+                        <th>
+                            <h5>Operasional</h5>
+                        </th>
+                        <th>
                             <h5>Nama Kuliner</h5>
                         </th>
                         <th>
@@ -64,7 +73,9 @@
                             <h5>Foto 3</h5>
                         </th>
                         <th>
-
+                            <th>
+                                <h5>Customer Service</h5>
+                            </th>
                         </th>
                         <th>
                             <h5>Opsi</h5>
@@ -84,12 +95,16 @@
                             @foreach ($kuliner as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
+                                    <td>{{ $data->nama_warung}}</td>
+                                    <td>{{ $data->alamat}}</td>
+                                    <td>{{ $data->operasional}}</td>
                                     <td>{{ $data->nama_kuliner }}</td>
                                     <td>{{ $data->deskripsi }}</td>
                                     <td>{{ $data->harga }}</td>
                                     <td><img src="{{ asset('kuliner/' . $data->foto) }}" alt="" width="100px"></td>
                                     <td><img src="{{ asset('kuliner/' . $data->foto2) }}" alt="" width="100px"></td>
                                     <td><img src="{{ asset('kuliner/' . $data->foto3) }}" alt="" width="100px"></td>
+                                    <td>{{ $data->customer_service }}</td>
                                     <td>
                                         <a href="/dashboard/kuliner/detail/{{ $data->id }}" class="btn btn-outline-info">Detail</a>
                                     </td>
