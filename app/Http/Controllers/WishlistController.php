@@ -8,30 +8,28 @@ use App\Models\Wishlist;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-
+use function PHPSTORM_META\map;
 
 class WishlistController extends Controller
 {
-    public function all()
-{
-    // Check if the user is authenticated
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'You need to be logged in to view the wishlist.');
+    public function all(){
+        $user = Auth::user();
+        $wishlist = Wishlist::with('destinasi')->where('user_id', $user->id)->get();
+
+        $dataMapped = $wishlist->map(function($item, $key){
+            return $item->destinasi;
+        });
+
+        // $data = User::with('wishlistDestinasi')->get();
+        // dd($dataMapped);
+
+        return view('dashboard.wishlist.wishlist', compact('dataMapped'));
+        // return response()->json([
+        //     'message' => 'Berhasil menampilkan data wishlist',
+        //     'data' => $dataMapped,
+        // ], 200);
     }
-
-    $user = Auth::user();
-    $userWishlist = $user->wishlist->pluck('destinasi_id')->toArray();
-
-    $destinasi = Destinasi::with('kategori')->get()->map(function ($destinasi) use ($userWishlist) {
-        $destinasi->isInWishlist = in_array($destinasi->id, $userWishlist);
-        return $destinasi;
-    });
-
-    return view('/dashboard/wishlist/wishlist', ['destinasi' => $destinasi]);
-}
-        
-    
-    
+   
     public function addToWishlist($destinasi_id){
         if (!Auth::check()) {
             return redirect()->back()->with('error', 'You need to be logged in to add destinations to the wishlist.');
@@ -50,21 +48,32 @@ class WishlistController extends Controller
         }
     
         // Add the destination to the user's wishlist
-        $wishlist = new Wishlist([
-            'user_id' => $user->id,
-            'destinasi_id' => $destinasi_id,
-        ]);
-        $wishlist->save();
+        // $wishlist = new Wishlist([
+        //     'user_id' => $user->id,
+        //     'destinasi_id' => $destinasi_id,
+        // ]);
+        // $wishlist->save();
+
+        try {
+            $wishlist = Wishlist::create([
+                'user_id' => $user->id,
+                'destinasi_id' => $destinasi_id,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to add destination to wishlist.');
+        }
+
     
         return redirect()->back()->with('success', 'Destinasi added to wishlist.');
     }
         
-    public function removeFromWishlist(Destinasi $destinasi){
+    public function removeFromWishlist($destinasi_id){
         $user = Auth::user();
         // Dapatkan data wishlist pengguna berdasarkan produk yang ingin dihapus
-        $wishlist = Wishlist::where('user_id', $user->id)
-            ->where('destinasi_id', $destinasi->id)
-            ->first();
+        $wishlist = Wishlist::where([
+            'user_id' => $user->id,
+            'destinasi_id' => $destinasi_id,
+        ]);
     
         // Periksa apakah data wishlist ditemukan
         if ($wishlist) {
@@ -76,3 +85,14 @@ class WishlistController extends Controller
     }
     
 }
+    
+
+      
+
+
+        
+    
+    
+    
+    
+

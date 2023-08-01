@@ -43,6 +43,8 @@ Route::get('/', function () {
     return view('dashboard.dashboard');
 })->name('/');
 
+// Route::get('/wrong_token', [AuthController::class, 'wrong_token'])->name('wrong_token');
+
 // ----------------------------- main dashboard ------------------------------//
 Route::controller(HomeController::class)->group(function () {
     
@@ -74,6 +76,17 @@ Route::prefix('dashboard')->group(function () {
 
         
     });
+
+    
+    Route::middleware(['web','auth'])->group(function () {
+        Route::prefix('/wishlist')->group(function () {
+            Route::get('/all', [WishlistController::class, 'all']);
+            Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+            Route::delete('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+            
+        });
+    });
+
     //api/payment
     Route::prefix('/order')->group(function(){
         Route::get('/all', [PaymentController::class, 'all']);
@@ -82,26 +95,6 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
     });
-    //wishlist
-    Route::prefix('/wishlist')->group(function () {
-        Route::get('/all', [WishlistController::class, 'all']);
-        Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
-            ->middleware('auth') // Use 'auth' middleware to protect the route
-            ->name('wishlist.add');
-        Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])
-            ->middleware('auth') // Use 'auth' middleware to protect the route
-            ->name('wishlist.remove');
-    });
-    //prefix peta
-    // Route::prefix('/peta')->group(function () {
-    //     Route::get('/all', [PetaController::class, 'index']);
-    //     Route::get('/detail/{id}', [PetaController::class, 'show']);
-    //     Route::get('/create', [PetaController::class, 'create']);
-    //     Route::get('/edit/{id}', [PetaController::class, 'edit']);
-    //     Route::post('/add', [PetaController::class, 'store']);
-    //     Route::post('/update/{id}', [PetaController::class, 'update']);
-    //     Route::delete('/destroy/{id}', [PetaController::class, 'destroy']);
-    // });
 
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
@@ -110,11 +103,9 @@ Route::prefix('dashboard')->group(function () {
     });
 });
 
-
 Route::get('/a',function(){
     return view('dashboard.mail.notifikasi');
 });
-
 Auth::routes(['verify' => true]);
 Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::get('/register', [HomeController::class, 'register'])->name('register');
@@ -124,5 +115,6 @@ Auth::routes();
 Route::get('/verify-view', [HomeController::class, 'verifyview'])->name('verifyview');
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/login/add', [AuthController::class, 'login'])->name('loginadd');
-
+//login web
+Route::post('/login-web', [AuthController::class, 'loginWeb'])->name('loginWeb');
 

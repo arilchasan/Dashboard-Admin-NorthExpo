@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class AuthController extends Controller
 {
@@ -73,7 +75,26 @@ class AuthController extends Controller
             'token' => $token
         ];
         // return redirect()->to('/')->with('success', 'Berhasil Login!');
-        return response()->json($response, 200);
+         return response()->json($response, 200);
+
+        // return view('dashboard.wishlist.wishlist', [
+        //     'wishlist' => Wishlist::all()]);
+        
+    }
+
+    public function loginWeb(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email:dns',
+            'password' => 'required'
+         ]);
+ 
+         if (Auth::attempt($credentials)) {
+             $request->session()->regenerate();
+             return redirect()->intended('/');
+         }
+ 
+         return back()->with('loginError', 'Login gagal');
     }
 
     public function logout(Request $request){
@@ -83,5 +104,11 @@ class AuthController extends Controller
             'message' => 'Berhasil Logout !'
         ], 200);
     }
+
+    // public function wrong_token(){
+    //     return response()->json([
+    //         'message' => 'Token Salah !'
+    //     ], 401);
+    // }
    
 }

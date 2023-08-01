@@ -42,6 +42,9 @@
             text-align: center;
             color: #888;
         }
+        .p {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -52,7 +55,7 @@
             <p>Terima kasih telah membeli tiket! Kami sangat menghargai dukungan Anda. Tiket Anda telah dicantumkan dalam email yang kami kirimkan. 
                 Semoga Anda menikmati acara tersebut dan memiliki pengalaman yang tak terlupakan. 
                 Jangan ragu untuk menghubungi kami jika ada pertanyaan atau bantuan lebih lanjut. Terima kasih lagi atas kepercayaan Anda kepada kami!</p>
-            {{-- <h2>Detail Tiket</h2> --}}
+            <h2>Detail Tiket</h2>
             <table>
                 <tr>
                 <tr>
@@ -63,7 +66,7 @@
                 <tr>
                     <td>Jumlah Orang</td>
                     <td>:</td>
-                    <td>{{ $payment->qty }}</td>
+                    <td>{{ $payment->qty }} Orang</td>
                 </tr>
                 <tr>
                     <td>Total</td>
@@ -72,10 +75,9 @@
                 </tr>
             </table>
             </div>
-            <p>Scan QR code di bawah ini untuk mendapatkan informasi lebih lanjut:</p>
-            {{-- <img src="{{ !! QrCode::size(50)->generate($qrCode) !! }}" alt="">    --}}
-            {{ $qrCode }}
-            {{-- {!! QrCode::size(50)->generate($qrCode); !!} --}}
+            <p>Klik link di bawah ini untuk mendapatkan informasi lebih lanjut:</p>
+            <img src="{{ asset($qrCode) }}" alt="">  
+           {{ asset($qrCode) }} 
         <div class="footer">
             © {{ date('Y') }} North Expo Kudus.
         </div>

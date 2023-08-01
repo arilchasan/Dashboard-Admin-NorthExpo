@@ -79,6 +79,7 @@
                                             <td><a type="button" class="btn btn-outline-info"
                                                     href="/dashboard/order/payment/{{ $data->id }}"><i
                                                         class="fa fa-ticket fa-lg"></i></a> </td>
+                                            
                                     </tr>
                                     @endforeach
                                 </tbody>

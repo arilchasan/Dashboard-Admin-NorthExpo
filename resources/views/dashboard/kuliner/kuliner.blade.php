@@ -104,7 +104,7 @@
                                             <form action="/dashboard/kuliner/destroy/{{ $data->id }}" method="post">
                                                 @csrf
                                                 @method('delete')
-                                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                                <button type="submit" class="btn btn-outline-danger"  onclick="return confirm('Yakin Mau Hapus ?')">Delete</button>
                                             </form>
                                         </td>
                                     
