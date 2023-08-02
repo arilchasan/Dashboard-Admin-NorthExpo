@@ -29,4 +29,12 @@ class Kuliner extends Model
         'created_at',
         'updated_at'
     ];
+    public function komentar_kuliner()
+    {
+        return $this->hasMany(Komentar_Kuliner::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
