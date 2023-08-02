@@ -80,7 +80,7 @@ Route::post('/callback', [PaymentController::class, 'callback'])->name('callback
 
 
 Route::prefix('/wishlist')->group(function () {
-    Route::get('/all', [WishlistController::class, 'all'])->middleware('auth');
+    Route::get('/all', [WishlistController::class, 'all'])->middleware('auth:sanctum');
     Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
         ->middleware('auth:sanctum') // Use 'auth' middleware to protect the route
         ->name('wishlist.add');

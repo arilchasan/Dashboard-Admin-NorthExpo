@@ -55,18 +55,18 @@ class PaymentController extends Controller
     {
         $user = $request->user();
         $destinasi = Destinasi::findOrFail($id);
-        $order_id = rand();
+        $order_id = 'NE' . (time() - 1 );
         $request->request->add([
             'total' => $request->qty * $destinasi->harga,
             'status' => 'pending',
             'destinasi_id' => $destinasi->id,
             'user_id' => $user->id,
-            'order_id' => $order_id
+            // 'order_id' => $order_id
         ]);
 
 
         // Add the order_id to the request data
-        //   $request->request->add(['order_id' => $order_id]);
+          $request->request->add(['order_id' => $order_id]);
 
 
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
@@ -94,7 +94,8 @@ class PaymentController extends Controller
             'token' => $snapToken,
             'payment' => $payment,
             'destinasi' => $destinasi,
-            'user' => $user
+            'user' => $user,
+            // 'order_id' => $order_id
         ];
 
         // Return the JSON response
