@@ -54,9 +54,9 @@ class KulinerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_warung' => 'required',
-            'nama_kuliner' => 'required',
             'alamat' => 'required',
             'operasional' => 'required',
+            'nama_kuliner' => 'required',
             'deskripsi' => 'required',
             'harga' => 'required',
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif,svg',

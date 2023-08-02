@@ -11,7 +11,6 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\KomentarResource;
 use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KomentarController;
@@ -51,7 +50,7 @@ Route::controller(HomeController::class)->group(function () {
     // Route::get('dashboard/data', 'data')->name('dashboard/data');
 });
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->group(function(){
     Route::get('/page', [HomeController::class, 'index'])->name('dashboard/page');
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
@@ -65,6 +64,7 @@ Route::prefix('dashboard')->group(function () {
         Route::get('/komentar/{id}', [DestinasiController::class, 'komentar']);
         Route::delete('/komentar/{id}', [KomentarController::class, 'destroy']);
     });
+
     Route::prefix('/kuliner')->group(function(){
         Route::get('/all', [KulinerController::class, 'all']);
         Route::get('create', [KulinerController::class, 'create']);
@@ -73,8 +73,6 @@ Route::prefix('dashboard')->group(function () {
         Route::delete('/destroy/{id}', [KulinerController::class, 'destroy']);
         Route::get('/edit/{id}', [KulinerController::class, 'edit']);
         Route::post('/update/{id}', [KulinerController::class, 'update']);
-
-        
     });
 
     
@@ -94,7 +92,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
-    });
 
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
