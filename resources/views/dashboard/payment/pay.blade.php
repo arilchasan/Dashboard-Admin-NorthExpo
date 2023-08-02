@@ -28,6 +28,14 @@
                   <label for="email">Email</label>
                   <input type="email" name="email">       
                 </div>         
+                <div class="form-group">
+                  <label for="tanggal">Tanggal</label>
+                  <input type="date" name="tanggal">       
+                </div>                  
+                <div class="form-group">
+                  <label for="">Token</label>
+                  <input type="text" name="token" value="{{ $token }}">       
+                </div>                  
                 <button type="submit">Pay</button>
               </form>
             </div>

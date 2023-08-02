@@ -17,7 +17,6 @@ use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Resources\KomentarResource;
 
 
 /*
@@ -77,11 +76,11 @@ Route::prefix('dashboard')->group(function(){
     });
 
     
-    Route::middleware(['web'])->group(function () {
+    Route::middleware(['web','auth'])->group(function () {
         Route::prefix('/wishlist')->group(function () {
             Route::get('/all', [WishlistController::class, 'all']);
             Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
-            Route::post('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+            Route::delete('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
             
         });
     });
@@ -93,8 +92,7 @@ Route::prefix('dashboard')->group(function(){
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
-   
-    });
+
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
         Route::get('/all', [UserController::class, 'userall']);
@@ -102,11 +100,9 @@ Route::prefix('dashboard')->group(function(){
     });
 });
 
-
 Route::get('/a',function(){
     return view('dashboard.mail.notifikasi');
 });
-
 Auth::routes(['verify' => true]);
 Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::get('/register', [HomeController::class, 'register'])->name('register');

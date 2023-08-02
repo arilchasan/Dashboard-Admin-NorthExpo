@@ -11,34 +11,46 @@
 
             
                 <div class="col-md-6">
+                    <label class="label" for="nama_warung">Nama Warung</label>
+                    <input type="text" class="form-control" id="nama_warung" name="nama_warung" value="{{ old('nama_warung',$kuliner->nama_warung) }}" >
+                </div>               
+                <div class="col-md-6">
                     <label class="label" for="nama_kuliner">Nama Kuliner</label>
                     <input type="text" class="form-control" id="nama_kuliner" name="nama_kuliner" value="{{ old('nama_kuliner',$kuliner->nama_kuliner) }}" >
+                </div>               
+                <div class="col-md-6">
+                    <label class="label" for="alamat">Lokasi</label>
+                    <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat',$kuliner->alamat) }}" >
+                </div>               
+                <div class="col-md-6">
+                    <label class="label" for="operasional">Nama Kuliner</label>
+                    <input type="text" class="form-control" id="operasional" name="operasional" value="{{ old('operasional',$kuliner->operasional) }}" >
                 </div>               
                 <div class="col-md-6">
                     <label class="label" for="deskripsi">Deskripsi</label>
                     <input type="text" class="form-control" id="deskripsi" name="deskripsi" value="{{ old('deskripsi',$kuliner->deskripsi) }}">
                 </div>
                 <div class="col-md-6">
-                    <label class="label" for="harga">harga</label>
+                    <label class="label" for="harga">Harga</label>
                     <input type="text" class="form-control" id="harga" name="harga"  value="{{ old('harga',$kuliner->harga) }}">
                 </div>
                 <div class="col-md-12">
                     <label class="label" for="foto">Foto Wisata</label>
                     <input type="file" class="form-control" id="foto" name="foto"  value="{{ old('foto',$kuliner->foto) }}">
                     <br>
-                    <img src="{{ asset('foto/'.$kuliner->foto) }}" alt="" width="500"  >
+                    <img src="{{ asset('kuliner/'.$kuliner->foto) }}" alt="" width="300"  >
                 </div>
                 <div class="col-md-6">
                     <label class="label" for="foto2">Foto Wisata</label>
                     <input type="file" class="form-control" id="foto2" name="foto2"  value="{{ old('foto2',$kuliner->foto2) }}">
                     <br>
-                    <img src="{{ asset('foto/'.$kuliner->foto2) }}" alt="" width="500"  >
+                    <img src="{{ asset('kuliner/'.$kuliner->foto2) }}" alt="" width="300"  >
                 </div>
                 <div class="col-md-6">
                     <label class="label" for="foto3">Foto Wisata</label>
                     <input type="file" class="form-control" id="foto3" name="foto3"  value="{{ old('foto3',$kuliner->foto3) }}">
                     <br>
-                    <img src="{{ asset('foto/'.$kuliner->foto3) }}" alt="" width="500"  >
+                    <img src="{{ asset('kuliner/'.$kuliner->foto3) }}" alt="" width="300"  >
                 </div>
                 <br>
                 <br>

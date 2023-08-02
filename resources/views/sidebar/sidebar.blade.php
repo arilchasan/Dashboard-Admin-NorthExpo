@@ -18,9 +18,9 @@
                     <li class="submenu">
                         <li><a href='/dashboard/userlogin/all'><i class="la la-user"></i> <span> User Login</span></a></li>    
                     </li>
-                <li class="submenu">
+                {{-- <li class="submenu">
                     <li><a href='/dashboard/order/all'> <i class="las la-money-bill-wave"></i><span> Payment</span></a></li>    
-                </li>
+                </li> --}}
                 <li class="submenu">
                     <li><a href='/dashboard/order/list'><i class="las la-archive"></i> <span> Data Transaksi</span></a></li>    
                <li class="submenu">
