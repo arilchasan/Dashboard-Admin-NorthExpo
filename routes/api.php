@@ -13,6 +13,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -77,13 +78,6 @@ Route::post('/callback', [PaymentController::class, 'callback'])->name('callback
 // Route::post('/peta/{id}',[PetaController::class,'update']);
 // Route::delete('/peta/{id}',[PetaController::class,'destroy']);
 
-
-Route::prefix('/wishlist')->group(function () {
-    Route::get('/all', [WishlistController::class, 'all'])->middleware('auth');
-    Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])
-        ->middleware('auth:sanctum') // Use 'auth' middleware to protect the route
-        ->name('wishlist.add');
-    Route::post('/remove', [WishlistController::class, 'removeFromWishlist'])
-        ->middleware('auth:sanctum') // Use 'auth' middleware to protect the route
-        ->name('wishlist.remove');
-});
+Route::get('/wishlist/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/wishlist/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
+Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
