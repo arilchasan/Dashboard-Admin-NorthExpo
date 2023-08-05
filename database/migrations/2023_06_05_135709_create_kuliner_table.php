@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('operasional');
             $table->string('nama_kuliner');
-            $table->string('deskripsi');
+            $table->text('deskripsi');
             $table->string('harga');
             $table->string('foto');
             $table->string('foto2');

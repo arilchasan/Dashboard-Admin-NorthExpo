@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Mail\Notifikasi;
 use App\Models\Destinasi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\PaymentSuccessEvent;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use 
+use SebastianBergmann\ResourceOperations\generate;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 
@@ -28,7 +33,7 @@ class PaymentController extends Controller
         \Midtrans\Config::$is3ds = true;
 
         $destinasi = Destinasi::find($id);
-        
+
         $params = array(
             'transaction_details' => array(
                 'order_id' => rand(),
@@ -40,112 +45,183 @@ class PaymentController extends Controller
                 'email' => 'budi.pra@example.com',
                 'phone' => '08111222333',
             ),
-            'enable_payments' => array('gopay','bank_transfer','qris')
+            'enable_payments' => array('gopay', 'bank_transfer', 'qris')
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        return view('dashboard.payment.pay',['token' => $snapToken, 'destinasi' => $destinasi]);
-
+        return view('dashboard.payment.pay', ['token' => $snapToken, 'destinasi' => $destinasi]);
     }
-
-    public function checkout(Request $request , $id)
+    public function getDataOrder(Request $request, $id)
     {
+        $user = $request->user();
+        $payment = Payment::where('id', $id)->first();
     
-      $destinasi = Destinasi::find($id);    
-      $request->request->add(['total' => $request->qty * $destinasi->harga , 'status' => 'pending', ]);
-      $order_id = rand();
+        if (!$payment) {
+            return response()->json(['error' => 'Payment not found'], 404);
+        }
+    
+        $destinasi = Destinasi::findOrFail($payment->destinasi_id);
+    
+        $responseData = [
+            'payment' => $payment,
+            'destinasi' => $destinasi,
+            'user' => $user,
+        ];
+    
+        return response()->json($responseData);
+    }
+    
+    public function checkout(Request $request, $id)
+    {
+        $user = $request->user();
+        $destinasi = Destinasi::findOrFail($id);
+        $request->request->add([
+            'total' => $request->qty * $destinasi->harga,
+            'status' => 'pending',
+            'destinasi_id' => $destinasi->id,
+            'user_id' => $user->id,
+            // 'order_id' => $order_id
+        ]);
+        
+        $order_id = 'NE' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHis');
 
-      // Add the order_id to the request data
-      $request->request->add(['order_id' => $order_id]);
+        // Add the order_id to the request data
+          $request->request->add(['order_id' => $order_id]);
 
 
-      \Midtrans\Config::$serverKey = config('midtrans.server_key');
-      \Midtrans\Config::$isProduction = false;
-      \Midtrans\Config::$isSanitized = true;
-      \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
 
-      
-      $payment = Payment::create($request->all());
-      $params = array(
-          'transaction_details' => array(
-              'order_id' => $order_id,
-              'gross_amount' => $payment->total,
-          ),
-          'customer_details' => array(
-              'email' => $payment->email,
-              'phone' => $payment->no_telp,
-          ),
-        //   'enable_payments' => array('gopay','bank_transfer','qris')
-      );
 
-      $snapToken = \Midtrans\Snap::getSnapToken($params);
-          // Prepare the JSON response data
-    $responseData = [
-        'token' => $snapToken,
-        'destinasi' => $destinasi,
-        'payment' => $payment,
-    ];
+        $payment = Payment::create($request->all());
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $order_id,
+                'gross_amount' => $payment->total,
+            ),
+            'customer_details' => array(
+                'email' => $payment->email,
+                'phone' => $payment->no_telp,
+            ),
+            //   'enable_payments' => array('gopay','bank_transfer','qris')
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        // Prepare the JSON response data
+        $responseData = [
+            'token' => $snapToken,
+            'payment' => $payment,
+            'destinasi' => $destinasi,
+            'user' => $user,
+            // 'order_id' => $order_id
+        ];
 
         // Return the JSON response
         if ($request->wantsJson()) {
-            return response()->json($responseData);      
+            return response()->json($responseData);
         } else {
-            return view('dashboard.payment.checkout',['token' => $snapToken, 'destinasi' => $destinasi , 'payment' => $payment]);
+            return view('dashboard.payment.checkout', ['token' => $snapToken, 'destinasi' => $destinasi, 'payment' => $payment]);
         }
+    }
 
-    }   
-
-    public function callback(Request $request) 
+    public function callback(Request $request)
     {
         $serverKey = config('midtrans.server_key');
         $hasehd = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
         if ($hasehd !== $request->signature_key) {
             return response(['message' => 'Invalid signature'], 403);
         }
-        $payment = Payment::where('order_id', $request->order_id)->first(); 
+        $payment = Payment::where('order_id', $request->order_id)->first();
         if (!$payment) {
             return response(['message' => 'Payment not found'], 404);
         }
-        $payment->update([
-            'status' => 'success',
-        ]);
-        return response(['message' => 'Callback success']);
-       
-    }
+        if ($payment->status !== 'success') {
+            $payment->update([
+                'status' => 'success',
+            ]);
     
-
-    public function pay()
-    {
-        return view('dashboard.payment.pay');
-    }
-
-    public function list(){
-        $payment = Payment::all();
-        return view('dashboard.payment.list',['payment' => $payment]);
-    }
-
-    public function all(){
-        $payment = Payment::all();
-        return view('dashboard.payment.index',['payment' => $payment , 'destinasi' => Destinasi::all()]);
-    }
-
-    public function notifikasi($id) 
-    {
-            // Ambil data Payment berdasarkan ID atau kondisi tertentu sesuai kebutuhan Anda
-            $payment = Payment::find($id); // Ganti $id dengan ID yang sesuai untuk notifikasi tertentu
-
-            if (!$payment) {
-                return redirect()->back()->with('error', 'Payment not found');
-            }
-                    // Convert the Payment data to a JSON string
-                    $qrCode = "Email: " . $payment->email . "\n"
-                    . "No Telepon: " . $payment->no_telp . "\n"
-                    . "Jumlah Orang: " . $payment->qty . "\n"
-                    . "Total Harga: Rp." . $payment->total . "\n"
-                    . "Status: " . $payment->status . "\n";
-
-            Mail::to('northexpo.develop@gmail.com')->send(new Notifikasi($payment , $qrCode));
-            
-            return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+            // Panggil fungsi notifikasi untuk mengirim email
+            $this->notifikasi($payment->id);
         }
+    
+        // $payment->update([
+        //     'status' => 'success',
+        // ]);
+
+        // event(new PaymentSuccessEvent($payment));
+
+        return response(['message' => 'Callback success']);
+    }
+
+    public function notifikasi($id)
+    {
+        // Ambil data Payment berdasarkan ID atau kondisi tertentu sesuai kebutuhan Anda
+        $payment = Payment::find($id); // Ganti $id dengan ID yang sesuai untuk notifikasi tertentu
+
+        if (!$payment) {
+            return redirect()->back()->with('error', 'Payment not found');
+        }
+        // Convert the Payment data to a JSON string
+        $qrCodeData = "Order ID: " . $payment->order_id . "\n"
+            . "Email: " . $payment->email . "\n"
+            . "No Telepon: " . $payment->no_telp . "\n"
+            . "Jumlah Orang: " . $payment->qty . " Orang" . "\n"
+            . "Total Harga: Rp." . $payment->total . "\n"
+            . "Status: " . $payment->status . "\n"
+            . "Tanggal: " . $payment->tanggal . "\n";
+        $path = 'qrcode/' . $payment->order_id . '.png';
+
+        QrCode::format('png')->size('400')->generate($qrCodeData, public_path($path));
+        $qrCode = url(asset($path));
+
+        Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
+
+        return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+    }
+
+    public function pay(Request $request)
+    {
+        $token = $request->input('token');
+        return view('dashboard.payment.pay', ['token' => $token]);
+    }
+
+    public function list()
+    {
+        $payment = Payment::all();
+        return view('dashboard.payment.list', ['payment' => $payment,'token' => 'cc32821a-3b32-4d64-ae8d-135e78ec9352']);
+    }
+
+    public function all()
+    {
+        $payment = Payment::all();
+        return view('dashboard.payment.index', ['payment' => $payment, 'destinasi' => Destinasi::all()]);
+    }
+    public function dataUser(Request $request, $user_id)
+    {
+        if ($request->wantsJson()) {
+            try {
+                $destinasi = Destinasi::findOrFail($user_id);
+
+                $auth = Auth::user();
+                $payment = Payment::with('user', 'destinasi')->where('user_id', $user_id)->get();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil menampilkan Data User',
+                    'data' => $payment,
+                ]);
+            } catch (ModelNotFoundException $e) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+            }
+        } else {
+            $payment = Payment::with('user', 'destinasi')->where('user_id', $user_id)->get();
+
+            return view('dashboard.payment.list', ['payment' => $payment]);
+        }
+    }
 }

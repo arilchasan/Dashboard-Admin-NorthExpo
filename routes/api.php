@@ -65,12 +65,14 @@ Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])-
 Route::prefix('/order')->group(function(){
     Route::get('/all', [PaymentController::class, 'all']);
     Route::get('/payment/{id}', [PaymentController::class, 'index']);
-    Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout')->middleware('auth:sanctum');
+    Route::get('/get-data/{id}',[PaymentController::class, 'getDataOrder']);
     Route::get('/list', [PaymentController::class, 'list']);
     Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
+    Route::get('/user/{user_id}',[PaymentController::class,'dataUser']);
 });
 
-Route::post('/callback', [PaymentController::class, 'callback'])->name('callback');
+Route::post('/callback', [PaymentController::class, 'callback'])->name('callback'); 
 
 
 // Route::get('/peta',[PetaController::class,'get']);
@@ -78,6 +80,8 @@ Route::post('/callback', [PaymentController::class, 'callback'])->name('callback
 // Route::post('/peta/{id}',[PetaController::class,'update']);
 // Route::delete('/peta/{id}',[PetaController::class,'destroy']);
 
+
 Route::get('/wishlist/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/wishlist/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
 Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
+

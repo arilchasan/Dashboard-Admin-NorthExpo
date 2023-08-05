@@ -61,7 +61,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);

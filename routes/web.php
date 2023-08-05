@@ -11,7 +11,6 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PetaController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\KomentarResource;
 use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KomentarController;
@@ -52,7 +51,7 @@ Route::controller(HomeController::class)->group(function () {
     // Route::get('dashboard/data', 'data')->name('dashboard/data');
 });
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->group(function(){
     Route::get('/page', [HomeController::class, 'index'])->name('dashboard/page');
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
@@ -64,8 +63,9 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/update/{id}', [DestinasiController::class, 'update']);
         Route::delete('/destroy/{id}', [DestinasiController::class, 'destroy']);
         Route::get('/komentar/{id}', [DestinasiController::class, 'komentar']);
-        Route::delete('/komentar/{id}', [KomentarController::class, 'destroy']);
+        Route::delete('/komentar/{id}', [KomentarController::class, 'destroyWeb']);
     });
+
     Route::prefix('/kuliner')->group(function(){
         Route::get('/all', [KulinerController::class, 'all']);
         Route::get('create', [KulinerController::class, 'create']);
@@ -74,18 +74,18 @@ Route::prefix('dashboard')->group(function () {
         Route::delete('/destroy/{id}', [KulinerController::class, 'destroy']);
         Route::get('/edit/{id}', [KulinerController::class, 'edit']);
         Route::post('/update/{id}', [KulinerController::class, 'update']);
-
-        
     });
 
     
+
     Route::middleware(['web', 'auth'])->group(function () {
         Route::prefix('/wishlist')->group(function () {
             Route::get('/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
             Route::post('/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
             Route::delete('/remove', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
-        });
+       
     });
+
     //api/payment
     Route::prefix('/order')->group(function(){
         Route::get('/all', [PaymentController::class, 'all']);
@@ -93,7 +93,6 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
-    
     });
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
@@ -102,11 +101,9 @@ Route::prefix('dashboard')->group(function () {
     });
 });
 
-
 Route::get('/a',function(){
     return view('dashboard.mail.notifikasi');
 });
-
 Auth::routes(['verify' => true]);
 Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::get('/register', [HomeController::class, 'register'])->name('register');

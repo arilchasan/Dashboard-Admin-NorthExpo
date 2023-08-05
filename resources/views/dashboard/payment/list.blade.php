@@ -49,6 +49,9 @@
                                         <h5>ID</h5>
                                     </th>
                                     <th>
+                                        <h5>Order ID</h5>
+                                    </th>
+                                    <th>
                                         <h5>Email</h5>
                                     </th>
                                     <th>
@@ -80,6 +83,7 @@
                                     <tr class="text-center">
                                         @foreach ($payment as $data)
                                         <th>{{ $data->id }}</li>
+                                        <th>NE{{ $data->id }}</li>
                                             <th>{{ $data->email }}</li>
                                             <th>{{ $data->qty }}</li>
                                             <th>Rp. {{ $data->total }}</li>
@@ -87,8 +91,8 @@
                                             {{-- <td><a type="button" class="btn btn-outline-info"
                                                     href="/dashboard/order/payment/{{ $data->id }}"><i
                                                         class="fa fa-ticket fa-lg"></i></a> </td> --}}
-                                            <td><a type="button" class="btn btn-outline-danger"
-                                                    href="/dashboard/order/notifikasi/{{ $data->id }}"><i>Kirim Notifikasi</i></a> </td>
+                                            {{-- <td><a type="button" class="btn btn-outline-danger"
+                                                    href="/dashboard/order/notifikasi/{{ $data->id }}"><i>Kirim Notifikasi</i></a> </td> --}}
                                     </tr>
                                     @endforeach
                                 </tbody>

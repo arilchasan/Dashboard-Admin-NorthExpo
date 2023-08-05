@@ -34,6 +34,8 @@ class DestinasiResource extends JsonResource
                 'pelayanan' => $this->pelayanan,
                 'status' => $this->status,
                 'komentars' => KomentarResource::collection($this->whenLoaded('komentars')),
+                'harga' => $this->harga,
+                'kuota' => $this->kuota,
         ];
     }
 }

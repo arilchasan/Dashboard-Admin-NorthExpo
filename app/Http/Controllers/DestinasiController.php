@@ -374,7 +374,7 @@ class DestinasiController extends Controller
         } else {
             $komentars = Komentar::with('user', 'destinasi')->where('destinasi_id',$id)->get();
             
-            return view('dashboard.destinasi.komentar', ['komentar' => $komentars = KomentarResource::collection($komentars),]);
+            return view('dashboard.destinasi.komentar', ['komentar' => $komentars = KomentarResource::collection($komentars)->sortByDesc('created_at')]);
         }
     }
     //show all comments in destinasi
