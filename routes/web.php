@@ -19,6 +19,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,13 +77,13 @@ Route::prefix('dashboard')->group(function(){
     });
 
     
-    Route::middleware(['web','auth'])->group(function () {
+
+    Route::middleware(['web', 'auth'])->group(function () {
         Route::prefix('/wishlist')->group(function () {
-            Route::get('/all', [WishlistController::class, 'all']);
-            Route::post('/add/{destinasi_id}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
-            Route::delete('/remove/{destinasi_id}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
-            
-        });
+            Route::get('/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
+            Route::post('/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
+            Route::delete('/remove', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
+       
     });
 
     //api/payment

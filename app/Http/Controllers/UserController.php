@@ -14,7 +14,6 @@ class UserController extends Controller
     {
         return view('dashboard.userlogin.index', ['user' => User::all()]);
     }
-
     public function index()
     {
         $users = User::all();

@@ -57,6 +57,7 @@
             "time": "2016-11-26T13:57:10+00:00"
         },
         {
+
             "name": "brian2694/laravel-toastr",
             "version": "5.57",
             "source": {

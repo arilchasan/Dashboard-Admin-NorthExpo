@@ -1,6 +1,6 @@
-@extends('layouts.master')
+{{-- @extends('layouts.master')
 @section('content')
-    {{-- <div class="page-wrapper">
+    <div class="page-wrapper">
         <div class="content container-fluid"> 
             <div class="page-header">
                 <div class="row">
@@ -13,7 +13,7 @@
                 </div>
             </div>    
         </div>
-    </div> --}}
+    </div>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
         <script src="https://kit.fontawesome.com/76557bdb99.js" crossorigin="anonymous"></script>
@@ -78,7 +78,6 @@
                                                     onclick="return confirm('Yakin Mau Hapus ?')"><i
                                                         class="fa fa-reguler fa-trash"></i></button>
                                             </form>
-
                             </th>
                         </tr>
                         @endforeach
@@ -89,7 +88,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
                 {{-- {{ $data->links('pagination::bootstrap-5')}}  --}}
-            @endsection
+            {{-- @endsection --}} --}}
