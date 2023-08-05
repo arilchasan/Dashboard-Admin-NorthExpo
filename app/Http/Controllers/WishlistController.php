@@ -15,7 +15,6 @@ use function PHPSTORM_META\map;
 
 class WishlistController extends Controller
 {
-
     // public function all(){
     //     $user = Auth::user();
     //     $wishlist = Wishlist::with('destinasi')
@@ -92,9 +91,8 @@ class WishlistController extends Controller
     //         'data' => $dataMapped,
     //     ], 200);
     // }
-
+    
     public function store(Request $request){
-
         $user = Auth::user();
         $validator = Validator::make($request->all(), [// 'user_id' => 'required|exists:users,id
             'destinasi_id' => 'required|exists:destinasis,id', 
