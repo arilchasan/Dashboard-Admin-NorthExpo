@@ -65,6 +65,7 @@ Route::prefix('/order')->group(function(){
     Route::get('/all', [PaymentController::class, 'all']);
     Route::get('/payment/{id}', [PaymentController::class, 'index']);
     Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout')->middleware('auth:sanctum');
+    Route::get('/get-data/{id}',[PaymentController::class, 'getDataOrder']);
     Route::get('/list', [PaymentController::class, 'list']);
     Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
     Route::get('/user/{user_id}',[PaymentController::class,'dataUser']);

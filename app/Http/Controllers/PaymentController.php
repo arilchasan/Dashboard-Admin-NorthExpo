@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\PaymentSuccessEvent;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -50,12 +51,30 @@ class PaymentController extends Controller
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         return view('dashboard.payment.pay', ['token' => $snapToken, 'destinasi' => $destinasi]);
     }
-
+    public function getDataOrder(Request $request, $id)
+    {
+        $user = $request->user();
+        $payment = Payment::where('id', $id)->first();
+    
+        if (!$payment) {
+            return response()->json(['error' => 'Payment not found'], 404);
+        }
+    
+        $destinasi = Destinasi::findOrFail($payment->destinasi_id);
+    
+        $responseData = [
+            'payment' => $payment,
+            'destinasi' => $destinasi,
+            'user' => $user,
+        ];
+    
+        return response()->json($responseData);
+    }
+    
     public function checkout(Request $request, $id)
     {
         $user = $request->user();
         $destinasi = Destinasi::findOrFail($id);
-        $order_id = 'NE' . (time() - 1 );
         $request->request->add([
             'total' => $request->qty * $destinasi->harga,
             'status' => 'pending',
@@ -63,7 +82,8 @@ class PaymentController extends Controller
             'user_id' => $user->id,
             // 'order_id' => $order_id
         ]);
-
+        
+        $order_id = 'NE' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHis');
 
         // Add the order_id to the request data
           $request->request->add(['order_id' => $order_id]);

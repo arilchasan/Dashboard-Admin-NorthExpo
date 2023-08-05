@@ -62,7 +62,7 @@ Route::prefix('dashboard')->group(function(){
         Route::post('/update/{id}', [DestinasiController::class, 'update']);
         Route::delete('/destroy/{id}', [DestinasiController::class, 'destroy']);
         Route::get('/komentar/{id}', [DestinasiController::class, 'komentar']);
-        Route::delete('/komentar/{id}', [KomentarController::class, 'destroy']);
+        Route::delete('/komentar/{id}', [KomentarController::class, 'destroyWeb']);
     });
 
     Route::prefix('/kuliner')->group(function(){
@@ -92,7 +92,7 @@ Route::prefix('dashboard')->group(function(){
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
-
+    });
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
         Route::get('/all', [UserController::class, 'userall']);

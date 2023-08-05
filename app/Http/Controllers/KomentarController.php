@@ -38,12 +38,25 @@ class KomentarController extends Controller
     {
         $komentar = Komentar::findOrFail($id);
         $komentar->delete();
-        if($re->wantsJson()){
+        if($re->wantsJson()){   
             return response()->json([
                 'message' => 'Komentar berhasil dihapus',
+                'data' => new KomentarResource($komentar),
             ], 200);
         } else {
             return redirect('/dashboard/destinasi/all')->with('success', 'Komentar berhasil dihapus');
+        }
+
+    }
+    public function destroyWeb($id)
+    {
+        $komentar = Komentar::findOrFail($id);
+        // if else 
+        if ($komentar) {
+            $komentar->delete();   
+            return redirect('/dashboard/destinasi/all')->with('success', 'Komentar berhasil dihapus');
+        } else {
+            return redirect('/dashboard/destinasi/all')->with('error', 'Komentar gagal dihapus');
         }
 
     }
