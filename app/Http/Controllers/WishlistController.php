@@ -99,8 +99,6 @@ class WishlistController extends Controller
         $validator = Validator::make($request->all(), [// 'user_id' => 'required|exists:users,id
             'destinasi_id' => 'required|exists:destinasis,id', 
         ]);
-        
-        
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation error',
@@ -138,7 +136,6 @@ class WishlistController extends Controller
             'message' => 'Wishlist not found',
         ], 404);
     }
-
 }
     
 
