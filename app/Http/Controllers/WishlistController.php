@@ -14,9 +14,7 @@ class WishlistController extends Controller
 {
     public function all(){
         $user = Auth::user();
-        $wishlist = Wishlist::with('destinasi')
-        ->where('user_id', $user->id)
-        ->get();
+        $wishlist = Wishlist::with('destinasi')->where('user_id', $user->id)->get();
 
         $dataMapped = $wishlist->map(function($item, $key){
             return $item->destinasi;
@@ -65,26 +63,22 @@ class WishlistController extends Controller
             return redirect()->back()->with('error', 'Failed to add destination to wishlist.');
         }
 
-        $wishlist = Wishlist::create([
-            'user_id' => $user->id,
-            'destinasi_id' => $destinasi_id,
-        ]);
-
     
         return redirect()->back()->with('success', 'Destinasi added to wishlist.');
     }
         
-    public function removeFromWishlist(Destinasi $destinasi){
+    public function removeFromWishlist($destinasi_id){
         $user = Auth::user();
         // Dapatkan data wishlist pengguna berdasarkan produk yang ingin dihapus
-        $wishlist = Wishlist::where('user_id', $user->id)
-            ->where('destinasi_id', $destinasi->id)
-            ->first();
+        $wishlist = Wishlist::where([
+            'user_id' => $user->id,
+            'destinasi_id' => $destinasi_id,
+        ]);
     
         // Periksa apakah data wishlist ditemukan
         if ($wishlist) {
             $wishlist->delete();
-            return redirect('dashboard.wishlist.wishlist')->back()->with('success', 'Destinasi removed from wishlist.');
+            return redirect()->back()->with('success', 'Destinasi removed from wishlist.');
         }
     
         return redirect()->back()->with('error', 'Destinasi is not found in the wishlist.');

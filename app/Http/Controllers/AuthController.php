@@ -75,10 +75,10 @@ class AuthController extends Controller
             'token' => $token
         ];
         // return redirect()->to('/')->with('success', 'Berhasil Login!');
-        // return response()->json($response, 200);
+         return response()->json($response, 200);
 
-        return view('dashboard.wishlist.wishlist', [
-            'wishlist' => Wishlist::all()]);
+        // return view('dashboard.wishlist.wishlist', [
+        //     'wishlist' => Wishlist::all()]);
         
     }
 

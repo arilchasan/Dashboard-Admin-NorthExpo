@@ -21,6 +21,11 @@
                         <td>{{ $payment->order_id }}</td>
                     </tr>
                     <tr>
+                        <td>Tanggal</td>
+                        <td>:</td>
+                        <td>{{ $payment->tanggal }}</td>
+                    </tr>
+                    <tr>
                         <td>Email</td>
                         <td>:</td>
                         <td>{{ $payment->email }}</td>

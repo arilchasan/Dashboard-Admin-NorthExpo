@@ -102,7 +102,7 @@
                                             <td><img src="{{ asset('foto/' . $data->foto2) }}" width="150"></td>
                                             <td><img src="{{ asset('foto/' . $data->foto3) }}" width="150"></td>
                                             <td><img src="{{ asset('foto/' . $data->foto4) }}" width="150"></td>
-                                            <th>{{ $data->kategori->nama }}</li>
+                                            <th>{{ $data->kuota }}</li>
                                             <td><a type="button" class="btn btn-outline-info"
                                                     href="/dashboard/destinasi/detail/{{ $data->id }}"><i
                                                         class="fa fa-info-circle fa-lg"></i></a> </td>
@@ -113,21 +113,15 @@
                                                 <a type="button" class="btn btn-outline-primary"
                                                     href="/dashboard/destinasi/komentar/{{ $data->id }}"><i
                                                         class="fa fa-comment"></i></a>
+                                                
                                                         @if (!$data->isInWishlist)
                                                         <form action="{{ route('wishlist.add', ['destinasi_id' => $data->id]) }}" method="post">
                                                             @csrf <!-- CSRF token -->
-                                                            <button type="submit">Add to Wishlist</button>
+                                                            <button type="submit" class="btn btn-outline-warning"><i class="fa-solid fa-heart-circle-plus"></i></button>
                                                         </form>
                                                     @else
                                                         <p>Destinasi is already in the wishlist.</p>
                                                     @endif
-
-
-
-
-
-
-
                                             </td>
                                             <td>
                                                 <form

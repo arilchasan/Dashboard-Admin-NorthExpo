@@ -16,15 +16,18 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('order_id');
+            $table->unsignedBigInteger('destinasi_id');  
+            $table->unsignedBigInteger('user_id');          
             $table->string('email');
             $table->string('no_telp');
             $table->integer('qty');
             $table->bigInteger('total');
             $table->enum('status', ['pending', 'success', 'failed']);
-            // $table->unsignedBigInteger('destinasi_id');          
+            $table->date('tanggal');
             $table->timestamps();
 
-            // $table->foreign('destinasi_id')->references('id')->on('destinasis')->onDelete('cascade');
+            $table->foreign('destinasi_id')->references('id')->on('destinasis')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }

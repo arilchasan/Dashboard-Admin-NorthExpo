@@ -94,6 +94,8 @@ class KulinerController extends Controller
             $kuliner = Kuliner::create([
                 'nama_warung' => $request->nama_warung,
                 'nama_kuliner' => $request->nama_kuliner,
+                'alamat' => $request->alamat,
+                'operasional' => $request->operasional,
                 'deskripsi' => $request->deskripsi,
                 'harga' => $request->harga,
                 'foto' => $image_name,
@@ -155,6 +157,8 @@ class KulinerController extends Controller
             'foto2' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'foto3' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'customer_service'=> 'required',
+            'alamat' => 'required',
+            'operasional' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -201,6 +205,8 @@ class KulinerController extends Controller
             $kuliner->update([
                 'nama_warung' => $request->nama_warung,
                 'nama_kuliner' => $request->nama_kuliner,
+                'alamat' => $request->alamat,
+                'operasional' => $request->operasional,
                 'deskripsi' => $request->deskripsi,
                 'harga' => $request->harga,
                 'foto' => $image_name,

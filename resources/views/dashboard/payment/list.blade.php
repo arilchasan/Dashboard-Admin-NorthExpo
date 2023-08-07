@@ -49,6 +49,9 @@
                                         <h5>ID</h5>
                                     </th>
                                     <th>
+                                        <h5>Order ID</h5>
+                                    </th>
+                                    <th>
                                         <h5>Email</h5>
                                     </th>
                                     <th>
@@ -80,6 +83,7 @@
                                     <tr class="text-center">
                                         @foreach ($payment as $data)
                                         <th>{{ $data->id }}</li>
+                                        <th>{{ $data->order_id }}</li>
                                             <th>{{ $data->email }}</li>
                                             <th>{{ $data->qty }}</li>
                                             <th>Rp. {{ $data->total }}</li>

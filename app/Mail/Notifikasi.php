@@ -14,6 +14,7 @@ class Notifikasi extends Mailable
     use Queueable, SerializesModels;
     public $payment;
     public $qrCode;
+    public $dataEmail;
     /**
      * Create a new message instance.
      *
@@ -23,6 +24,7 @@ class Notifikasi extends Mailable
     {
         $this->payment = $payment;
         $this->qrCode = $qrCode;
+
     }
 
     /**
