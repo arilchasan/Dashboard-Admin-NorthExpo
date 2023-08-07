@@ -60,6 +60,10 @@ Route::get('/destinasi/komentar/{id}', [DestinasiController::class, 'komentar'])
 Route::get('/destinasi/komentar/', [DestinasiController::class, 'showComment']);
 Route::delete('/destinasi/komentar/{id}',[KomentarController::class,'destroy'])->middleware('auth:sanctum');
 
+
+Route::post('/kuliner/komentar/{id}',[KomentarController::class,'store'])->middleware('auth:sanctum');
+Route::get('/kuliner/komentar/{id}', [KulinerController::class, 'komentar']);
+
 //payments
 Route::prefix('/order')->group(function(){
     Route::get('/all', [PaymentController::class, 'all']);

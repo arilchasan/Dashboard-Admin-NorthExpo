@@ -38,5 +38,14 @@ class KomentarKulinerController extends Controller
             'data' => new Komentar_KulinerResource($komentar_kuliner),
         ], 201);
     } 
+    public function destroy($id)
+    {
+        $komentar_kuliner = Komentar_Kuliner::findOrFail($id);
+        $komentar_kuliner->delete();
+
+        return response()->json([
+            'message' => 'Komentar berhasil dihapus',
+        ]);
+    }
 
 }

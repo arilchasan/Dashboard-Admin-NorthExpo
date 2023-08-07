@@ -45,6 +45,5 @@ class KomentarController extends Controller
         } else {
             return redirect('/dashboard/destinasi/all')->with('success', 'Komentar berhasil dihapus');
         }
-
     }
 }

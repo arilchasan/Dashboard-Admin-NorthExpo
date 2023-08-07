@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+// add koemntar kuliner resource
+use App\Http\Resources\Komentar_KulinerResource;
+use App\Models\Komentar_Kuliner;
 
 class KulinerController extends Controller
 
@@ -272,4 +275,42 @@ class KulinerController extends Controller
             }
         }
     }
+    
+    public function komentar($id, Request $request)
+    {
+        if($request->wantsJson()){
+            $kuliner = Kuliner::findorFail($id);
+
+            $komentars = Komentar_Kuliner::with('user', 'kuliner')->where('kuliner_id', $id)->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Komentar Kuliner Berhasil Ditampilkan!',
+                'data' => Komentar_KulinerResource::collection($komentars),
+            ]);
+        }else{
+            $komentars = Komentar_Kuliner::with('user', 'kuliner')->where('kuliner_id', $id)->get();
+
+            return view('dashboard.kuliner.komentar_kuliner',['komentar' => $komentars = Komentar_KulinerResource::collection($komentars)] );
+        }
+    }
+    public function showComment($id)
+    {
+        $kuliner = Kuliner::findorFail($id);
+
+        $komentars = Komentar_Kuliner::with('user', 'kuliner')->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Komentar Kuliner Berhasil Ditampilkan!',
+            'data' => Komentar_KulinerResource::collection($komentars),
+        ]);
+
+
+    }
+
+
+    
+
 }
+
