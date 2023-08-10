@@ -28,7 +28,7 @@
 
 <body>
 
-    <div class="main-wrapper" style="overflow: scroll;">
+    <div class="main-wrapper">
 		<!-- Loader -->
 		<div id="loader-wrapper">
 			<div id="loader">
@@ -41,20 +41,17 @@
 			</div>
 		</div>
 		<!-- /Loader -->
-        <div class="header">
+        {{-- <div class="header">
             <div class="header-left" >
-                <a href="{{ route('/') }}" class="logo">
-                    <img src="{{ URL::to('assets/img/logo-dark.png') }}" width="120" height="120" alt="">
-                </a>
-            </div>
+            </div> --}}
 
-            <a id="toggle_btn" href="javascript:void(0);">
+            {{-- <a id="toggle_btn" href="javascript:void(0);">
                 <span class="bar-icon">
                     <span></span>
                     <span></span>
                     <span></span>
                 </span>
-            </a>
+            </a> --}}
             {{-- <div class="menu" style="padding: 2vh">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">=
@@ -78,9 +75,9 @@
                 </div>
             </div>
         </div> --}}
-
-       <!-- Sidebar -->
-       @include('sidebar.sidebar')
+        <!-- Sidebar -->
+        @include('sidebar.header')
+        @include('sidebar.sidebar')
        <!-- /Sidebar -->
        
        <!-- Page Wrapper -->

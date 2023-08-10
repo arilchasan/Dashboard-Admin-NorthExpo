@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
         <script src="https://kit.fontawesome.com/76557bdb99.js" crossorigin="anonymous"></script>
+        <div class="page-wrapper">
         <div class="create-container">
             <div class="content container-fluid">
                 <div class="content-container">
@@ -24,7 +25,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                 <h3 class="text-center" style="margin-top: 30px;font-weight:bold">Daftar Kuliner</h3>
-                <table class="table table-danger table-striped text-left ">
+                <table class="table table-danger table-striped text-center ">
                     @if (session()->has('success'))
                         <div class="alert alert-success col-lg-12" role="alert">
                             {{ session('success') }}
@@ -47,9 +48,6 @@
                         </th>
                         <th>
                             <h5>Nama Warung</h5>
-                        </th>
-                        <th>
-                            <h5>Alamat</h5>
                         </th>
                         <th>
                             <h5>Operasional</h5>
@@ -91,7 +89,6 @@
                                     @foreach ($kuliner as $data)
                                     <td>{{ $data->id }}</td>
                                     <td>{{ $data->nama_warung}}</td>
-                                    <td>{{ $data->alamat}}</td>
                                     <td>{{ $data->operasional}}</td>
                                     <td>{{ $data->harga }}</td>
                                     <td><img src="{{ asset('kuliner/' . $data->foto) }}" alt="" width="100px"></td>
@@ -126,6 +123,8 @@
                 </div>
             </div>
         </div>
+                    
+    </div>
 
                 {{-- {{ $data->links('pagination::bootstrap-5')}}  --}}
             @endsection

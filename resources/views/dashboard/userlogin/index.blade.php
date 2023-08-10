@@ -2,6 +2,9 @@
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
+        <div class="page-wrapper">
+
+     
     <div class="create-container">
         <div class="content container-fluid">
             <div class="content-container">
@@ -84,4 +87,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection

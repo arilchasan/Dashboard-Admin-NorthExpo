@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'role_admins' => [
+            'driver' => 'session', // Anda bisa mengganti driver sesuai kebutuhan, misalnya 'token'
+            'provider' => 'admins', // Nama provider yang akan digunakan
+        ],
     ],
 
     /*
@@ -64,7 +68,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class, // Ganti dengan model yang sesuai
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

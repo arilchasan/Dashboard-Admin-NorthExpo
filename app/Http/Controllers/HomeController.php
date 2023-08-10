@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Admin;
 use App\Models\Destinasi;
 
 use App\Models\User;
@@ -26,7 +28,7 @@ class HomeController extends Controller
     /** index page login */
     public function login()
     {
-        return view('user.login',['user' => User::all()]);
+        return view('user.login',['admin' => Admin::all()]);
     }
 
     /** index page verify */

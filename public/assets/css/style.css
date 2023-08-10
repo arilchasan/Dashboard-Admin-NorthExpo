@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: material icons;
     font-style: normal;
     font-weight: 400;
@@ -60,14 +60,16 @@
     font-style: italic;
     font-weight: 800;
     src: local('Circular Std Black Italic'), url(../fonts/CircularStd-BlackItalic.woff) format('woff')
-}
-
+} */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 html {
     height: 100%
 }
-
+* {
+    font-family: 'Poppins' , 'sans-serif';
+}
 body {
-    font-family: circularstd, sans-serif;
+    font-family: 'Poppins', 'sans-serif';
     font-size: .9375rem;
     color: #1f1f1f;
     background-color: #f7f7f7;
@@ -81,7 +83,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: CircularStd;
+    font-family: 'Poppins' , 'sans-serif';
     margin-top: 0;
     font-weight: 500
 }
@@ -192,7 +194,7 @@ textarea.form-control {
 }
 
 .material-icons {
-    font-family: material icons;
+    font-family: 'Poppins' , 'sans-serif';
     font-weight: 400;
     font-style: normal;
     font-size: 24px;
@@ -1473,11 +1475,14 @@ table.dataTable thead>tr>td.sorting {
     border-bottom: 1px solid #ededed;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .2);
     height: 70px;
-    left: 0;
+    width: 70%;
+    margin-bottom: 50px;
+    
+    /* left: 0; */
     position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 1001   
+    /* right: 0; */
+    /* top: 0 */
+    /* z-index: 1001    */
 }
 
 .header-left {
@@ -1486,8 +1491,8 @@ table.dataTable thead>tr>td.sorting {
     padding: 0 20px;
     position: relative;
     text-align: center;
-    width: 200px;
-    z-index: 1;
+    width: 100px;
+    /* z-index: 1; */
     transition: all .2s ease-in-out
 }
 
@@ -1666,8 +1671,8 @@ table.dataTable thead>tr>td.sorting {
 }
 
 .sidebar {
-    background-color: #fff;
-    border-right: 1px solid #ddd;
+    background-color: #ffffff;
+    border: 1px solid #808080;
     bottom: 0;
     left: 0;
     margin-top: 0;
@@ -1675,7 +1680,9 @@ table.dataTable thead>tr>td.sorting {
     /* top: 60px; */
     transition: all .2s ease-in-out 0s;
     width: 230px;
-    height:91vh;
+    height: 100%;
+    border-top-right-radius: 3%;
+    border-bottom-right-radius: 3%;
     /* z-index: 1001 */
 }
 
@@ -1691,14 +1698,14 @@ table.dataTable thead>tr>td.sorting {
 }
 
 .sidebar-menu {
-    padding: 10px 0
+    /* padding: 30px 0 */
 }
 
 .sidebar-menu ul {
     font-size: 15px;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
+    margin-bottom: 10px;
+    padding-inline-start: 5px;
     position: relative
 }
 
@@ -1706,12 +1713,16 @@ table.dataTable thead>tr>td.sorting {
     color: #333;
     display: block;
     font-size: 15px;
-    height: auto;
-    padding: 0 20px
+    /* height: auto; */
+    /* padding: 0 20px */
 }
 
 .sidebar-menu li a:hover {
-    background-color: #ffebda
+    background-color: #002c4f;
+    border-radius: 10%;
+    padding: auto;
+    color: #fff;
+    width: 200px;    
 }
 
 .sidebar-menu li.active a {
@@ -1847,7 +1858,7 @@ table.dataTable thead>tr>td.sorting {
     position: absolute;
     right: 15px;
     display: inline-block;
-    font-family: fontawesome;
+    font-family: 'Poppins' , 'sans-serif';
     text-rendering: auto;
     line-height: 40px;
     font-size: 18px;
@@ -1954,7 +1965,8 @@ table.dataTable thead>tr>td.sorting {
 
 .page-wrapper {
     left: 0;
-    margin-left: 230px;
+    padding: 50px;
+    margin-left: 185px;
     padding-top: 60px;
     position: relative;
     transition: all .2s ease-in-out
@@ -1962,14 +1974,14 @@ table.dataTable thead>tr>td.sorting {
 
 .create-container {
     /* padding: 5vh; */
-    margin-top: 7%;
+    margin-top: 3%;
     /* background-color: #722525; */
-    height: 69vh;
-    margin-left: 30vh;
+    height: 85vh;
+    /* margin-left: 30vh; */
     width: 165vh;
     overflow-y: scroll;
     position: relative;
-
+    
 }
 @media screen and (max-width: 900px) {
     .create-container {
@@ -2073,7 +2085,7 @@ table.dataTable thead>tr>td.sorting {
     color: #979797;
     content: "\f073";
     display: block;
-    font-family: fontawesome;
+    font-family: 'Poppins' , 'sans-serif';
     font-size: 15px;
     margin: auto;
     position: absolute;
@@ -3764,13 +3776,13 @@ table.dataTable thead>tr>td.sorting {
 .fc-toolbar h2 {
     font-size: 18px;
     font-weight: 600;
-    font-family: circularstd, sans-serif;
+    font-family: 'Poppins' , 'sans-serif';
     line-height: 30px;
     text-transform: uppercase
 }
 
 .fc-day-grid-event .fc-time {
-    font-family: circularstd, sans-serif
+    font-family: 'Poppins' , 'sans-serif'
 }
 
 .fc-day {

@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+<div class="page-wrapper">
 <div class="create-container">
     <div class="content container-fluid">
         <div class="content-container">
@@ -32,6 +33,10 @@
                     <input type="text" class="form-control" id="harga" name="harga" value="{{ $kuliner->harga }}" readonly>
                 </div>
                 <div class="col-md-6">
+                    <label for="customer_service">Customer Service</label>
+                    <input type="text" class="form-control" id="customer_service" name="customer_service" value="{{ $kuliner->customer_service }}" readonly>
+                </div>
+                <div class="col-md-6">
                     <label for="">Foto Kuliner</label>
                     <br>
                     <img src="{{asset('kuliner/'.$kuliner->foto)}}" alt="" width="300" class="image">
@@ -55,6 +60,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <style>
     label{

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Mail\Notifikasi;
 use App\Models\Destinasi;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,7 @@ use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
-
-
+use App\Http\Middleware\AdminAuthMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ use App\Http\Controllers\WishlistController;
 
 Route::get('/', function () {
     return view('dashboard.dashboard');
-})->name('/');
+})->name('/')->middleware([AdminAuthMiddleware::class]);
 
 // Route::get('/wrong_token', [AuthController::class, 'wrong_token'])->name('wrong_token');
 
@@ -50,7 +50,7 @@ Route::controller(HomeController::class)->group(function () {
     
     // Route::get('dashboard/data', 'data')->name('dashboard/data');
 });
-
+Route::middleware([AdminAuthMiddleware::class])->group(function(){
 Route::prefix('dashboard')->group(function(){
     Route::get('/page', [HomeController::class, 'index'])->name('dashboard/page');
     //prefix destinasi
@@ -83,7 +83,7 @@ Route::prefix('dashboard')->group(function(){
             Route::get('/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
             Route::post('/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
             Route::delete('/remove', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
-       
+        }); 
     });
 
     //api/payment
@@ -101,6 +101,8 @@ Route::prefix('dashboard')->group(function(){
     });
 });
 
+});
+
 Route::get('/a',function(){
     return view('dashboard.mail.notifikasi');
 });
@@ -115,4 +117,8 @@ Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/login/add', [AuthController::class, 'login'])->name('loginadd');
 //login web
 Route::post('/login-web', [AuthController::class, 'loginWeb'])->name('loginWeb');
+//login admin
+Route::post('/login-admin',[AdminController::class,'loginAdmin'])->name('loginAdmin');
+Route::get('/logout-admin', [AdminController::class, 'logoutAdmin'])->name('logoutAdmin');
+
 

@@ -17,14 +17,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/76557bdb99.js" crossorigin="anonymous"></script>
+    <div class="page-wrapper">
+
     <div class="create-container">
         <div class="content container-fluid">
+            
             <div class="content-container">
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
                             <h3 class="text-center" style="margin-top: 30px;font-weight:bold">Daftar Destinasi Wisata</h3>
-
+                            
 
                             <table class="table table-warning table-striped text-center ">
                                 @if (session()->has('success'))
@@ -113,15 +116,6 @@
                                                 <a type="button" class="btn btn-outline-primary"
                                                     href="/dashboard/destinasi/komentar/{{ $data->id }}"><i
                                                         class="fa fa-comment"></i></a>
-                                                
-                                                        @if (!$data->isInWishlist)
-                                                        <form action="{{ route('wishlist.add', ['destinasi_id' => $data->id]) }}" method="post">
-                                                            @csrf <!-- CSRF token -->
-                                                            <button type="submit" class="btn btn-outline-warning"><i class="fa-solid fa-heart-circle-plus"></i></button>
-                                                        </form>
-                                                    @else
-                                                        <p>Destinasi is already in the wishlist.</p>
-                                                    @endif
                                             </td>
                                             <td>
                                                 <form
@@ -143,6 +137,8 @@
             </div>
         </div>
     </div>
+            
+</div>
 
     {{-- {{ $data->links('pagination::bootstrap-5')}}  --}}
 @endsection

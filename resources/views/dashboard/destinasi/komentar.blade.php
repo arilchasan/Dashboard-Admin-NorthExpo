@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+<div class="page-wrapper">
     <div class="create-container">
         <div class="content container-fluid">
             <div class="content-container">
@@ -32,4 +33,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection

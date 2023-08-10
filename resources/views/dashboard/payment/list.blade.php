@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/76557bdb99.js" crossorigin="anonymous"></script>
+    <div class="page-wrapper">
     <div class="create-container">
         <div class="content container-fluid">
             <div class="content-container">
@@ -64,9 +65,9 @@
                                         <h5>Status</h5>
                                     </th>
                                   
-                                    <th>
+                                    {{-- <th>
                                         <h5>Opsi</h5>
-                                    </th>
+                                    </th> --}}
                                     
 
 
@@ -79,11 +80,10 @@
                                         <tr class="text-center">
                                             <td colspan="11">Data Kosong</td>
                                         </tr>
-                                    @endif
-                                    <tr class="text-center">
+                                    @endif 
                                         @foreach ($payment as $data)
                                         <th>{{ $data->id }}</li>
-                                        <th>NE{{ $data->id }}</li>
+                                        <th>{{ $data->order_id }}</li>
                                             <th>{{ $data->email }}</li>
                                             <th>{{ $data->qty }}</li>
                                             <th>Rp. {{ $data->total }}</li>
@@ -102,6 +102,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection

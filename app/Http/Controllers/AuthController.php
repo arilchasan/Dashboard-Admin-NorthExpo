@@ -82,20 +82,20 @@ class AuthController extends Controller
         
     }
 
-    public function loginWeb(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => 'required'
-         ]);
+    // public function loginWeb(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email:dns',
+    //         'password' => 'required'
+    //      ]);
  
-         if (Auth::attempt($credentials)) {
-             $request->session()->regenerate();
-             return redirect()->intended('/');
-         }
+    //      if (Auth::attempt($credentials)) {
+    //          $request->session()->regenerate();
+    //          return redirect()->intended('/');
+    //      }
  
-         return back()->with('loginError', 'Login gagal');
-    }
+    //      return back()->with('loginError', 'Login gagal');
+    // }
 
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
@@ -110,5 +110,4 @@ class AuthController extends Controller
     //         'message' => 'Token Salah !'
     //     ], 401);
     // }
-   
 }

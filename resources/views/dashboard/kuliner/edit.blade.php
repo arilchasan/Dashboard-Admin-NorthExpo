@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+<div class="page-wrapper">
 <div class="create-container">
     <div class="content container-fluid">
         <div class="content-container">
@@ -34,7 +35,11 @@
                     <label class="label" for="harga">Harga</label>
                     <input type="text" class="form-control" id="harga" name="harga"  value="{{ old('harga',$kuliner->harga) }}">
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-6">
+                    <label class="customer_service" for="harga">Customer Service</label>
+                    <input type="text" class="form-control" id="customer_service" name="customer_service"  value="{{ old('customer_service',$kuliner->customer_service) }}">
+                </div>
+                <div class="col-md-6">
                     <label class="label" for="foto">Foto Wisata</label>
                     <input type="file" class="form-control" id="foto" name="foto"  value="{{ old('foto',$kuliner->foto) }}">
                     <br>
@@ -63,7 +68,8 @@
             </form>
         </div>
         </div>
-    </div>     
+    </div>  
+</div>   
 </div>
 
 @endsection
