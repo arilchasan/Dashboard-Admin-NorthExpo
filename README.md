@@ -50,4 +50,4 @@ Untuk pertanyaan atau saran lebih lanjut, hubungi tim pengembang Northexpo melal
 
 ---
 
-_Dibuat oleh Tim Pengembang Northexpo - Agustus 2023_
+_Dibuat oleh Tim Pengembang NorthExpo - Agustus 2023_
