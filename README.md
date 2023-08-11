@@ -1,66 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Northexpo Admin Dashboard Laravel Project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Northexpo Logo](https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png)
 
-## About Laravel
+## Deskripsi Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Proyek Northexpo Admin Dashboard merupakan bagian integral dari platform media informasi berbasis website yang dikembangkan untuk mengumpulkan, mengelola, dan menyajikan informasi pariwisata daerah utara Kudus dengan cara yang efisien dan menarik. Dashboard ini memungkinkan para admin untuk mengelola konten, mengelola pengguna, dan menganalisis data yang terkait dengan destinasi pariwisata di wilayah tersebut.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Manajemen Konten:** Admin dapat dengan mudah mengelola konten situs web, termasuk mengedit, menambah, atau menghapus artikel, galeri foto, dan video pariwisata.
 
-## Learning Laravel
+- **Manajemen Pengguna:** Fitur ini memungkinkan admin untuk mengelola akun pengguna, mengatur hak akses, serta mengelola komentar dan umpan balik dari pengunjung.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Analisis Data:** Dashboard dilengkapi dengan alat analisis data yang membantu admin memahami tren kunjungan, popularitas konten, dan perilaku pengunjung, sehingga memungkinkan pengambilan keputusan berdasarkan data yang akurat.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Desain Responsif:** Dashboard ini dirancang responsif sehingga dapat diakses dan digunakan dengan nyaman baik melalui perangkat desktop maupun ponsel pintar.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Integrasi Media Sosial:** Admin dapat mengintegrasikan konten dari media sosial terkait dengan mudah, membantu dalam memperluas jangkauan informasi pariwisata.
 
-## Laravel Sponsors
+## Cara Penggunaan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+1. **Instalasi:** Clone repositori ini dan jalankan perintah instalasi dependensi Laravel.
+```bash
+composer install
+```
 
-### Premium Partners
+2. **Database:** Konfigurasi koneksi database di file `.env` dan jalankan migrasi untuk membuat tabel-tabel yang diperlukan.
+```bash
+php artisan migrate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+3. **Mulai Server:** Jalankan server lokal dengan perintah.
+```bash
+php artisan serve
+```
 
-## Contributing
+4. **Akses Dashboard:** Buka browser dan akses `http://localhost:9099/admin` untuk mengakses dashboard admin Northexpo.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Kontribusi
 
-## Code of Conduct
+Kami menyambut kontribusi dari komunitas untuk meningkatkan proyek ini. Silakan buat _pull request_ untuk fitur baru, perbaikan bug, atau peningkatan lainnya. Pastikan untuk mengikuti panduan kontribusi yang ada.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Kontak
 
-## Security Vulnerabilities
+Untuk pertanyaan atau saran lebih lanjut, hubungi tim pengembang Northexpo melalui email di [northexpo.develop@gmail.com](mailto:northexpo.develop@gmail.com) atau kunjungi situs web kami di [www.northexpo.com](http://www.northexpo.com).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+_Dibuat oleh Tim Pengembang Northexpo - Agustus 2023_
