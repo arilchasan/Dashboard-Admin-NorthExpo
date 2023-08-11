@@ -1,6 +1,6 @@
 # Northexpo Admin Dashboard Laravel Project
 
-<img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" width="200" height="100">" alt="Logo Northexpo" width="200" height="100">
+<img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" width="500" height="500"> 
 
 ## Deskripsi Proyek
 
