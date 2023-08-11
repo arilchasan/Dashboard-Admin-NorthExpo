@@ -7,19 +7,19 @@
 
 ## Deskripsi Proyek
 
-Proyek Northexpo Admin Dashboard merupakan bagian integral dari platform media informasi berbasis website yang dikembangkan untuk mengumpulkan, mengelola, dan menyajikan informasi pariwisata daerah utara Kudus dengan cara yang efisien dan menarik. Dashboard ini memungkinkan para admin untuk mengelola konten, mengelola pengguna, dan menganalisis data yang terkait dengan destinasi pariwisata di wilayah tersebut.
+Proyek Dashboard Admin NorthExpo merupakan bagian integral dari platform media informasi berbasis website yang dikembangkan untuk mengumpulkan, mengelola, dan menyajikan informasi pariwisata daerah utara Kudus dengan cara yang efisien dan menarik. Dashboard ini memungkinkan para admin untuk mengelola konten, mengelola pengguna, dan menganalisis data yang terkait dengan destinasi pariwisata di wilayah tersebut.
 
 ## Fitur Utama
 
-- **Manajemen Konten:** Admin dapat dengan mudah mengelola konten situs web, termasuk mengedit, menambah, atau menghapus artikel, galeri foto, dan video pariwisata.
+- **Manajemen Konten:** Admin dapat dengan mudah mengelola konten situs web, termasuk mengedit, menambah, atau menghapus konten, dan galeri foto.
 
-- **Manajemen Pengguna:** Fitur ini memungkinkan admin untuk mengelola akun pengguna, mengatur hak akses, serta mengelola komentar dan umpan balik dari pengunjung.
+- **Manajemen Pengguna:** Fitur ini memungkinkan admin untuk mengelola akun pengguna, serta mengelola komentar dan umpan balik dari pengunjung.
 
 - **Analisis Data:** Dashboard dilengkapi dengan alat analisis data yang membantu admin memahami tren kunjungan, popularitas konten, dan perilaku pengunjung, sehingga memungkinkan pengambilan keputusan berdasarkan data yang akurat.
 
-- **Desain Responsif:** Dashboard ini dirancang responsif sehingga dapat diakses dan digunakan dengan nyaman baik melalui perangkat desktop maupun ponsel pintar.
-
 - **Integrasi Media Sosial:** Admin dapat mengintegrasikan konten dari media sosial terkait dengan mudah, membantu dalam memperluas jangkauan informasi pariwisata.
+
+- **Pengaturan dan Konfigurasi** Admin dapat mengelola pengguna user dan data transaksi  
 
 ## Cara Penggunaan
 
