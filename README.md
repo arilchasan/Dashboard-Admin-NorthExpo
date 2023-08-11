@@ -1,7 +1,7 @@
 # Dashboard Admin NorthExpo 
 
 <p align="center">
-  <img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" width="500" height="500">
+  <img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" width="400" height="400">
 </p>
 
 
