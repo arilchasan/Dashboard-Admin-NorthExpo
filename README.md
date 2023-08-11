@@ -1,6 +1,6 @@
 # Dashboard Admin NorthExpo 
 
-<center><img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" > </center>
+<center><img src="https://github.com/arilchasan/Dashboard-Admin-NorthExpo/blob/develop/public/assets/img/logo-light.png" alt="Logo Northexpo" height=500px> </center>
 
 
 ## Deskripsi Proyek
