@@ -16,7 +16,8 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('role_admins')->insert(
+        $role_admins = 
+            [
             [
             'username' => 'admin', // Ganti dengan username yang Anda inginkan
             'password' => Hash::make('northexpo123'), // Ganti dengan password yang Anda inginkan
@@ -25,7 +26,7 @@ class AdminSeeder extends Seeder
             ],
             [
             'username' => 'Aril', // Ganti dengan username yang Anda inginkan
-            'password' => Hash::make('Aril0311'), // Ganti dengan password yang Anda inginkan
+            'password' => Hash::make('aril0311'), // Ganti dengan password yang Anda inginkan
             'created_at' => now(),
             'updated_at' => now(),
             ],
@@ -47,7 +48,8 @@ class AdminSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
             ]
+            ];
 
-    );
+        DB::table('role_admins')->insert($role_admins);
     }
 }

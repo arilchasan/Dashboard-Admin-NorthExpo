@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Komentar;
+use App\Models\Transfer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,5 +64,10 @@ class Destinasi extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function transfer()
+    {
+        return $this->hasMany(Transfer::class);
     }
 }

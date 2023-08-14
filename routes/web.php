@@ -1,21 +1,16 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Mail\Notifikasi;
-use App\Models\Destinasi;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FormController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PetaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KulinerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminAuthMiddleware;
@@ -31,28 +26,22 @@ use App\Http\Middleware\AdminAuthMiddleware;
 |
 */
 
-/** set active side bar */
-// function set_active($route) {
-//     if (is_array($route)) {
-//         return in_array(Request::path('register'), $route) ? 'active' : '';
-//     }
-//     return Request::path() == $route ? 'active' : '';
-// }
 
-Route::get('/', function () {
-    return view('dashboard.dashboard');
-})->name('/')->middleware([AdminAuthMiddleware::class]);
+Route::get('/', [HomeController::class, 'index'])->name('/')->middleware([AdminAuthMiddleware::class]);
 
-// Route::get('/wrong_token', [AuthController::class, 'wrong_token'])->name('wrong_token');
+
 
 // ----------------------------- main dashboard ------------------------------//
 Route::controller(HomeController::class)->group(function () {
-    
-    // Route::get('dashboard/data', 'data')->name('dashboard/data');
+
 });
 Route::middleware([AdminAuthMiddleware::class])->group(function(){
 Route::prefix('dashboard')->group(function(){
     Route::get('/page', [HomeController::class, 'index'])->name('dashboard/page');
+    Route::get('/laporan/{id}', [HomeController::class, 'data'])->name('dashboard/laporan');
+    Route::get('/t/{id}', [HomeController::class, 'filter'])->name('filter-tanggal');
+    Route::post('/laporan/tf-admin/{id}', [HomeController::class, 'filter'])->name('transfer/admin');
+    Route::get('/detail/tf-admin/', [TransferController::class, 'tfAdmin']);
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
         Route::get('/all', [DestinasiController::class, 'all']);
@@ -92,6 +81,7 @@ Route::prefix('dashboard')->group(function(){
         Route::get('/payment/{id}', [PaymentController::class, 'index']);
         Route::post('/transaction/{id}', [PaymentController::class, 'checkout'])->name('checkout');
         Route::get('/list', [PaymentController::class, 'list']);
+        Route::get('filter', [PaymentController::class, 'filter'])->name('dashboard.payment.filter');
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
     });
     //prefix userlogin

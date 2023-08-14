@@ -112,7 +112,8 @@
         top: 0;
         left: 0;
         background-color: #ffffff;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); /* Adding a shadow */
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); 
+        /* border-radius: 0;  */
     }
 </style>
 
@@ -157,6 +158,12 @@
                     <span class="link">Data Transaksi</span>
                 </a>
             </li>
+            <li class="list">
+                <a href="/dashboard/order/list" class="nav-link">
+                    <i class="las la-archive icon"></i>
+                    <span class="link">Transaksi Admin</span>
+                </a>
+            </li>
 
             <div class="bottom-cotent">
                 <li class="list">
@@ -193,50 +200,3 @@
     });
     
 </script>
-<!-- /Sidebar -->
-<!-- Sidebar -->
-{{-- <div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
-        <div id="sidebar-menu" class="sidebar-menu">
-            <div class="submenu">
-                <a href=""><img src="{{ URL::to('assets/img/logo-dark.png') }}" class="foto"></a>
-            </div>
-            <div class="underline">
-                <div class="line"></div>
-            </div>
-            <ul>
-                <li class="submenu">
-                    <li><a href="{{ route('dashboard/page') }}"><i class="la la-dashboard"></i> <span> Dashboard</span></a></li>
-                </li>
-                <li class="submenu">
-                    <li><a href='/dashboard/destinasi/all'><i class="la la-bar-chart"></i> <span> Destinasi</span></a></li>    
-                </li>
-                <li class="submenu">
-                    <li><a href='/dashboard/kuliner/all'><i class="la la-cutlery"></i> <span> Kuliner</span></a></li>
-                    <li class="submenu">
-                        <li><a href='/dashboard/userlogin/all'><i class="la la-user"></i> <span> User Login</span></a></li>    
-                    </li>
-                 <li class="submenu">
-                    <li><a href='/dashboard/order/all'> <i class="las la-money-bill-wave"></i><span> Payment</span></a></li>    
-                </li> 
-                <li class="submenu">
-                    <li><a href='/dashboard/order/list'><i class="las la-archive"></i> <span> Data Transaksi</span></a></li>    
-               {{-- <li class="submenu">
-                <li><a href='/dashboard/wishlist/all'><i class="la la-heart"></i> <span> Wishlist</span></a></li>
-                </li> 
-
-                
-            </ul>
-        </div>
-    </div>
-</div> --}}
-
-{{-- <div class="logo">
-      <i class="bx bx-menu menu-icon"></i>
-      <span class="logo-name">North Expo</span>
-    </div> --}}
-{{-- header --}}
-    {{-- <div class="logo">
-        <i class="bx bx-menu menu-icon"></i>
-        <span class="logo-name">NorthExpo</span>
-      </div> --}}

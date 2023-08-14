@@ -23,13 +23,9 @@ class PaymentController extends Controller
 {
     public function index($id)
     {
-        // Set your Merchant Server Key
         \Midtrans\Config::$serverKey = 'SB-Mid-server-KybnJbSUAgQioRzZC740lgND';
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
         $destinasi = Destinasi::find($id);
@@ -55,38 +51,38 @@ class PaymentController extends Controller
     {
         $user = $request->user();
         $payment = Payment::where('id', $id)->first();
-    
+
         if (!$payment) {
             return response()->json(['error' => 'Payment not found'], 404);
         }
-    
+
         $destinasi = Destinasi::findOrFail($payment->destinasi_id);
-    
+
         $responseData = [
             'payment' => $payment,
             'destinasi' => $destinasi,
             'user' => $user,
         ];
-    
+
         return response()->json($responseData);
     }
-    
+
     public function checkout(Request $request, $id)
     {
         $user = $request->user();
         $destinasi = Destinasi::findOrFail($id);
         $request->request->add([
-            'total' => $request->qty * $destinasi->harga,
+            'email' => $user->email,
             'status' => 'pending',
             'destinasi_id' => $destinasi->id,
             'user_id' => $user->id,
-            // 'order_id' => $order_id
+            'total' => $request->qty * $destinasi->harga,
         ]);
-        
-        $order_id = 'NE' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHis');
 
-        // Add the order_id to the request data
-          $request->request->add(['order_id' => $order_id]);
+        $order_id = 'NE' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHi');
+
+
+        $request->request->add(['order_id' => $order_id]);
 
 
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
@@ -102,20 +98,20 @@ class PaymentController extends Controller
                 'gross_amount' => $payment->total,
             ),
             'customer_details' => array(
-                'email' => $payment->email,
+                'email' => $user->email,
                 'phone' => $payment->no_telp,
             ),
-            //   'enable_payments' => array('gopay','bank_transfer','qris')
+
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        // Prepare the JSON response data
+
         $responseData = [
             'token' => $snapToken,
             'payment' => $payment,
             'destinasi' => $destinasi,
             'user' => $user,
-            // 'order_id' => $order_id
+
         ];
 
         // Return the JSON response
@@ -134,23 +130,25 @@ class PaymentController extends Controller
             return response(['message' => 'Invalid signature'], 403);
         }
         $payment = Payment::where('order_id', $request->order_id)->first();
+
         if (!$payment) {
             return response(['message' => 'Payment not found'], 404);
         }
+
         if ($payment->status !== 'success') {
             $payment->update([
                 'status' => 'success',
             ]);
-    
+
             // Panggil fungsi notifikasi untuk mengirim email
             $this->notifikasi($payment->id);
+        } else {
+            $payment->update([
+                'status' => 'failed',
+            ]);
         }
     
-        // $payment->update([
-        //     'status' => 'success',
-        // ]);
 
-        // event(new PaymentSuccessEvent($payment));
 
         return response(['message' => 'Callback success']);
     }
@@ -187,10 +185,44 @@ class PaymentController extends Controller
         return view('dashboard.payment.pay', ['token' => $token]);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $payment = Payment::all();
-        return view('dashboard.payment.list', ['payment' => $payment,'token' => 'cc32821a-3b32-4d64-ae8d-135e78ec9352']);
+        $payment = Payment::with('destinasi')->get();
+        $namaDestinasi = Destinasi::pluck('nama')->unique();
+        $selectedDestinasi = $request->input('destinasiFilter');
+        if (!empty($selectedDestinasi)) {
+            $payment->whereHas('destinasi', function ($query) use ($selectedDestinasi) {
+                $query->where('nama', $selectedDestinasi);
+            });
+        }
+        return view('dashboard.payment.list', [
+            'payment' => $payment,
+            'token' => 'cc32821a-3b32-4d64-ae8d-135e78ec9352',
+            'namaDestinasi' => $namaDestinasi,
+            'selectedDestinasi' => $selectedDestinasi,
+        ]);
+    }
+
+    public function filter(Request $request)
+    {
+        $selectedDestinasi = $request->input('destinasiFilter');
+
+        $payment = Payment::with('destinasi');
+
+        if (!empty($selectedDestinasi)) {
+            $payment->whereHas('destinasi', function ($query) use ($selectedDestinasi) {
+                $query->where('nama', $selectedDestinasi);
+            });
+        }
+
+        $payment = $payment->get();
+        $namaDestinasi = Destinasi::pluck('nama')->unique();
+
+        return view('dashboard.payment.list', [
+            'payment' => $payment,
+            'namaDestinasi' => $namaDestinasi,
+            'selectedDestinasi' => $selectedDestinasi,
+        ]);
     }
 
     public function all()

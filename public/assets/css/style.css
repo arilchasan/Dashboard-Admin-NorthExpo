@@ -1681,8 +1681,6 @@ table.dataTable thead>tr>td.sorting {
     transition: all .2s ease-in-out 0s;
     width: 230px;
     height: 100%;
-    border-top-right-radius: 3%;
-    border-bottom-right-radius: 3%;
     /* z-index: 1001 */
 }
 
