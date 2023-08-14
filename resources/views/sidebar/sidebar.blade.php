@@ -159,7 +159,7 @@
                 </a>
             </li>
             <li class="list">
-                <a href="/dashboard/order/list" class="nav-link">
+                <a href="/dashboard/order/transaksiAdmin" class="nav-link">
                     <i class="las la-archive icon"></i>
                     <span class="link">Transaksi Admin</span>
                 </a>
