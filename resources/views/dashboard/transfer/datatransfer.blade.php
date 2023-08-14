@@ -62,7 +62,7 @@
                                         <td>{{ $data->destinasi->nama }}</td>
                                         
                                         <td>{{ $data->nominal }}</td>
-                                        <td>{{ $data->biaya_admin }}</td>
+                                        <td></td>{{ $data->biaya_admin }}</td>
                                         <th class="formatted-date">{{ $data->tanggal }}</th>
                                         <td class="status-success">{{ $data->status }}</td>
                                 {{-- @endforeach --}}
