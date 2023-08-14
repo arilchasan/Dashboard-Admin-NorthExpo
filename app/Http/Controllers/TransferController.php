@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Destinasi;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Models\Transfer;
 
 class TransferController extends Controller
 {
@@ -48,4 +49,16 @@ class TransferController extends Controller
             'token' => $snapToken
         ]);
     }
+
+    public function all(){
+
+       
+
+
+        $transfers = Transfer::all();
+        $admin = Transfer::where('biaya_admin', '1500')->with('destinasi')->get();
+        return view('dashboard.transfer.datatransfer', (['transfer' => $transfers, 'admin' => $admin]));
+    }
+
+
 }

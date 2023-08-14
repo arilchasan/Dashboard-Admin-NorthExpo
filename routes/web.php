@@ -83,6 +83,7 @@ Route::prefix('dashboard')->group(function(){
         Route::get('/list', [PaymentController::class, 'list']);
         Route::get('filter', [PaymentController::class, 'filter'])->name('dashboard.payment.filter');
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
+        Route::get('/transaksiAdmin', [TransferController::class, 'all']);
     });
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
