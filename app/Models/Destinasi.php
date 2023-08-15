@@ -70,4 +70,9 @@ class Destinasi extends Model
     {
         return $this->hasMany(Transfer::class);
     }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }

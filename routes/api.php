@@ -83,6 +83,6 @@ Route::post('/callback', [PaymentController::class, 'callback'])->name('callback
 
 
 Route::get('/wishlist/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/wishlist/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/wishlist/add/{id}', [WishlistController::class, 'create'])->middleware('auth:sanctum');
 Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
 
