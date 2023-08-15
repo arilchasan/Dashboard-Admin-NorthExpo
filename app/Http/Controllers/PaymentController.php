@@ -256,4 +256,8 @@ class PaymentController extends Controller
             return view('dashboard.payment.list', ['payment' => $payment]);
         }
     }
+
+    public function sisakuota(){
+            
+    }
 }

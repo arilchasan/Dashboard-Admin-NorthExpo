@@ -17,6 +17,7 @@ use App\Http\Resources\KomentarResource;
 use App\Http\Resources\DestinasiResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\DestinasiStoreRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DestinasiController extends Controller
 {
@@ -390,4 +391,29 @@ class DestinasiController extends Controller
             'data' => KomentarResource::collection($komentars),
         ]);
     }
+    public function sisakuota($id)
+    {
+    try {
+        $destinasi = Destinasi::findOrFail($id);
+        // Menghitung jumlah total tiket yang sudah terjual
+        $totalTerjual = $destinasi->payments()->where('status', 'success')->sum('qty');
+        // Menghitung sisa kuota
+        $sisaKuota = $destinasi->kuota - $totalTerjual;
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mendapatkan sisa kuota',
+            'data' => [
+                'sisa_kuota' => $sisaKuota,
+                'destinasi' => $destinasi->kuota,
+            ],
+        ]);
+    } catch (ModelNotFoundException $e) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Destinasi tidak ditemukan',
+        ], 404);
+    }
+}
+
 }
