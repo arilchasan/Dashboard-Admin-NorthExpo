@@ -53,6 +53,7 @@ Route::prefix('dashboard')->group(function(){
         Route::delete('/destroy/{id}', [DestinasiController::class, 'destroy']);
         Route::get('/komentar/{id}', [DestinasiController::class, 'komentar']);
         Route::delete('/komentar/{id}', [KomentarController::class, 'destroyWeb']);
+        Route::post('/sisakuota/{id}', [DestinasiController::class, 'sisakuota']);
     });
 
     Route::prefix('/kuliner')->group(function(){
