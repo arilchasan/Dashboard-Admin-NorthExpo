@@ -45,6 +45,7 @@ Route::post('/destinasi', [DestinasiController::class, 'store']);
 Route::post('/destinasi/{id}', [DestinasiController::class, 'update']);
 Route::delete('/destinasi/{id}', [DestinasiController::class, 'destroy']);
 Route::get('/destinasi', [DestinasiController::class, 'search']);
+Route::post('/sisakuota/{id}', [DestinasiController::class, 'sisakuota']);
 
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
@@ -82,6 +83,6 @@ Route::post('/callback', [PaymentController::class, 'callback'])->name('callback
 
 
 Route::get('/wishlist/all', [WishlistController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/wishlist/add', [WishlistController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/wishlist/add/{id}', [WishlistController::class, 'create'])->middleware('auth:sanctum');
 Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'destroy'])->middleware('auth:sanctum');
 
