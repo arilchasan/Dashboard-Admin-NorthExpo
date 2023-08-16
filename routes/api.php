@@ -37,7 +37,7 @@ Route::get('/auth/user', [UserController::class, 'index']);
 Route::post('/auth/user/block/{id}',[UserController::class,'blockUser']);    
 Route::post('/auth/user/unblock/{id}',[UserController::class,'unblockUser']);    
 
-Route::post('/auth/user/{id}',[UserController::class,'store']);
+Route::post('/auth/user/{id}',[UserController::class,'store'])->middleware('auth:sanctum');
 
 Route::get('/destinasi', [DestinasiController::class, 'index']);
 Route::get('/destinasi/{id}', [DestinasiController::class, 'show']);

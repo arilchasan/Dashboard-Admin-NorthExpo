@@ -75,7 +75,7 @@ class UserController extends Controller
             }
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
-                $avatarName = Str::Random(10) . '_' . $avatar->getClientOriginalName();
+                $avatarName = Str::Random(5) . '_' . $avatar->getClientOriginalName();
                 $avatar->move(public_path('assets/img/avatar'), $avatarName);
                 Storage::put('/public/assets/img/avatar', $avatarName);;
             }
