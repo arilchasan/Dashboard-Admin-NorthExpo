@@ -26,6 +26,12 @@ class WishlistController extends Controller
         $user = $request->user();
         $destinasi = Destinasi::findOrFail($id);
 
+        if ($user->wishlists()->where('destinasi_id', $destinasi->id)->exists()) {
+            return response()->json([
+                'message' => 'Destinasi sudah ada di dalam wishlist',
+            ], 400);
+        }
+
         $wishlist = new Wishlist([
             'user_id' => $user->id,
             'destinasi_id' => $destinasi->id,
