@@ -107,6 +107,7 @@
         }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
             // For example trigger on button clicked, or any time you need
             var payButton = document.getElementById('pay');
@@ -115,22 +116,45 @@
               window.snap.pay('{{$token}}',{
                 onSuccess: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Sukses!"); console.log(result);
+                // alert("Pembayaran Sukses!"); console.log(result);
+                Swal.fire({
+                icon: 'success',
+                title: 'Pembayaran Sukses!',
+                text: 'Transaksi berhasil dilakukan.',
+                });
+                console.log(result);
             },
                 onPending: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Pending!"); console.log(result);
+                // alert("Pembayaran Pending!"); console.log(result);
+                Swal.fire({
+                icon: 'info',
+                title: 'Pembayaran Pending',
+                text: 'Transaksi sedang dalam proses.',
+                });
+                console.log(result);
             },
                 onError: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Gagal!"); console.log(result);
+                // alert("Pembayaran Gagal!"); console.log(result);
+                Swal.fire({
+                icon: 'error',
+                title: 'Pembayaran Gagal',
+                text: 'Transaksi tidak berhasil.',
+                });
+                console.log(result);
             },
                 onClose: function(){
                 /* You may add your own implementation here */
-                alert('Pembayaran Dibatalkan');         
+                // alert('Pembayaran Dibatalkan');    
+                Swal.fire({
+                icon: 'warning',
+                title: 'Pembayaran Dibatalkan',
+                text: 'Transaksi dibatalkan oleh pengguna.',
+                });     
             }
             });
             });
-          </script>
+</script>
 
 @endsection
