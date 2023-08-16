@@ -405,7 +405,9 @@ class DestinasiController extends Controller
             'message' => 'Berhasil mendapatkan sisa kuota',
             'data' => [
                 'sisa_kuota' => $sisaKuota,
-                'destinasi' => $destinasi->kuota,
+                'kuota' => $destinasi->kuota,
+                'total_terjual' => $totalTerjual,
+                'destinasi' => $destinasi->nama,
             ],
         ]);
     } catch (ModelNotFoundException $e) {

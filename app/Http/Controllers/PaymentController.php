@@ -105,7 +105,7 @@ class PaymentController extends Controller
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-
+        
         $responseData = [
             'token' => $snapToken,
             'payment' => $payment,
@@ -140,14 +140,8 @@ class PaymentController extends Controller
                 'status' => 'success',
             ]);
 
-            // Panggil fungsi notifikasi untuk mengirim email
             $this->notifikasi($payment->id);
-        } else {
-            $payment->update([
-                'status' => 'failed',
-            ]);
-        }
-    
+        } 
 
 
         return response(['message' => 'Callback success']);
@@ -155,13 +149,13 @@ class PaymentController extends Controller
 
     public function notifikasi($id)
     {
-        // Ambil data Payment berdasarkan ID atau kondisi tertentu sesuai kebutuhan Anda
-        $payment = Payment::find($id); // Ganti $id dengan ID yang sesuai untuk notifikasi tertentu
+        
+        $payment = Payment::find($id);
 
         if (!$payment) {
             return redirect()->back()->with('error', 'Payment not found');
         }
-        // Convert the Payment data to a JSON string
+    
         $qrCodeData = "Order ID: " . $payment->order_id . "\n"
             . "Email: " . $payment->email . "\n"
             . "No Telepon: " . $payment->no_telp . "\n"
