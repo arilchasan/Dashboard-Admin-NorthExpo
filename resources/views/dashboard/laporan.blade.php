@@ -35,11 +35,20 @@
                     <p class="p-transfer">*Transfer hanya bisa dilakukan maksimal 1x Sehari</p>
                 </div>
                 @endif
+                <div class="col-md-6">
+                    <label for="">Bulan</label>
+                    <form action="{{ route('downloadPDF',['id' => $destinasi->id]) }}" method="GET">
+                    <div class="action-month">
+                        <input class="form-control pdf" type="month" name="bulan" value="">
+                        <button type="submit" class="btn btn-danger mx-2">Unduh PDF</button>
+                    </div>  
+                    </form> 
+                </div>
                 <div class="col-md-12" style="margin-top:1%">
                     <a href="/dashboard/page" type="button" class="btn btn-secondary mx-2" >Kembali</a>
                     @if(isset($tanggal))
                     <a href="" type="button" class="btn btn-primary mx-2" id="pay-button">Transfer ke Admin {{$destinasi->nama}}</a>
-                    @endif                
+                    @endif               
                 </div>  
             </div>
        
@@ -54,6 +63,12 @@
         }
         .action-date {
             display: flex;
+        }
+        .action-month {
+            display: flex;
+        }
+        .action-month .pdf {
+            height: 60px;
         }
         .action-date button {
             margin-left: 10px;

@@ -7,12 +7,15 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Payment;
 use App\Models\Transfer;
+use Barryvdh\DomPDF\PDF;
 use App\Models\Destinasi;
 use Illuminate\Http\Request;
 use Laravel\Ui\Presets\React;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use TCPDF as TCPDF;
 
+Carbon::setLocale('id');
 class HomeController extends Controller
 {
     /** index page dashboard */
@@ -25,9 +28,9 @@ class HomeController extends Controller
             return $item->sum('qty');
         });
         $destinasi = Destinasi::with(['payments'])->where('status', 'true')->get();
-        $feeA = Transfer::where('biaya_admin', '1500')->get();
+        $feeA = Transfer::where('biaya_admin', '!=', '1')->get();
         $fee = $feeA->sum('biaya_admin');
-        return view('dashboard.dashboard', ['payment' => $payment, 'tiket' => $tiket, 'destinasi' => $destinasi, 'tiketDestinasi' => $tiketDestinasi , 'fee' => $fee]);
+        return view('dashboard.dashboard', ['payment' => $payment, 'tiket' => $tiket, 'destinasi' => $destinasi, 'tiketDestinasi' => $tiketDestinasi, 'fee' => $fee]);
     }
 
     public function data($id, Request $request)
@@ -39,6 +42,9 @@ class HomeController extends Controller
         $tiketDestinasi = $filter->sum('qty');
         $total = $filter->sum('total');
         $reqTanggal = $request->query('tanggal');
+        $reqBulan = $request->query('bulan');
+        $bulan = date('m', strtotime($reqBulan));
+
 
         return view('dashboard.laporan', [
             'destinasi' => $destinasi,
@@ -46,6 +52,7 @@ class HomeController extends Controller
             'total' => $total,
             'payment' => $payment,
             'reqTanggal' => $reqTanggal,
+            'reqBulan' => $reqBulan,
         ]);
     }
 
@@ -66,13 +73,15 @@ class HomeController extends Controller
             ->count();
 
         $tiketDestinasi = $success->sum('qty');
-        $total = max(1,$success->sum('total'));
+        $total = max(1, $success->sum('total'));
 
         $reqTanggal = $request->query('tanggal');
         $tanggal = date('m/d/Y', strtotime($reqTanggal));
-        $biaya_admin = max(1,$total * ( 5/100 ));
-        $gross_amount = max(1, $total - $biaya_admin);;
+        $biaya_admin = max(1, $total * (5 / 100));
+        $gross_amount = max(1, $total - $biaya_admin);
+        $reqBulan = $request->query('bulan');
         //pembayaran
+        // dd($reqBulan);
         $transfer = Transfer::all();
         $order_id = 'TFA' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHi');
 
@@ -103,16 +112,16 @@ class HomeController extends Controller
                 'To' => 'Admin' . $destinasi->nama,
             ),
 
-        );  
+        );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        
+
         $responseData = [
             'token' => $snapToken,
             'transfer' => $transfer,
             'destinasi' => $destinasi,
         ];
-        
+
         return view('dashboard.datesearch', [
             'destinasi' => $destinasi,
             'tiketDestinasi' => $tiketDestinasi,
@@ -121,12 +130,50 @@ class HomeController extends Controller
             'tanggal' => $tanggal,
             'reqTanggal' => $reqTanggal,
             'token' => $snapToken,
-            'transfer' => $transfer
+            'transfer' => $transfer,
+            'reqBulan' => $reqBulan,
 
         ]);
     }
 
-    public function transfer(Request $request, $id) 
+    public function downloadPDF(Request $request, $id)
+    {
+        $destinasi = Destinasi::find($id);
+        $bulan = $request->query('bulan');
+        $success = Payment::where('status', 'success')->where('destinasi_id', $id)->whereMonth('tanggal', Carbon::parse($bulan)->month)->get();
+        $namaBulan = Carbon::parse($bulan)->format('F');
+        $totalTiket = $success->sum('qty');
+        $totalPendapatan = $success->sum('total');
+        $namaTempat = $destinasi->nama;
+
+        // return view('dashboard.pdf', [
+        //     'success' => $success,
+        //     'namaBulan' => $namaBulan,
+        //     'totalTiket' => $totalTiket,
+        //     'totalPendapatan' => $totalPendapatan,
+        //     'namaTempat' => $namaTempat,
+        // ]);
+        $content = view('dashboard.pdf', [
+            'success' => $success,
+            'namaBulan' => $namaBulan,
+            'totalTiket' => $totalTiket,
+            'totalPendapatan' => $totalPendapatan,
+            'namaTempat' => $namaTempat,
+        ])->render();
+
+        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetPrintHeader(false);
+        $pdf->SetPrintFooter(false);
+        $pdf->AddPage();
+
+        $pdf->writeHTML($content, true, false, true, false, '');
+            
+        $pdfFileName = 'Laporan_bulanan_' . $namaTempat . '_'. $namaBulan . '.pdf';
+
+        $pdf->Output($pdfFileName, 'D');
+    }
+
+    public function transfer(Request $request, $id)
     {
         $selectedDate = $request->input('tanggal');
         $destinasi = Destinasi::find($id);
@@ -142,7 +189,7 @@ class HomeController extends Controller
             ->count();
 
         $tiketDestinasi = $success->sum('qty');
-        $total = max(1,$success->sum('total'));
+        $total = max(1, $success->sum('total'));
 
         $reqTanggal = $request->query('tanggal');
         $tanggal = date('m/d/Y', strtotime($reqTanggal));
@@ -157,17 +204,6 @@ class HomeController extends Controller
             'nominal' => $total,
         ]);
 
-
-        // $dataTf = [
-        //     'order_id' => $order_id,
-        //     'destinasi_id' => $destinasi->id,
-        //     'status' => 'pending',
-        //     'tanggal' => $reqTanggal,
-        //     'nominal' => $total,
-        //     'created_at' => Carbon::now()->timezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
-        //     'updated_at' => Carbon::now()->timezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
-        // ];
-
         \Midtrans\Config::$serverKey = config('midtrans.server_key');
         \Midtrans\Config::$isProduction = false;
         \Midtrans\Config::$isSanitized = true;
@@ -175,7 +211,6 @@ class HomeController extends Controller
 
 
         $transfer = Transfer::create($request->all());
-        // DB::table('transfers')->insert($dataTf);
         $params = array(
             'transaction_details' => array(
                 'order_id' => $order_id,
@@ -189,7 +224,7 @@ class HomeController extends Controller
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        
+
         $responseData = [
             'token' => $snapToken,
             'transfer' => $transfer,

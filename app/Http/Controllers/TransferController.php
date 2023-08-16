@@ -51,14 +51,10 @@ class TransferController extends Controller
     }
 
     public function all(){
-
-       
-
-
         $transfers = Transfer::all();
-        $admin = Transfer::where('biaya_admin', '1500')->with('destinasi')->get();
+        $admin = Transfer::where('biaya_admin', '!=' , '1')->with('destinasi')->get();
         return view('dashboard.transfer.datatransfer', (['transfer' => $transfers, 'admin' => $admin]));
     }
 
-
+   
 }

@@ -41,15 +41,26 @@
                 </div>
                 @if(isset($tanggal))
                 <div class="col-md-6" style="margin-top:1%">
+                    <p class="p-transfer">*Total Pendapatan - 5% untuk biaya admin</p>
                     <p class="p-transfer">*Transfer hanya bisa dilakukan maksimal 1x Sehari</p>
                 </div>
                 @endif
+                <div class="col-md-6">
+                    <label for="">Bulan</label>
+                    <form action="{{ route('downloadPDF',['id' => $destinasi->id ]) }}" method="GET">
+                    <div class="action-month">
+                        <input class="form-control pdf" la type="month" name="bulan" value="{{ $reqBulan }}">
+                        <button type="submit" class="btn btn-danger mx-2">Unduh PDF</button>
+                    </div>  
+                    </form> 
+                </div>
                 <div class="col-md-12" style="margin-top:1%">
                     <a href="/dashboard/page" type="button" class="btn btn-secondary mx-2" >Kembali</a>
                     {{-- <form action="{{ route('transfer/admin',['id' => $destinasi->id]) }}" method="POST"> --}}
                     @if(isset($tanggal))
                     <button type="submit" class="btn btn-primary mx-2" id="pay" >Transfer ke Admin {{$destinasi->nama}}</button>
-                    @endif                
+                    @endif
+                                    
                 {{-- </form> --}}
                 </div>  
             </div>
@@ -65,6 +76,12 @@
         .action-date {
             display: flex;
         }
+        .action-month {
+            display: flex;
+        }
+        .action-month .pdf {
+            height: 60px;
+        }
         .action-date button {
             margin-left: 10px;
             margin-right: 10px
@@ -77,7 +94,7 @@
             width: 100%;
         }
         .p-transfer {
-            font-size: 12px;
+            font-size: 11px;
             color: red;
         }
     </style>

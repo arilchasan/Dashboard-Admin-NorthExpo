@@ -14,6 +14,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminAuthMiddleware;
+use App\Models\Transfer;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ Route::prefix('dashboard')->group(function(){
     Route::get('/t/{id}', [HomeController::class, 'filter'])->name('filter-tanggal');
     Route::post('/laporan/tf-admin/{id}', [HomeController::class, 'filter'])->name('transfer/admin');
     Route::get('/detail/tf-admin/', [TransferController::class, 'tfAdmin']);
+    Route::get('/download-pdf/{id}', [HomeController::class, 'downloadPDF'])->name('downloadPDF');
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
         Route::get('/all', [DestinasiController::class, 'all']);
