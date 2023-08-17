@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,8 +18,8 @@ class UserController extends Controller
     }
     public function index()
     {
-        $users = User::all();
-        if ($users->count() > 0) {
+        $users = Auth::user();
+        if ($users) {
             return response()->json([
                 'data' => $users,
                 'status' => 200,
@@ -57,45 +59,39 @@ class UserController extends Controller
         }
     }
 
-    public function store(int $id, Request $request)
+    public function store(Request $request)
     {
+        $user = $request->user();
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
-        } else {
-            $user = User::find($id);
-            if (!$user) {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'Data tidak ditemukan',
-                ], 404);
-            }
-            if ($request->hasFile('avatar')) {
-                $avatar = $request->file('avatar');
-                $avatarName = Str::Random(5) . '_' . $avatar->getClientOriginalName();
-                $avatar->move(public_path('assets/img/avatar'), $avatarName);
-                Storage::put('/public/assets/img/avatar', $avatarName);;
-            }
-            $user->update([
-                'name' => $request->name,
-                'avatar' => $avatarName,
-            ]);
-            if ($user) {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil mengupdate data',
-                    'data' => $user
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Gagal mengupdate data',
-                ], 400);
-            }
         }
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarName = Str::Random(7) . '_' . $avatar->getClientOriginalName();
+            $avatar->move(public_path('assets/img/avatar'), $avatarName);
+            Storage::put('/public/assets/img/avatar', $avatarName);;
+        } 
+        $user->update([
+            'name' => $request->name,
+            'avatar' => $avatarName,
+        ]);
+        if($user){
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil mengubah data',
+                'data' => $user
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data tidak ditemukan',
+            ], 404);
+        }
+        
     }
 
     public function blockUser(Request $request, $id)
@@ -110,7 +106,7 @@ class UserController extends Controller
 
         $user->status = true;
         $user->save();
-        if($request->wantsJson()){
+        if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Pengguna berhasil diblokir!'
             ], 200);
@@ -131,7 +127,7 @@ class UserController extends Controller
 
         $user->status = false;
         $user->save();
-        if($request->wantsJson()){
+        if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Pengguna berhasil di-unblock!'
             ], 200);
