@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Komentar_KulinerResource;
 use App\Models\Destinasi;
+use App\Models\Komentar_Kuliner;
 use App\Models\Kuliner;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -276,6 +278,25 @@ class KulinerController extends Controller
             } else {
                 return redirect('/dashboard/kuliner/all')->with('status', 'Data Kuliner Gagal Dihapus!');
             }
+        }
+    }
+
+    public function komentar($id, Request $request)
+    {
+        if ($request->wantsJson()){
+            $kuliners = Kuliner::findorFail($id);
+
+            $komentars = Komentar_Kuliner::with('user', 'kuliner')->where('kuliner_id', $id)->get();
+
+            return response()->json([
+                'success' => 200,
+                'message' => 'Berhasil Menampilkan Data Komentar Kuliner!',
+                'data' => Komentar_KulinerResource::collection($komentars),
+            ], 200);
+        } else {
+            $komentars = Komentar_Kuliner::with('user', 'kuliner')->where('kuliner_id', $id)->get();
+
+            return view('dashboard.kuliner.komentar', compact('komentars'));
         }
     }
 }

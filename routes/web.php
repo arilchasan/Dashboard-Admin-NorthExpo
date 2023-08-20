@@ -64,6 +64,8 @@ Route::prefix('dashboard')->group(function(){
         Route::delete('/destroy/{id}', [KulinerController::class, 'destroy']);
         Route::get('/edit/{id}', [KulinerController::class, 'edit']);
         Route::post('/update/{id}', [KulinerController::class, 'update']);
+        Route::get('/komentar/{id}', [KulinerController::class, 'komentar']);
+        Route::delete('/komentar/{id}', [KomentarController::class, 'destroyWeb']);
     });
 
     
