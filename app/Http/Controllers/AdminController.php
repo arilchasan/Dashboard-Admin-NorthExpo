@@ -12,7 +12,12 @@ class AdminController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::guard('role_admins')->attempt($credentials)) {
-            return redirect()->intended('/'); // Ganti route dengan route dashboard admin
+            $role = auth('role_admins')->user()->role;
+            if ($role == 'penjaga') {
+                return redirect('/dashboard/scan');
+            } elseif ($role == 'superadmin') {
+                return redirect('/');
+            }
         } else {
             return back()->withErrors(['message' => 'Invalid credentials']);
         }

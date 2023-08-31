@@ -43,7 +43,10 @@ Route::prefix('dashboard')->group(function(){
     Route::get('/t/{id}', [HomeController::class, 'filter'])->name('filter-tanggal');
     Route::post('/laporan/tf-admin/{id}', [HomeController::class, 'filter'])->name('transfer/admin');
     Route::get('/detail/tf-admin/', [TransferController::class, 'tfAdmin']);
-    Route::get('/download-pdf/{id}', [HomeController::class, 'downloadPDF'])->name('downloadPDF');
+    Route::get('/download-excel/{id}', [HomeController::class, 'downloadExcel'])->name('downloadExcel');
+    Route::get('/databulanan', [TransferController::class, 'databulanan']);
+    Route::get('/scan',[TransferController::class, 'scan'])->name('scan');
+    Route::post('/scanQR',[TransferController::class, 'scanQR'])->name('scanQR');
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
         Route::get('/all', [DestinasiController::class, 'all']);
@@ -97,16 +100,14 @@ Route::prefix('dashboard')->group(function(){
 
 });
 
-Route::get('/a',function(){
-    return view('dashboard.mail.notifikasi');
-});
+Route::get('/email-success' ,[VerificationController::class,'emailSuccess'])->name('email-success');
+Route::get('/a/{id}',[VerificationController::class,'a'])->name('a');
 Auth::routes(['verify' => true]);
-Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::post('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::get('/daftar', [HomeController::class, 'register'])->name('daftar');
 Route::post('/daftar/add', [AuthController::class, 'register'])->name('daftar/add');
-Auth::routes();
-Route::get('/verify-view', [HomeController::class, 'verifyview'])->name('verifyview');
+Auth::routes(['verify' => true]);   
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/login/add', [AuthController::class, 'login'])->name('loginadd');
 //login web

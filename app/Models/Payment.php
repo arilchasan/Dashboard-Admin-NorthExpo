@@ -21,6 +21,7 @@ class Payment extends Model
         'tanggal',
         'user_id',
         'destinasi_id',
+        'status_tiket'
     ];
 
     public function destinasi() //destinasi_id

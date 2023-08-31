@@ -56,5 +56,38 @@ class TransferController extends Controller
         return view('dashboard.transfer.datatransfer', (['transfer' => $transfers, 'admin' => $admin]));
     }
 
-   
+    public function scan()
+    {
+        return view('dashboard.scan.scan');
+    }
+
+    public function scanQR(Request $request) 
+    {
+        try {
+            $cekData = Payment::where([
+                'order_id' => $request->order_id,
+                'email' => $request->email,
+                'no_telp' => $request->no_telp,
+                'qty' => $request->qty,
+                'total' => $request->total,
+                'status' => 'success',
+                'tanggal' => $request->tanggal,
+                'status_tiket' => 'belum terpakai'
+            ])->first();
+    
+            if ($cekData) {
+                $cekData->update([
+                    'status_tiket' => 'sudah terpakai'
+                ]);
+                return redirect('/dashboard/scan')->with([
+                    'success' => 'Berhasil Scan QR Code',
+                    'cekData' => $cekData 
+                ]);
+            } else {
+                return redirect('/dashboard/scan')->with('error', 'QR Code Sudah Terpakai');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal Scan QR Code');
+        }
+    }
 }

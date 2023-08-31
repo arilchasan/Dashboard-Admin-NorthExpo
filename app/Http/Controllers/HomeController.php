@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PaymentExport;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Admin;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Laravel\Ui\Presets\React;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use TCPDF as TCPDF;
 
 Carbon::setLocale('id');
@@ -53,6 +55,8 @@ class HomeController extends Controller
             'payment' => $payment,
             'reqTanggal' => $reqTanggal,
             'reqBulan' => $reqBulan,
+            'success' => $success,
+            'filter' => $filter,
         ]);
     }
 
@@ -132,11 +136,11 @@ class HomeController extends Controller
             'token' => $snapToken,
             'transfer' => $transfer,
             'reqBulan' => $reqBulan,
-
+            'success' => $success,
         ]);
     }
 
-    public function downloadPDF(Request $request, $id)
+    public function downloadExcel(Request $request, $id)
     {
         $destinasi = Destinasi::find($id);
         $bulan = $request->query('bulan');
@@ -145,6 +149,16 @@ class HomeController extends Controller
         $totalTiket = $success->sum('qty');
         $totalPendapatan = $success->sum('total');
         $namaTempat = $destinasi->nama;
+        
+        $exportData = [
+        'success' => $success,
+        'namaBulan' => $namaBulan,
+        'totalTiket' => $totalTiket,
+        'totalPendapatan' => $totalPendapatan,
+        'namaTempat' => $namaTempat,
+        ];
+
+        return Excel::download(new PaymentExport($exportData), 'Laporan_bulanan_' . $namaTempat . '_'. $namaBulan . '.xlsx');
 
         // return view('dashboard.pdf', [
         //     'success' => $success,
@@ -153,24 +167,24 @@ class HomeController extends Controller
         //     'totalPendapatan' => $totalPendapatan,
         //     'namaTempat' => $namaTempat,
         // ]);
-        $content = view('dashboard.pdf', [
-            'success' => $success,
-            'namaBulan' => $namaBulan,
-            'totalTiket' => $totalTiket,
-            'totalPendapatan' => $totalPendapatan,
-            'namaTempat' => $namaTempat,
-        ])->render();
+        // $content = view('dashboard.pdf', [
+        //     'success' => $success,
+        //     'namaBulan' => $namaBulan,
+        //     'totalTiket' => $totalTiket,
+        //     'totalPendapatan' => $totalPendapatan,
+        //     'namaTempat' => $namaTempat,
+        // ])->render();
 
-        $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetPrintHeader(false);
-        $pdf->SetPrintFooter(false);
-        $pdf->AddPage();
+        // $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        // $pdf->SetPrintHeader(false);
+        // $pdf->SetPrintFooter(false);
+        // $pdf->AddPage();
 
-        $pdf->writeHTML($content, true, false, true, false, '');
+        // $pdf->writeHTML($content, true, false, true, false, '');
             
-        $pdfFileName = 'Laporan_bulanan_' . $namaTempat . '_'. $namaBulan . '.pdf';
+        // $pdfFileName = 'Laporan_bulanan_' . $namaTempat . '_'. $namaBulan . '.pdf';
 
-        $pdf->Output($pdfFileName, 'D');
+        // $pdf->Output($pdfFileName, 'D');
     }
 
     public function transfer(Request $request, $id)
@@ -242,6 +256,7 @@ class HomeController extends Controller
             'destinasi' => $destinasi,
         ]);
     }
+
 
     /** index page register */
     public function register()

@@ -365,7 +365,7 @@ class DestinasiController extends Controller
         if($request->wantsJson()){   
         $destinasi = Destinasi::findOrFail($id);
 
-        $komentars = Komentar::with('user', 'destinasi')->where('destinasi_id',$id)->get();
+        $komentars = Komentar::with('user', 'destinasi')->where('destinasi_id',$id)->orderByDesc('created_at')->get();
 
         return response()->json([
             'status' => 200,

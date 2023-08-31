@@ -51,7 +51,7 @@
 
     .sidebar .sidebar-content {
         display: flex;
-        height: 100%;
+        /* height: 100%; */
         flex-direction: column;
         justify-content: space-between;
         padding: 30px 16px;
@@ -70,7 +70,7 @@
         text-decoration: none;
     }
 
-    .lists .nav-link:hover {
+    .list .nav-link:hover {
         background-color: #002c4f;
         color: #fff
     }
@@ -87,8 +87,8 @@
         font-weight: 400;
     }
 
-    .lists .nav-link:hover .icon,
-    .lists .nav-link:hover .link {
+    .list .nav-link:hover .icon,
+    .list .nav-link:hover .link {
         color: #fff;
     }
 
@@ -105,7 +105,8 @@
     }
 
     .bottom-cotent {
-        margin-top: 50px;
+        margin-top: auto;
+        
     }
     .sidebar {
         position: fixed;
@@ -127,7 +128,13 @@
         <div class="line"></div>
     </div>
     <div class="sidebar-content">
-        <ul class="lists">
+        @if(auth('role_admins')->user()->role == 'superadmin')
+        <ul class="list">
+            <li class="list">
+                <a  class="nav-link">                       
+                    <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
+                </a>
+            </li>
             <li class="list">
                 <a href="/dashboard/page" class="nav-link">
                     <i class="la la-dashboard icon"></i>
@@ -164,14 +171,19 @@
                     <span class="link">Transaksi Admin</span>
                 </a>
             </li>
+            @endif
 
+            @if(auth('role_admins')->user()->role == 'penjaga' || auth('role_admins')->user()->role == 'superadmin')
+            <li class="list">
+                <a href="/dashboard/scan" class="nav-link">
+                    <i class="las la-qrcode icon"></i>
+                    <span class="link">Scan</span>
+                </a>
+            </li>
+            @endif
+            
             <div class="bottom-cotent">
-                <li class="list">
-                    <a  class="nav-link">
-                        
-                        <span class="link">Hi, {{ auth('role_admins')->user()->username }}</span>
-                    </a>
-                </li>
+                
                 <li class="list">
                     <a href="{{ route('logoutAdmin') }}" class="nav-link">
                         <i class="las la-sign-out-alt icon"></i>
@@ -179,6 +191,7 @@
                     </a>
                 </li>
             </div>
+            
             
         </ul>
     </div>
@@ -199,4 +212,19 @@
         navBar.classList.remove("open");
     });
     
+</script>
+
+
+<script>
+    const greeting = document.getElementById("greeting");
+    const username = "{{ auth('role_admins')->user()->username }}";
+    const currentTime = new Date().getHours();
+
+    if (currentTime >= 0 && currentTime < 12) {
+        greeting.textContent = `Selamat Pagi, ${username}`;
+    } else if (currentTime >= 12 && currentTime < 18) {
+        greeting.textContent = `Selamat Siang, ${username}`;
+    } else {
+        greeting.textContent = `Selamat Malam, ${username}`;
+    }
 </script>

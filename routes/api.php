@@ -47,8 +47,8 @@ Route::delete('/destinasi/{id}', [DestinasiController::class, 'destroy']);
 Route::get('/destinasi', [DestinasiController::class, 'search']);
 Route::get('/sisakuota/{id}', [DestinasiController::class, 'sisakuota']);
 
-Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
+Route::post('email/verify/{id}/{link}', [VerificationController::class, 'verify'])->name('verification.verify');
+// Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
 
 //kuliner
 Route::get('/kuliner',[KulinerController::class,'index']);

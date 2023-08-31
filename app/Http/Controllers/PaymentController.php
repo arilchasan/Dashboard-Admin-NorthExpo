@@ -156,21 +156,26 @@ class PaymentController extends Controller
             return redirect()->back()->with('error', 'Payment not found');
         }
     
-        $qrCodeData = "Order ID: " . $payment->order_id . "\n"
-            . "Email: " . $payment->email . "\n"
-            . "No Telepon: " . $payment->no_telp . "\n"
-            . "Jumlah Orang: " . $payment->qty . " Orang" . "\n"
-            . "Total Harga: Rp." . $payment->total . "\n"
-            . "Status: " . $payment->status . "\n"
-            . "Tanggal: " . $payment->tanggal . "\n";
-        $path = 'qrcode/' . $payment->order_id . '.png';
-
-        QrCode::format('png')->size('400')->generate($qrCodeData, public_path($path));
-        $qrCode = url(asset($path));
-
-        Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
-
-        return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+        if ($payment->status_tiket === 'belum terpakai') {
+            $qrCodeData = "Order ID: " . $payment->order_id . "\n"
+                . "Email: " . $payment->email . "\n"
+                . "No Telepon: " . $payment->no_telp . "\n"
+                . "Jumlah Orang: " . $payment->qty . " Orang" . "\n"
+                . "Total Harga: Rp." . $payment->total . "\n"
+                . "Berlaku Tanggal: " . $payment->tanggal . "\n"
+                . "Status: " . $payment->status . "\n"
+                . "Status Tiket: " . $payment->status_tiket . "\n";
+            $path = 'qrcode/' . $payment->order_id . '.png';
+    
+            QrCode::format('png')->size('400')->generate($qrCodeData, public_path($path));
+            $qrCode = url(asset($path));
+    
+            Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
+    
+            return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+        } else {
+            return redirect()->back()->with('error', 'QR Code Sudah Terpakai');
+        }
     }
 
     public function pay(Request $request)
