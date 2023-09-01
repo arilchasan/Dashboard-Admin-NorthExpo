@@ -130,11 +130,7 @@
     <div class="sidebar-content">
         @if(auth('role_admins')->user()->role == 'superadmin')
         <ul class="list">
-            <li class="list">
-                <a  class="nav-link">                       
-                    <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
-                </a>
-            </li>
+           
             <li class="list">
                 <a href="/dashboard/page" class="nav-link">
                     <i class="la la-dashboard icon"></i>
@@ -175,13 +171,23 @@
 
             @if(auth('role_admins')->user()->role == 'penjaga' || auth('role_admins')->user()->role == 'superadmin')
             <li class="list">
+                <a href="/dashboard/order/datatrs" class="nav-link">
+                    <i class="las la-archive icon"></i>
+                    <span class="link">Data Transaksi</span>
+                </a>
+            </li>
+            <li class="list">
                 <a href="/dashboard/scan" class="nav-link">
                     <i class="las la-qrcode icon"></i>
                     <span class="link">Scan</span>
                 </a>
             </li>
             @endif
-            
+            <li class="list">
+                <a  class="nav-link">                       
+                    <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
+                </a>
+            </li>
             <div class="bottom-cotent">
                 
                 <li class="list">

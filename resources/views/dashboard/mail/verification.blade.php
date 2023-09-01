@@ -122,7 +122,7 @@
             <p>Klik tombol di bawah ini untuk verifikasi alamat email Anda.</p>
         </div>
         <div class="button-container">
-            <form method="POST" action="{{ url('api/email/verify/' . $user->id . '/' . $user->link    )}}">
+            <form method="POST" action="{{ url('api/email/verify/' . $user->link    )}}">
                 @csrf
                 <button class="button" type="submit">Verifikasi Email</button>
             </form>

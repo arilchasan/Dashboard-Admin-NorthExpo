@@ -18,9 +18,9 @@ class VerificationController extends Controller
         ]);
     }
 
-    public function verify($id , Request $request ){
-        $user = User::find($id);
-        
+    public function verify( Request $request , $link ){
+        // $user = User::find($id);
+        $user = User::where('link',$link)->first();
         if ($user) {
             $user->markEmailAsVerified();
             $user->update([

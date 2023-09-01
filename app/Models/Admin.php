@@ -14,6 +14,7 @@ class Admin extends Model implements Authenticatable
         'username',
         'password',
         'role',
+        'admin_id',
         'created_at',
         'updated_at',
     ];

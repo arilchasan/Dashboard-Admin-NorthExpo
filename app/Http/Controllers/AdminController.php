@@ -14,7 +14,7 @@ class AdminController extends Controller
         if (Auth::guard('role_admins')->attempt($credentials)) {
             $role = auth('role_admins')->user()->role;
             if ($role == 'penjaga') {
-                return redirect('/dashboard/scan');
+                return redirect('/dashboard/order/datatrs');
             } elseif ($role == 'superadmin') {
                 return redirect('/');
             }
