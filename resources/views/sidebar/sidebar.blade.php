@@ -92,35 +92,90 @@
         color: #fff;
     }
 
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 1000vh;
-        width: 200%;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.4s ease;
-        background: rgba(0, 0, 0, 0.3);
-    }
-
     .bottom-cotent {
         margin-top: auto;
-        
+
     }
+
     .sidebar {
         position: fixed;
         top: 0;
         left: 0;
         background-color: #ffffff;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); 
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
         /* border-radius: 0;  */
     }
+
+    .hamburger-menu {
+        width: 24px;
+        height: 24px;
+        z-index: 1000;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        display: none;
+    }
+
+    .close-menu {
+        width: 24px;
+        height: 24px;
+        z-index: 1000;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger-menu {
+            display: block;
+        }
+
+        .sidebar.open {
+            margin-left: 0;
+            width: 250px;
+        }
+
+        .overlay {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: fixed;
+            z-index: 999;
+        }
+
+        .overlay.open {
+            display: block;
+            opacity: 0;
+            animation: fadeIn .5s ease-in-out forwards;
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
 </style>
 
+<div class="overlay" id="overlay"></div>
+<div class="hamburger-menu" id="hamburger-menu">
+    <img src="{{ URL::to('assets/img/icons/menu-outline.svg') }}" alt="" srcset="">
+</div>
 
+<div class="close-menu" id="close-menu">
+    <img src="{{ URL::to('assets/img/icons/close-outline.svg') }}" alt="" srcset="">
+</div>
 <div class="sidebar">
-
     <div class="menu">
         <a href=""><img src="{{ URL::to('assets/img/logo-dark.png') }}" class="foto"></a>
     </div>
@@ -130,7 +185,6 @@
     <div class="sidebar-content">
         @if(auth('role_admins')->user()->role == 'superadmin')
         <ul class="list">
-           
             <li class="list">
                 <a href="/dashboard/page" class="nav-link">
                     <i class="la la-dashboard icon"></i>
@@ -183,13 +237,13 @@
                 </a>
             </li>
             @endif
-            <li class="list">
-                <a  class="nav-link">                       
-                    <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
-                </a>
-            </li>
+
             <div class="bottom-cotent">
-                
+                <li class="list">
+                    <a class="nav-link">
+                        <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
+                    </a>
+                </li>
                 <li class="list">
                     <a href="{{ route('logoutAdmin') }}" class="nav-link">
                         <i class="las la-sign-out-alt icon"></i>
@@ -197,29 +251,11 @@
                     </a>
                 </li>
             </div>
-            
-            
+
+
         </ul>
     </div>
 </div>
-
-<script>
-    const navBar = document.querySelector("nav"),
-        menuBtns = document.querySelectorAll(".menu-icon"),
-        overlay = document.querySelector(".overlay");
-
-    menuBtns.forEach((menuBtn) => {
-        menuBtn.addEventListener("click", () => {
-            navBar.classList.toggle("open");
-        });
-    });
-
-    overlay.addEventListener("click", () => {
-        navBar.classList.remove("open");
-    });
-    
-</script>
-
 
 <script>
     const greeting = document.getElementById("greeting");
@@ -233,4 +269,27 @@
     } else {
         greeting.textContent = `Selamat Malam, ${username}`;
     }
+</script>
+
+
+<script>
+    // if .hamburger-menu clicked change .sidebar margin-left: 0;
+    const hamburgerMenu = document.getElementById("hamburger-menu");
+    const closeMenu = document.getElementById("close-menu");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.getElementById("overlay");
+    
+    hamburgerMenu.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+        hamburgerMenu.style.display = "none";
+        closeMenu.style.display = "block";
+    });
+
+    closeMenu.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+        hamburgerMenu.style.display = "block";
+        closeMenu.style.display = "none";
+    });
 </script>
