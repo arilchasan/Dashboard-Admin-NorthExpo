@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('pelayanan');
             $table->string('operasional');
             $table->integer('harga');
-            $table->integer('kuota');            
+            $table->integer('kuota');               
             $table->timestamps();
         });
     }

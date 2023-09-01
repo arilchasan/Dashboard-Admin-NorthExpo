@@ -71,6 +71,10 @@ class PaymentController extends Controller
     {
         $user = $request->user();
         $destinasi = Destinasi::findOrFail($id);
+
+        $selectedDate = Carbon::parse($request->tanggal)->format('Y-m-d');
+        $dayOfWeek = Str::lower(Carbon::parse($selectedDate)->englishDayOfWeek);
+
         $request->request->add([
             'email' => $user->email,
             'status' => 'pending',
@@ -78,10 +82,9 @@ class PaymentController extends Controller
             'user_id' => $user->id,
             'total' => $request->qty * $destinasi->harga,
         ]);
+        
 
         $order_id = 'NE' . Carbon::now()->timezone('Asia/Jakarta')->format('YmdHi');
-
-
         $request->request->add(['order_id' => $order_id]);
 
 
@@ -257,7 +260,10 @@ class PaymentController extends Controller
         }
     }
 
-    public function sisakuota(){
-            
-    }
+    // protected function getSisaKuota($destinasi, $dayOfWeek, $requestedQty)
+    //     {
+    //     return $destinasi->$dayOfWeek - Payment::where('destinasi_id', $destinasi->id)
+    //         ->whereDate('created_at', $selectedDate)
+    //         ->sum('qty') + $requestedQty;
+    // }
 }

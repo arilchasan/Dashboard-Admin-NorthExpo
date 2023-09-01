@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use App\Models\Wilayah;
+use App\Models\Kategori;
 use App\Models\Komentar;
 use App\Models\Transfer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 class Destinasi extends Model
 {
     use HasFactory;
     
     protected $guarded = ['id'];
+    // protected $appends = ['sisa_kuota'];
     protected $fillable = [
         'nama',
         'alamat',
@@ -38,6 +43,7 @@ class Destinasi extends Model
         'updated_at',
         'pivot'
     ];
+    
 
     protected $table = 'destinasis';
 
@@ -75,4 +81,29 @@ class Destinasi extends Model
     {
         return $this->hasMany(Wishlist::class);
     }
+
+
+    // public function getSisaKuotaPerDay($day)
+    // {
+    //     $day = Str::lower($day);$totalTerjual = $this->payments()
+    //         ->where('status', 'success')
+    //         ->whereDay($day, Carbon::now()->day)
+    //         ->sum('qty');
+
+    //     return $this->$day - $totalTerjual;
+    // }
+
+    // public function getSisaKuotaAttribute()
+    // {
+    //     $tanggalSekarang = now()->toDateString();$totalTerjualHariIni = $this->payments()
+    //     ->whereDate('created_at', $tanggalSekarang)
+    //     ->where('status', 'success')
+    //     ->sum('qty');
+
+    //     return $this->kuota - $totalTerjualHariIni;
+    // }
+
+
 }
+
+    
