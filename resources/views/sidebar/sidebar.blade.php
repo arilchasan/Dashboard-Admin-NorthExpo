@@ -111,7 +111,7 @@
         height: 24px;
         z-index: 1000;
         cursor: pointer;
-        position: absolute;
+        position: fixed;
         top: 20px;
         right: 30px;
         display: none;
@@ -122,7 +122,7 @@
         height: 24px;
         z-index: 1000;
         cursor: pointer;
-        position: absolute;
+        position: fixed;
         top: 20px;
         right: 30px;
         display: none;
@@ -131,6 +131,7 @@
     @media (max-width: 768px) {
         .hamburger-menu {
             display: block;
+            position: fixed;
         }
 
         .sidebar.open {

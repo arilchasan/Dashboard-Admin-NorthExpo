@@ -129,4 +129,13 @@ class TransferController extends Controller
             return redirect()->back()->with('error', 'Anda tidak memiliki akses ke halaman ini');
         }
     }
+
+    public function detail($id)
+    {
+        $transaksiData = DB::table('payments')
+            ->where('order_id', $id)
+            ->first();
+
+        return view('dashboard.payment.detailtransaksi', ['transaksiData' => $transaksiData]);
+    }
 }

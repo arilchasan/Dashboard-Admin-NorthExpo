@@ -91,6 +91,7 @@ Route::prefix('dashboard')->group(function(){
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
         Route::get('/transaksiAdmin', [TransferController::class, 'all']);
         Route::get('/datatrs', [TransferController::class, 'datatrs'])->middleware(AdminAuthMiddleware::class);
+        Route::get('/detail/{id}', [TransferController::class, 'detail'])->name('detail.transaksi')->middleware(AdminAuthMiddleware::class);
     });
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){

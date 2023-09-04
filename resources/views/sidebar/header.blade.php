@@ -8,7 +8,12 @@
         right: 0;
         position: fixed;
         z-index: -500;
+    }
 
+    @media (max-width: 768px) {
+        .top {
+            z-index: 1000;
+        }
     }
 </style>
 <div class="top">

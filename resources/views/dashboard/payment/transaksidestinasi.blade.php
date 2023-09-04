@@ -10,6 +10,53 @@
             color: red;
             font-weight: 500;
         }
+        .btn {
+             background: #002c4f;
+             border: 1px solid #002c4f;
+             color: white;
+        }
+        .btn:hover {
+            background: white;
+            color: #002c4f;
+            border: 1px solid #002c4f;
+        }
+
+        @media (max-width: 768px) {
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+                width: 350px;
+
+            }
+
+            table {
+                width: 100px;
+                height: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+            th, td {
+                border-bottom: 1px solid #ddd;
+                font-size: 13px;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+            
+            .status-success, .status-pending {
+                font-weight: 500;
+            }
+            .btn {
+               height: 30px;
+               /* padding: 3px 5px; */
+               font-size: 13px;
+
+            }
+        }
+        
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@400&display=swap"
         rel="stylesheet">
@@ -18,13 +65,9 @@
     <div class="create-container">
         <div class="content container-fluid">
             <div class="content-container">
-                <div class="card">
-                    <div class="card-body">
+                <h3 class="text-center" style="margin-bottom: 20px;font-weight:bold">Data Transaksi {{ $namaDestinasi }}</h3>
                         <div class="table-responsive">
-                            <h3 class="text-center" style="margin-top: 30px;margin-bottom: 20px;font-weight:bold">Data Transaksi {{ $namaDestinasi }}</h3>
-
-
-                            <table class="table table-warning table-striped text-center ">
+                            <table class="table table-white table-striped text-center">
                                 @if (session()->has('success'))
                                     <div class="alert alert-success col-lg-12" role="alert">
                                         {{ session('success') }}
@@ -47,6 +90,12 @@
                                         <h5>Order ID</h5>
                                     </th>
                                     <th>
+                                        <h5>Status Tiket</h5>
+                                    </th>
+                                    <th>
+                                        <h5>Opsi</h5>
+                                    </th>
+                                    {{-- <th>
                                         <h5>Email</h5>
                                     </th>
                                     <th>
@@ -61,11 +110,8 @@
                                     <th>
                                         <h5>Status</h5>
                                     </th>
-                                    <th>
-                                        <h5>Status Tiket</h5>
-                                    </th>
+                                    --}}
                                 </tr>
-                                </thead>
                                 <br>
                                 <tbody>
 
@@ -75,24 +121,28 @@
                                         </tr>
                                     @endif 
                                         @foreach ($transaksiData as $data)
-                                        <th>{{ $data->order_id }}</li>
-                                            <th>{{ $data->email }}</li>
+                                        <th style="">{{ $data->order_id }}</th>
+                                        <th class="{{ $data->status_tiket === 'sudah terpakai' ? 'status-success' : 'status-pending' }}">
+                                            {{ $data->status_tiket }}
+                                        </th>
+                                         <th>
+                                                <a href="{{route('detail.transaksi', $data->order_id)}}"
+                                                    class="btn">Detail</a>
+                                        </th>
+                                            {{-- <th>{{ $data->email }}</li>
                                             <th>{{ $data->qty }}</li>
                                             <th class="formatted-date">{{ $data->tanggal }}</th>   
                                             <th>Rp{{ number_format($data->total, 0, ',', '.') }}</li>
                                             <td class="{{ $data->status === 'success' ? 'status-success' : 'status-pending' }}">
                                                     {{ $data->status }}
                                             </td>
-                                            <td class="{{ $data->status_tiket === 'sudah terpakai' ? 'status-success' : 'status-pending' }}">
-                                                    {{ $data->status_tiket }}
-                                            </td>
+                                             --}}
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
+                    
             </div>
         </div>
     </div>
