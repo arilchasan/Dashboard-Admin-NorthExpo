@@ -18,6 +18,8 @@ use App\Http\Resources\DestinasiResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\DestinasiStoreRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Carbon\Carbon;
+
 
 class DestinasiController extends Controller
 {
@@ -69,6 +71,7 @@ class DestinasiController extends Controller
             'pelayanan' => 'required',
             'harga' => 'required',
             'kuota' => 'required'
+            
 
         ]);
         if ($validator->fails()) {
@@ -117,6 +120,7 @@ class DestinasiController extends Controller
                 'pelayanan' => $request->pelayanan,
                 'harga' => $request->harga,
                 'kuota' => $request->kuota,
+                
 
             ]);
             if ($destinasi) {
@@ -192,7 +196,8 @@ class DestinasiController extends Controller
             'wilayah_id' => 'required',
             'pelayanan' => 'required',
             'harga' => 'required',
-            'kuota' => 'required'
+            'kuota' => 'required',
+            
 
         ]);
 
@@ -265,6 +270,7 @@ class DestinasiController extends Controller
                 'pelayanan' => $request->pelayanan,
                 'harga' => $request->harga,
                 'kuota' => $request->kuota,
+                
             ]);
 
             if ($destinasi) {
@@ -391,31 +397,47 @@ class DestinasiController extends Controller
             'data' => KomentarResource::collection($komentars),
         ]);
     }
-    public function sisakuota($id)
+
+
+    
+    public function sisaKuota( $id, $tanggal)
     {
-    try {
-        $destinasi = Destinasi::findOrFail($id);
-        // Menghitung jumlah total tiket yang sudah terjual
-        $totalTerjual = $destinasi->payments()->where('status', 'success')->sum('qty');
-        // Menghitung sisa kuota
-        $sisaKuota = $destinasi->kuota - $totalTerjual;
+        try {
+            $destinasi = Destinasi::findOrFail($id);
+            $selectedDate = Carbon::parse($tanggal)->format('Y-m-d');
+    
+            // Menghitung jumlah total tiket terjual pada tanggal yang dipilih
+            $totalTerjualPadaTanggal = $destinasi->payments()
+                ->where('status', 'success')
+                ->whereDate('tanggal', $selectedDate)
+                ->sum('qty');
+    
+            // Menghitung jumlah total tiket terjual pada tanggal-tanggal setelahnya
+            $totalTerjualSetelahTanggal = $destinasi->payments()
+                ->where('status', 'success')
+                ->whereDate('tanggal', '>', $selectedDate)
+                ->sum('qty');
+    
+            // Menghitung sisa kuota untuk tanggal yang dipilih
+            $sisaKuota = $destinasi->kuota - ($totalTerjualPadaTanggal + $totalTerjualSetelahTanggal);
+    
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil mendapatkan sisa kuota per hari',
+                'data' => [
+                    'sisa_kuota' => $sisaKuota,
+                    'tanggal' => $selectedDate,
+                ],
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Destinasi tidak ditemukan',
+            ], 404);
+        }
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Berhasil mendapatkan sisa kuota',
-            'data' => [
-                'sisa_kuota' => $sisaKuota,
-                'kuota' => $destinasi->kuota,
-                'total_terjual' => $totalTerjual,
-                'destinasi' => $destinasi->nama,
-            ],
-        ]);
-    } catch (ModelNotFoundException $e) {
-        return response()->json([
-            'status' => 404,
-            'message' => 'Destinasi tidak ditemukan',
-        ], 404);
     }
+    
 }
 
-}
+

@@ -45,7 +45,9 @@ Route::post('/destinasi', [DestinasiController::class, 'store']);
 Route::post('/destinasi/{id}', [DestinasiController::class, 'update']);
 Route::delete('/destinasi/{id}', [DestinasiController::class, 'destroy']);
 Route::get('/destinasi', [DestinasiController::class, 'search']);
-Route::get('/sisakuota/{id}', [DestinasiController::class, 'sisakuota']);
+
+Route::get('/sisakuota/{id}/tanggal/{tanggal}', [DestinasiController::class, 'sisaKuota']);
+
 
 Route::post('/email/verify/{link}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
@@ -56,6 +58,11 @@ Route::get('/kuliner/{id}',[KulinerController::class,'show']);
 Route::post('/kuliner',[KulinerController::class,'store']);
 Route::post('/kuliner/{id}',[KulinerController::class,'update']);
 Route::delete('/kuliner/{id}',[KulinerController::class,'destroy']);
+
+Route::post('/kuliner/komentar/{id}',[KomentarKulinerController::class,'store'])->middleware('auth:sanctum');
+Route::get('/kuliner/komentar/{id}', [KulinerController::class, 'komentar']);
+Route::get('/kuliner/komentar/', [KulinerController::class, 'showComment']);
+Route::delete('/kuliner/komentar/{id}',[KomentarKulinerController::class,'destroy'])->middleware('auth:sanctum');
 
 Route::post('/destinasi/komentar/{id}',[KomentarController::class,'store'])->middleware('auth:sanctum');
 Route::get('/destinasi/komentar/{id}', [DestinasiController::class, 'komentar']);
