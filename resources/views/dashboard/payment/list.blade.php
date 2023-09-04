@@ -21,6 +21,10 @@
         }
     
         .status-pending {
+            color: orange;
+            font-weight: 500;
+        }
+        .status-belum {
             color: red;
             font-weight: 500;
         }
@@ -112,9 +116,9 @@
                                         <h5>Status Tiket</h5>
                                     </th>
                                   
-                                    <th>
+                                    {{-- <th>
                                         <h5>Opsi</h5>
-                                    </th>
+                                    </th> --}}
                                     
 
 
@@ -138,14 +142,14 @@
                                             <td class="{{ $data->status === 'success' ? 'status-success' : 'status-pending' }}">
                                                     {{ $data->status }}
                                             </td>
-                                            <td class="{{ $data->status_tiket === 'sudah terpakai' ? 'status-success' : 'status-pending' }}">
+                                            <td class="{{ $data->status_tiket === 'sudah terpakai' ? 'status-success' : 'status-belum' }}">
                                                     {{ $data->status_tiket }}
                                             </td>
                                             {{-- <td><a type="button" class="btn btn-outline-info"
                                                     href="/dashboard/order/payment/{{ $data->id }}"><i
                                                         class="fa fa-ticket fa-lg"></i></a> </td> --}}
-                                            <td><a type="button" class="btn btn-outline-danger"
-                                                    href="/dashboard/order/notifikasi/{{ $data->id }}"><i>Kirim Notifikasi</i></a> </td>
+                                            {{-- <td><a type="button" class="btn btn-outline-danger"
+                                                    href="/dashboard/order/notifikasi/{{ $data->id }}"><i>Kirim Notifikasi</i></a> </td> --}}
                                     </tr>
                                     @endforeach
                                 </tbody>
