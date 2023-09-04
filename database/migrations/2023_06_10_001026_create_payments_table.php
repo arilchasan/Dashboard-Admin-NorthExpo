@@ -24,6 +24,7 @@ return new class extends Migration
             $table->bigInteger('total');
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->date('tanggal');
+            $table->enum('status_tiket',['belum terpakai', 'sudah terpakai'])->default('belum terpakai');
             $table->timestamps();
 
             $table->foreign('destinasi_id')->references('id')->on('destinasis')->onDelete('cascade');

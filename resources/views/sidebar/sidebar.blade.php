@@ -51,7 +51,7 @@
 
     .sidebar .sidebar-content {
         display: flex;
-        height: 100%;
+        /* height: 100%; */
         flex-direction: column;
         justify-content: space-between;
         padding: 30px 16px;
@@ -70,7 +70,7 @@
         text-decoration: none;
     }
 
-    .lists .nav-link:hover {
+    .list .nav-link:hover {
         background-color: #002c4f;
         color: #fff
     }
@@ -87,39 +87,96 @@
         font-weight: 400;
     }
 
-    .lists .nav-link:hover .icon,
-    .lists .nav-link:hover .link {
+    .list .nav-link:hover .icon,
+    .list .nav-link:hover .link {
         color: #fff;
     }
 
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        height: 1000vh;
-        width: 200%;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.4s ease;
-        background: rgba(0, 0, 0, 0.3);
+    .bottom-cotent {
+        margin-top: auto;
+
     }
 
-    .bottom-cotent {
-        margin-top: 50px;
-    }
     .sidebar {
         position: fixed;
         top: 0;
         left: 0;
         background-color: #ffffff;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1); 
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
         /* border-radius: 0;  */
     }
+
+    .hamburger-menu {
+        width: 24px;
+        height: 24px;
+        z-index: 1000;
+        cursor: pointer;
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        display: none;
+    }
+
+    .close-menu {
+        width: 24px;
+        height: 24px;
+        z-index: 1000;
+        cursor: pointer;
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .hamburger-menu {
+            display: block;
+            position: fixed;
+        }
+
+        .sidebar.open {
+            margin-left: 0;
+            width: 250px;
+        }
+
+        .overlay {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: fixed;
+            z-index: 999;
+        }
+
+        .overlay.open {
+            display: block;
+            opacity: 0;
+            animation: fadeIn .5s ease-in-out forwards;
+            backdrop-filter: blur(20px);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
 </style>
 
+<div class="overlay" id="overlay"></div>
+<div class="hamburger-menu" id="hamburger-menu">
+    <img src="{{ URL::to('assets/img/icons/menu-outline.svg') }}" alt="" srcset="">
+</div>
 
+<div class="close-menu" id="close-menu">
+    <img src="{{ URL::to('assets/img/icons/close-outline.svg') }}" alt="" srcset="">
+</div>
 <div class="sidebar">
-
     <div class="menu">
         <a href=""><img src="{{ URL::to('assets/img/logo-dark.png') }}" class="foto"></a>
     </div>
@@ -127,7 +184,8 @@
         <div class="line"></div>
     </div>
     <div class="sidebar-content">
-        <ul class="lists">
+        @if(auth('role_admins')->user()->role == 'superadmin')
+        <ul class="list">
             <li class="list">
                 <a href="/dashboard/page" class="nav-link">
                     <i class="la la-dashboard icon"></i>
@@ -160,16 +218,31 @@
             </li>
             <li class="list">
                 <a href="/dashboard/order/transaksiAdmin" class="nav-link">
-                    <i class="las la-archive icon"></i>
+                    <i class="las la-exchange-alt icon"></i>
                     <span class="link">Transaksi Admin</span>
                 </a>
             </li>
+            @endif
+
+            @if(auth('role_admins')->user()->role == 'penjaga' || auth('role_admins')->user()->role == 'superadmin')
+            <li class="list">
+                <a href="/dashboard/order/datatrs" class="nav-link">
+                    <i class="las la-archive icon"></i>
+                    <span class="link">Data Transaksi</span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="/dashboard/scan" class="nav-link">
+                    <i class="las la-qrcode icon"></i>
+                    <span class="link">Scan</span>
+                </a>
+            </li>
+            @endif
 
             <div class="bottom-cotent">
                 <li class="list">
-                    <a  class="nav-link">
-                        
-                        <span class="link">Hi, {{ auth('role_admins')->user()->username }}</span>
+                    <a class="nav-link">
+                        <span class="link">Hai, {{ auth('role_admins')->user()->username }}</span>
                     </a>
                 </li>
                 <li class="list">
@@ -179,24 +252,45 @@
                     </a>
                 </li>
             </div>
-            
+
+
         </ul>
     </div>
 </div>
 
 <script>
-    const navBar = document.querySelector("nav"),
-        menuBtns = document.querySelectorAll(".menu-icon"),
-        overlay = document.querySelector(".overlay");
+    const greeting = document.getElementById("greeting");
+    const username = "{{ auth('role_admins')->user()->username }}";
+    const currentTime = new Date().getHours();
 
-    menuBtns.forEach((menuBtn) => {
-        menuBtn.addEventListener("click", () => {
-            navBar.classList.toggle("open");
-        });
-    });
+    if (currentTime >= 0 && currentTime < 12) {
+        greeting.textContent = `Selamat Pagi, ${username}`;
+    } else if (currentTime >= 12 && currentTime < 18) {
+        greeting.textContent = `Selamat Siang, ${username}`;
+    } else {
+        greeting.textContent = `Selamat Malam, ${username}`;
+    }
+</script>
 
-    overlay.addEventListener("click", () => {
-        navBar.classList.remove("open");
-    });
+
+<script>
+    // if .hamburger-menu clicked change .sidebar margin-left: 0;
+    const hamburgerMenu = document.getElementById("hamburger-menu");
+    const closeMenu = document.getElementById("close-menu");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.getElementById("overlay");
     
+    hamburgerMenu.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+        hamburgerMenu.style.display = "none";
+        closeMenu.style.display = "block";
+    });
+
+    closeMenu.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("open");
+        hamburgerMenu.style.display = "block";
+        closeMenu.style.display = "none";
+    });
 </script>

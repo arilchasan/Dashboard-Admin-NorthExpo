@@ -33,11 +33,11 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::delete('/auth/delete/{id}',[UserController::class,'destroy']);
-Route::get('/auth/user', [UserController::class, 'index']);
+Route::get('/auth/user', [UserController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/auth/user/block/{id}',[UserController::class,'blockUser']);    
 Route::post('/auth/user/unblock/{id}',[UserController::class,'unblockUser']);    
 
-Route::post('/auth/user/{id}',[UserController::class,'store']);
+Route::post('/auth/user/update',[UserController::class,'store'])->middleware('auth:sanctum');
 
 Route::get('/destinasi', [DestinasiController::class, 'index']);
 Route::get('/destinasi/{id}', [DestinasiController::class, 'show']);
@@ -45,10 +45,12 @@ Route::post('/destinasi', [DestinasiController::class, 'store']);
 Route::post('/destinasi/{id}', [DestinasiController::class, 'update']);
 Route::delete('/destinasi/{id}', [DestinasiController::class, 'destroy']);
 Route::get('/destinasi', [DestinasiController::class, 'search']);
+
 Route::get('/sisakuota/{id}/tanggal/{tanggal}', [DestinasiController::class, 'sisaKuota']);
 
-Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
+
+Route::post('/email/verify/{link}', [VerificationController::class, 'verify'])->name('verification.verify');
+// Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
 
 //kuliner
 Route::get('/kuliner',[KulinerController::class,'index']);

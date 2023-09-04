@@ -13,6 +13,8 @@ class Admin extends Model implements Authenticatable
     protected $fillable = [
         'username',
         'password',
+        'role',
+        'admin_id',
         'created_at',
         'updated_at',
     ];
@@ -20,7 +22,7 @@ class Admin extends Model implements Authenticatable
 
     public function getAuthIdentifierName()
     {
-        return 'id'; // Ganti dengan nama kolom yang digunakan sebagai identifier
+        return 'id'; 
     }
 
     public function getAuthIdentifier()

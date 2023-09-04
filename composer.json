@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "barryvdh/laravel-dompdf": "^2.0",
         "brian2694/laravel-toastr": "^5.57",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -13,8 +14,10 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "maatwebsite/excel": "^3.1",
         "midtrans/midtrans-php": "^2.5",
         "simplesoftwareio/simple-qrcode": "~1",
+        "tecnickcom/tcpdf": "^6.6",
         "webpatser/laravel-uuid": "^4.0"
     },
     "require-dev": {
