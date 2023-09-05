@@ -113,19 +113,16 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{ URL::to('assets/img/logo-dark.png') }}" alt="Logo" class="logo">
-            <img src="{{ URL::to('assets/img/email-verification.png') }}" alt="Logo" class="vektor">
-            <h1>Verifikasi Email Kamu</h1>
+            <div><img src="{{ URL::to('assets/img/logo-dark.png') }}" alt="Logo" class="logo"></div>
+            <div><img src="{{ URL::to('assets/img/email-verification.png') }}" alt="Logo" class="vektor"></div>
+            <div><h1>Verifikasi Email Kamu</h1></div>
         </div>
         <div class="message">
-            <p>Hai, {{$user->name}} 👋</p>
-            <p>Klik tombol di bawah ini untuk verifikasi alamat email Anda.</p>
+            <div><p>Hai, {{$user->name}} 👋</p></div>
+            <div><p>Klik tombol di bawah ini untuk verifikasi alamat email Anda.</p></div>
         </div>
         <div class="button-container">
-            <form method="POST" action="{{ url('api/email/verify/' . $user->link    )}}">
-                @csrf
-                <button class="button" type="submit">Verifikasi Email</button>
-            </form>
+            <a href="{{ url('api/email/verify/' . $user->link )}}" class="button">Verifikasi Email</a>
         </div>
         
         {{-- <p>{{ $url }}</p> --}}

@@ -49,7 +49,7 @@ Route::get('/destinasi', [DestinasiController::class, 'search']);
 Route::get('/sisakuota/{id}/tanggal/{tanggal}', [DestinasiController::class, 'sisaKuota']);
 
 
-Route::post('/email/verify/{link}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('/email/verify/{link}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::post('email/send', [VerificationController::class, 'sendVerificationEmail'])->name('verification.send');
 
 //kuliner
