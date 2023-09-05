@@ -28,13 +28,13 @@
         .header {
             text-align: center;
             margin-bottom: 20px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            display: flex;
             padding: 20px 0;
             border-radius: 20px;
             background: linear-gradient(180deg, #15abc54e 0%, #ffffff 100%)
+        }
+
+        .header div {
+            background-color: transparent;
         }
 
         .header h1 {
@@ -62,10 +62,6 @@
             line-height: 1.6;
             margin-bottom: 20px;
             padding: 0 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
         }
 
@@ -115,11 +111,11 @@
         <div class="header">
             <div><img src="{{ URL::to('assets/img/logo-dark.png') }}" alt="Logo" class="logo"></div>
             <div><img src="{{ URL::to('assets/img/email-verification.png') }}" alt="Logo" class="vektor"></div>
-            <div><h1>Verifikasi Email Kamu</h1></div>
+            <h1>Verifikasi Email Kamu</h1>
         </div>
         <div class="message">
-            <div><p>Hai, {{$user->name}} 👋</p></div>
-            <div><p>Klik tombol di bawah ini untuk verifikasi alamat email Anda.</p></div>
+            <p>Hai, {{$user->name}} 👋</p>
+            <p>Klik tombol di bawah ini untuk verifikasi alamat email Anda.</p>
         </div>
         <div class="button-container">
             <a href="{{ url('api/email/verify/' . $user->link )}}" class="button">Verifikasi Email</a>

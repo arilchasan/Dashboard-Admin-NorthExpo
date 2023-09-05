@@ -49,8 +49,8 @@ class PaymentController extends Controller
     }
     public function getDataOrder(Request $request, $id)
     {
-        $user = $request->user();
         $payment = Payment::where('id', $id)->first();
+        $user = Auth::user();
 
         if (!$payment) {
             return response()->json(['error' => 'Payment not found'], 404);
@@ -232,14 +232,14 @@ class PaymentController extends Controller
         $payment = Payment::all();
         return view('dashboard.payment.index', ['payment' => $payment, 'destinasi' => Destinasi::all()]);
     }
-    public function dataUser(Request $request, $user_id)
+    public function dataUser(Request $request, $id)
     {
         if ($request->wantsJson()) {
             try {
-                $destinasi = Destinasi::findOrFail($user_id);
+                // $destinasi = Destinasi::findOrFail($user_id);
 
                 $auth = Auth::user();
-                $payment = Payment::with('user', 'destinasi')->where('user_id', $user_id)->get();
+                $payment = Payment::with('user', 'destinasi')->where('user_id', $id)->get();
 
                 return response()->json([
                     'status' => 200,
@@ -253,7 +253,7 @@ class PaymentController extends Controller
                 ], 404);
             }
         } else {
-            $payment = Payment::with('user', 'destinasi')->where('user_id', $user_id)->get();
+            $payment = Payment::with('user', 'destinasi')->where('user_id', $id)->get();
 
             return view('dashboard.payment.list', ['payment' => $payment]);
         }

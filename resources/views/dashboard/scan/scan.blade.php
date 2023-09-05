@@ -50,7 +50,7 @@
                             <h5>Email: {{ session('cekData')->email }}</h5>
                             <h5>No Telepon: {{ session('cekData')->no_telp }}</h5>
                             <h5>Jumlah Orang: {{ session('cekData')->qty }}</h5>
-                            <h5>Total Harga: {{ session('cekData')->total }}</h5>
+                            <h5>Total Harga: Rp{{ number_format(session('cekData')->total, 0, ',', '.') }}</h5>
                             <h5>Berlaku Tanggal: {{ session('cekData')->tanggal }}</h5>
                             <h5>Status Pembayaran: {{ session('cekData')->status }}</h5>
                             <h5>Status Tiket: {{ session('cekData')->status_tiket }}</h5>
