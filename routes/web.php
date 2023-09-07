@@ -14,6 +14,7 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminAuthMiddleware;
+use App\Models\Transfer;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,10 @@ Route::prefix('dashboard')->group(function(){
     Route::get('/t/{id}', [HomeController::class, 'filter'])->name('filter-tanggal');
     Route::post('/laporan/tf-admin/{id}', [HomeController::class, 'filter'])->name('transfer/admin');
     Route::get('/detail/tf-admin/', [TransferController::class, 'tfAdmin']);
+    Route::get('/download-excel/{id}', [HomeController::class, 'downloadExcel'])->name('downloadExcel');
+    Route::get('/databulanan', [TransferController::class, 'databulanan']);
+    Route::get('/scan',[TransferController::class, 'scan'])->name('scan');
+    Route::post('/scanQR',[TransferController::class, 'scanQR'])->name('scanQR');
     //prefix destinasi
     Route::prefix('/destinasi')->group(function () {
         Route::get('/all', [DestinasiController::class, 'all']);
@@ -87,6 +92,8 @@ Route::prefix('dashboard')->group(function(){
         Route::get('filter', [PaymentController::class, 'filter'])->name('dashboard.payment.filter');
         Route::get('/notifikasi/{id}', [PaymentController::class, 'notifikasi']);
         Route::get('/transaksiAdmin', [TransferController::class, 'all']);
+        Route::get('/datatrs', [TransferController::class, 'datatrs'])->middleware(AdminAuthMiddleware::class);
+        Route::get('/detail/{id}', [TransferController::class, 'detail'])->name('detail.transaksi')->middleware(AdminAuthMiddleware::class);
     });
     //prefix userlogin
     Route::prefix('/userlogin')->group( function(){
@@ -97,16 +104,14 @@ Route::prefix('dashboard')->group(function(){
 
 });
 
-Route::get('/a',function(){
-    return view('dashboard.mail.notifikasi');
-});
+Route::get('/email-success' ,[VerificationController::class,'emailSuccess'])->name('email-success');
+Route::get('/a/{id}',[VerificationController::class,'a'])->name('a');
 Auth::routes(['verify' => true]);
-Route::get('/email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::post('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 // Route::get('/register', [HomeController::class, 'register'])->name('register');
 Route::get('/daftar', [HomeController::class, 'register'])->name('daftar');
 Route::post('/daftar/add', [AuthController::class, 'register'])->name('daftar/add');
-Auth::routes();
-Route::get('/verify-view', [HomeController::class, 'verifyview'])->name('verifyview');
+Auth::routes(['verify' => true]);   
 Route::get('/login', [HomeController::class, 'login'])->name('login');
 Route::get('/login/add', [AuthController::class, 'login'])->name('loginadd');
 //login web

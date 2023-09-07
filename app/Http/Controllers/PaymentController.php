@@ -108,7 +108,7 @@ class PaymentController extends Controller
         );
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-
+        
         $responseData = [
             'token' => $snapToken,
             'payment' => $payment,
@@ -143,14 +143,8 @@ class PaymentController extends Controller
                 'status' => 'success',
             ]);
 
-            // Panggil fungsi notifikasi untuk mengirim email
             $this->notifikasi($payment->id);
-        } else {
-            $payment->update([
-                'status' => 'failed',
-            ]);
-        }
-    
+        } 
 
 
         return response(['message' => 'Callback success']);
@@ -158,28 +152,33 @@ class PaymentController extends Controller
 
     public function notifikasi($id)
     {
-        // Ambil data Payment berdasarkan ID atau kondisi tertentu sesuai kebutuhan Anda
-        $payment = Payment::find($id); // Ganti $id dengan ID yang sesuai untuk notifikasi tertentu
+        
+        $payment = Payment::find($id);
 
         if (!$payment) {
             return redirect()->back()->with('error', 'Payment not found');
         }
-        // Convert the Payment data to a JSON string
-        $qrCodeData = "Order ID: " . $payment->order_id . "\n"
-            . "Email: " . $payment->email . "\n"
-            . "No Telepon: " . $payment->no_telp . "\n"
-            . "Jumlah Orang: " . $payment->qty . " Orang" . "\n"
-            . "Total Harga: Rp." . $payment->total . "\n"
-            . "Status: " . $payment->status . "\n"
-            . "Tanggal: " . $payment->tanggal . "\n";
-        $path = 'qrcode/' . $payment->order_id . '.png';
-
-        QrCode::format('png')->size('400')->generate($qrCodeData, public_path($path));
-        $qrCode = url(asset($path));
-
-        Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
-
-        return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+    
+        if ($payment->status_tiket === 'belum terpakai') {
+            $qrCodeData = "Order ID: " . $payment->order_id . "\n"
+                . "Email: " . $payment->email . "\n"
+                . "No Telepon: " . $payment->no_telp . "\n"
+                . "Jumlah Orang: " . $payment->qty . " Orang" . "\n"
+                . "Total Harga: Rp." . $payment->total . "\n"
+                . "Berlaku Tanggal: " . $payment->tanggal . "\n"
+                . "Status: " . $payment->status . "\n"
+                . "Status Tiket: " . $payment->status_tiket . "\n";
+            $path = 'qrcode/' . $payment->order_id . '.png';
+    
+            QrCode::format('png')->size('400')->generate($qrCodeData, public_path($path));
+            $qrCode = url(asset($path));
+    
+            Mail::to($payment->email)->send(new Notifikasi($payment, $qrCode));
+    
+            return redirect()->back()->with('success', 'Notifikasi Email berhasil dikirim');
+        } else {
+            return redirect()->back()->with('error', 'QR Code Sudah Terpakai');
+        }
     }
 
     public function pay(Request $request)

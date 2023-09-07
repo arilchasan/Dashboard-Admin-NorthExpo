@@ -18,19 +18,32 @@ class VerificationController extends Controller
         ]);
     }
 
-    public function verify($id , Request $request){
-        if (!$request->hasValidSignature()) {
-            return response()->json([
-                'message' => 'Verifikasi gagal!'
-            ], 400);
-        }
-
-        $user = User::findOrFail($id);
-        if (!$user->hasVerifiedEmail()) {
+    public function verify( Request $request , $link ){
+        // $user = User::find($id);
+        $user = User::where('link',$link)->first();
+        if ($user) {
             $user->markEmailAsVerified();
-            return redirect()->to('/login')->with('success', 'Email berhasil diverifikasi!');
-        }
-        return redirect()->to('/login');
+            $user->update([
+                'authenticated' => 'verified'
+            ]);
+            
+            return view('dashboard.mail.successverif')->with('success', 'Email sudah diverifikasi!');
+            
+        } 
 
+        return response()->json([
+            'message' => 'User tidak ditemukan!'
+        ], 404);
+    }
+
+    public function a ($id , Request $request) {
+        $user = User::find($id);
+        return view('dashboard.mail.verification',[
+            'user' => $user
+        ]);
+    }
+
+    public function emailSuccess () {
+        return view('dashboard.mail.successverif');
     }
 }

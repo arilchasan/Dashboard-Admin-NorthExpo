@@ -69,6 +69,12 @@
                                                         </form>
                                                     @endif
                                                 </th>
+                                                <th>
+                                                    <form action="/a/{{ $data->id }}" method="GET">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-danger">Verify</button>
+                                                    </form>
+                                                </th>
 
                                         </tr>
                                     @endforeach

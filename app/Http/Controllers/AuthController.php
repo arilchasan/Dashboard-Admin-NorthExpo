@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Wishlist;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
@@ -22,13 +26,15 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'email' => $request->email, 
+            'password' => Hash::make($request->password),
+            'link' => Str::random(40),
         ]);
         
-        $user->sendEmailVerificationNotification();
+       
+        Mail::to($user->email)->send(new VerificationEmail($user));
             
-        // return redirect()->to('/verify-view')->with('success', 'Email verifikasi telah dikirim!');
+        
          return response()->json([
              'user' => $user,
              'message' => 'Berhasil Daftar!',
@@ -61,6 +67,12 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($user->authenticated !== 'verified') {
+            return response()->json([
+                'message' => 'Anda belum melakukan verifikasi email!'
+            ], 401);
+        }
+
         if(!Hash::check($request->password, $user->password)){
             return response()->json([
                 'message' => 'Password salah!'
@@ -81,7 +93,7 @@ class AuthController extends Controller
         //     'wishlist' => Wishlist::all()]);
         
     }
-
+    
     // public function loginWeb(Request $request)
     // {
     //     $credentials = $request->validate([
@@ -105,9 +117,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    // public function wrong_token(){
-    //     return response()->json([
-    //         'message' => 'Token Salah !'
-    //     ], 401);
-    // }
+    public function emailVerifikasi() {
+        
+    }
 }

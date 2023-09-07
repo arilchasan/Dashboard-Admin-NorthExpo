@@ -26,12 +26,12 @@
                     </form>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="">Tiket Terjual</label>
                     <input type="text" class="form-control" id="" name=""  class="tanggal" value="{{ isset($filterTiket) ? $filterTiket . ' Tiket Terjual pada tanggal ' . ( $tanggal ?? '') : $tiketDestinasi . ' Tiket Total' }}" readonly>
                 </div>
                 <br>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <label for="">Total Pendapatan</label>
                     @if($total == 1)
                     <input type="text" class="form-control" id="" name="nominal" value="Rp0" readonly>
@@ -39,17 +39,76 @@
                     <input type="text" class="form-control" id="" name="nominal" value="Rp{{ number_format($total, 0, ',', '.') }} " readonly>
                     @endif
                 </div>
+                <div class="col-md-5">
+                    <label for="">Bulan</label>
+                    <form action="{{ route('downloadExcel',['id' => $destinasi->id ]) }}" method="GET">
+                    <div class="action-month">
+                        <input class="form-control " la type="month" name="bulan" value="{{ $reqBulan }}">
+                        <button type="submit" class="btn btn-success mx-2"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+                    </div>  
+                    </form> 
+                </div>
                 @if(isset($tanggal))
                 <div class="col-md-6" style="margin-top:1%">
+                    <p class="p-transfer">*Total Pendapatan - 5% untuk biaya admin</p>
                     <p class="p-transfer">*Transfer hanya bisa dilakukan maksimal 1x Sehari</p>
                 </div>
                 @endif
+                <div class="col-md-12">
+                    <table class="table table-warning table-striped text-center " style="margin-top: 30px">
+                        <tr class="text-center">
+                            <th>
+                                <h5>Order ID</h5>
+                            </th>
+                            <th>
+                                <h5>Destinasi</h5>
+                            </th>
+                            <th>
+                                <h5>Email</h5>
+                            </th>
+                            <th>
+                                <h5>No HP</h5>
+                            </th>
+                            <th>
+                                <h5>Tanggal</h5>
+                            </th>
+                            <th>
+                                <h5>Jumlah Orang</h5>
+                            </th>
+                            <th>
+                                <h5>Total</h5>
+                            </th>
+                            <th>
+                                <h5>Status</h5>
+                            </th>
+                            
+                        </tr>
+                        @if ($success->isEmpty())
+                        <tr class="text-center">
+                            <td colspan="11">Data Kosong</td>
+                        </tr>
+                        @endif 
+                        @foreach ($success as $item)
+                        <tbody>
+                            <th>{{ $item->order_id }}</li>
+                            <th>{{ $item->destinasi->nama }}</li>
+                            <th>{{ $item->email }}</li>
+                            <th>{{ $item->no_telp }}</li>
+                            <th class="formatted-date">{{ $item->tanggal }}</li>
+                            <th>{{ $item->qty }} Orang</li>
+                            <th>Rp{{ number_format($item->total, 0 ,',' , '.' )  }}</li>
+                            <th class="status-success">{{ $item->status }}</th>    
+                            </tbody>
+                            @endforeach
+
+                    </table>
                 <div class="col-md-12" style="margin-top:1%">
                     <a href="/dashboard/page" type="button" class="btn btn-secondary mx-2" >Kembali</a>
                     {{-- <form action="{{ route('transfer/admin',['id' => $destinasi->id]) }}" method="POST"> --}}
                     @if(isset($tanggal))
                     <button type="submit" class="btn btn-primary mx-2" id="pay" >Transfer ke Admin {{$destinasi->nama}}</button>
-                    @endif                
+                    @endif
+                                    
                 {{-- </form> --}}
                 </div>  
             </div>
@@ -65,6 +124,12 @@
         .action-date {
             display: flex;
         }
+        .action-month {
+            display: flex;
+        }
+        .action-month .pdf {
+            height: 60px;
+        }
         .action-date button {
             margin-left: 10px;
             margin-right: 10px
@@ -77,10 +142,28 @@
             width: 100%;
         }
         .p-transfer {
-            font-size: 12px;
+            font-size: 11px;
             color: red;
         }
+        .status-success {
+                color: green;
+                font-weight: 500;
+            }
     </style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/id.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var formattedDates = document.querySelectorAll('.formatted-date');
+        formattedDates.forEach(function (element) {
+            var tanggal = element.textContent;
+            var formattedDate = moment(tanggal).locale('id').format('DD MMMM YYYY');
+            element.textContent = formattedDate;
+        });
+    });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const tanggalInput = document.getElementById("tanggal");
@@ -90,6 +173,7 @@
         }
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
             // For example trigger on button clicked, or any time you need
             var payButton = document.getElementById('pay');
@@ -98,22 +182,45 @@
               window.snap.pay('{{$token}}',{
                 onSuccess: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Sukses!"); console.log(result);
+                // alert("Pembayaran Sukses!"); console.log(result);
+                Swal.fire({
+                icon: 'success',
+                title: 'Pembayaran Sukses!',
+                text: 'Transaksi berhasil dilakukan.',
+                });
+                console.log(result);
             },
                 onPending: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Pending!"); console.log(result);
+                // alert("Pembayaran Pending!"); console.log(result);
+                Swal.fire({
+                icon: 'info',
+                title: 'Pembayaran Pending',
+                text: 'Transaksi sedang dalam proses.',
+                });
+                console.log(result);
             },
                 onError: function(result){
                 /* You may add your own implementation here */
-                alert("Pembayaran Gagal!"); console.log(result);
+                // alert("Pembayaran Gagal!"); console.log(result);
+                Swal.fire({
+                icon: 'error',
+                title: 'Pembayaran Gagal',
+                text: 'Transaksi tidak berhasil.',
+                });
+                console.log(result);
             },
                 onClose: function(){
                 /* You may add your own implementation here */
-                alert('Pembayaran Dibatalkan');         
+                // alert('Pembayaran Dibatalkan');    
+                Swal.fire({
+                icon: 'warning',
+                title: 'Pembayaran Dibatalkan',
+                text: 'Transaksi dibatalkan oleh pengguna.',
+                });     
             }
             });
             });
-          </script>
+</script>
 
 @endsection
