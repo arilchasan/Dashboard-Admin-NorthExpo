@@ -58,13 +58,13 @@ class AuthController extends Controller
         if(!$user){
             return response()->json([
                 'message' => 'Email tidak terdaftar!'
-            ], 401);
+            ]);
         }
 
         if ($user->status) {
             return response()->json([
                 'message' => 'Pengguna diblokir!'
-            ], 401);
+            ]);
         }
 
         if ($user->authenticated !== 'verified') {
@@ -76,7 +76,7 @@ class AuthController extends Controller
         if(!Hash::check($request->password, $user->password)){
             return response()->json([
                 'message' => 'Password salah!'
-            ], 401);
+            ], 403);
         }
 
         $token = $user->createToken('authToken')->plainTextToken;
