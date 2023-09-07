@@ -411,14 +411,8 @@ class DestinasiController extends Controller
                 ->whereDate('tanggal', $selectedDate)
                 ->sum('qty');
     
-            // Menghitung jumlah total tiket terjual pada tanggal-tanggal setelahnya
-            $totalTerjualSetelahTanggal = $destinasi->payments()
-                ->where('status', 'success')
-                ->whereDate('tanggal', '>', $selectedDate)
-                ->sum('qty');
-    
             // Menghitung sisa kuota untuk tanggal yang dipilih
-            $sisaKuota = $destinasi->kuota - ($totalTerjualPadaTanggal + $totalTerjualSetelahTanggal);
+            $sisaKuota = $destinasi->kuota - ($totalTerjualPadaTanggal);
     
             return response()->json([
                 'status' => 200,
